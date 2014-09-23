@@ -14,7 +14,7 @@ public class Main {
 
 		Twitter twitter = TwitterFactory.getSingleton();
 
-		Query query = new Query("sarkozy");
+		Query query = new Query("sarkozy :)");
 	    QueryResult result;
 		try {
 			result = twitter.search(query);
