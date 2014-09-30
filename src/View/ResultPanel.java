@@ -13,8 +13,8 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import twitter4j.Status;
-
 import Model.Model;
+import Controler.*;
 
 public class ResultPanel extends JPanel implements Observer{
 	
@@ -35,8 +35,9 @@ public class ResultPanel extends JPanel implements Observer{
 		textField = new JTextField();
 		add(textField, BorderLayout.NORTH);
 		textField.setColumns(10);
-		
 		btnSearch = new JButton("Search");
+		btnSearch.setName("SearchButton");
+		btnSearch.addActionListener(new SearchActionListener(this.model));
 		add(btnSearch, BorderLayout.EAST);
 	}
 
@@ -59,6 +60,10 @@ public class ResultPanel extends JPanel implements Observer{
 		repaint();
 		revalidate();
 
+	}
+
+	public String getSearchText() {
+		return this.textField.getText();
 	}
 
 }
