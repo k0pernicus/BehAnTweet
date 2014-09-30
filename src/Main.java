@@ -11,7 +11,7 @@ public class Main {
 		Model model = new Model();
 		TestJFrame window = new TestJFrame(model);
 		window.setVisible(true);
-		model.run("sarkozy :)");
+		
 		
 	}
 
