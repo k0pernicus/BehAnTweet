@@ -2,9 +2,12 @@ package View;
 
 import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import Model.Model;
@@ -51,7 +54,7 @@ public class MainWindow extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		repaint();
-		revalidate();
+		validate();
 		
 	}
 

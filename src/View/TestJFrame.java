@@ -1,56 +1,56 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.util.Observable;
+import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
-import javax.swing.JButton;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
 
-public class TestJFrame extends JFrame {
+import Model.Model;
+
+public class TestJFrame extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JTextField textField;
-
+	private Model model;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TestJFrame frame = new TestJFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TestJFrame frame = new TestJFrame();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public TestJFrame() {
+	public TestJFrame(Model model) {
+		this.model = model;
+		model.addObserver(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane = new ResultPanel(model);
 		setContentPane(contentPane);
+
+	}
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		repaint();
+		validate();
 		
-		JTextPane textPane = new JTextPane();
-		contentPane.add(textPane, BorderLayout.CENTER);
-		
-		textField = new JTextField();
-		contentPane.add(textField, BorderLayout.NORTH);
-		textField.setColumns(10);
-		
-		JButton btnSearch = new JButton("Search");
-		contentPane.add(btnSearch, BorderLayout.EAST);
 	}
 
 }

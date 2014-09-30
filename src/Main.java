@@ -1,5 +1,5 @@
-import View.MainWindow;
 import Model.Model;
+import View.TestJFrame;
 
 public class Main {
 
@@ -9,7 +9,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Model model = new Model();
-		MainWindow window = new MainWindow(model, "MyWindow");
+		TestJFrame window = new TestJFrame(model);
+		window.setVisible(true);
 		model.run("sarkozy :)");
 		
 	}
