@@ -1,6 +1,9 @@
-import java.awt.*;
- import java.util.*;
- import java.applet.Applet;
+import java.applet.Applet;
+import java.awt.Button;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
  public class GridBagEx1 extends Applet {
 
