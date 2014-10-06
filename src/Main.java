@@ -12,7 +12,6 @@ public class Main {
 		TestJFrame window = new TestJFrame(model);
 		window.setVisible(true);
 		
-		
 	}
 
 }
