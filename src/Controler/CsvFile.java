@@ -3,7 +3,7 @@ package Controler;
 import java.io.File;
 
 /**
- * Classe permettant de récupérer le contenu d'un fichier CSV
+ * Classe permettant de récupérer des informations sur un fichier CSV
  * @author WebTogz
  */
 public class CsvFile {
@@ -15,7 +15,7 @@ public class CsvFile {
 	 */
     public static String getResourcePath(String fileName) {
        final File f = new File("");
-       final String dossierPath = f.getAbsolutePath() + File.separator + fileName;
+       final String dossierPath = "../resources/" + fileName;
        return dossierPath;
    }
 
