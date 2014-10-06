@@ -24,19 +24,14 @@ public class MainPanel extends JPanel implements Observer {
 		super();
 		this.model = model;
 		model.addObserver(this);
-		InitialisationMainPanelComponent_PTITE_B();
+		InitialisationMainPanelComponent();
 	}
 
 
-	private void InitialisationMainPanelComponent_PTITE_B(){
+	private void InitialisationMainPanelComponent(){
 		setLayout(new GridLayout());
 		result_panel = new ResultPanel(model);
 		add(result_panel);
-		
-	}
-
-
-	private void InitialisationMainPanelComponent_BADASS(){
 		
 	}
 
