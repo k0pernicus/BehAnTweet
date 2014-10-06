@@ -20,8 +20,7 @@ public class SearchActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton sButton = (JButton) e.getSource();	
 		ResultPanel parent = (ResultPanel) sButton.getParent();
-		model.run(parent.getSearchText());
-		
+		model.run(parent.getSearchText());	
 	}
 
 }
