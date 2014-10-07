@@ -82,5 +82,4 @@ public class Model extends Observable {
 			in_CSVFile.close();
 		}	
 	}
-	
 }

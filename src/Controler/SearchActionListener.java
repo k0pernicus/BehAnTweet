@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JButton;
 
+import twitter4j.TwitterException;
 import Model.Model;
 import View.ResultPanel;
 
@@ -40,6 +41,9 @@ public class SearchActionListener implements ActionListener {
 		} catch (IOException writeError) {
 			//Erreur lors de l'écriture des octets dans le fichier initial
 			writeError.printStackTrace();
+		} catch (TwitterException e1) {
+			// TODO Erreur lors de l'envoi de la requête sur les serveurs de Twitter
+			e1.printStackTrace();
 		}	
 	}
 
