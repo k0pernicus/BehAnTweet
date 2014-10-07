@@ -70,4 +70,64 @@ public class Model extends Observable {
 			in_CSVFile.close();
 		}	
 	}
+
+	void cleanCSVFile() throws IOException{//exception a gerer dans le main
+		File csvFile = new File(FILE_NAME);
+		File csvFile_clean   = new File(CLEAN_FILE_NAME);
+		
+		if (!csvFile_clean.exists()) 
+			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+		else if (!csvFile_clean.exists())
+			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+		else{
+			
+			BufferedReader buff = new BufferedReader(new FileReader(FILE_NAME));
+			FileOutputStream out_CSVFile = new FileOutputStream(CLEAN_FILE_NAME, true);
+			
+			String line = "";
+			String newline = "";
+			boolean ignore = false;
+			boolean maybe_RT = false;
+			char c;
+			while((line = buff.readLine()) != null){
+				newline = "";
+				for(int i = 0; i< line.length(); i++){
+					c = line.charAt(i);
+					if(c == '#' || c == '@')
+						ignore = true;
+					if(c == ' ') 
+						ignore = false;
+					if(c == 'R') 
+						maybe_RT = true;
+					if(maybe_RT && c == 'T'){
+						maybe_RT = false;
+						continue;
+					}
+					
+					if(!ignore){
+						newline += c;
+					}
+				}
+				
+			}
+			
+		}
+	}
+	
+	
+	
+	
+	//COMMUNICATION WITH THE VIEW
+	
+	void updateObservers(){
+		setChanged();
+		notifyObservers();
+	}
+	
+	
+	
+	//GETTERS / SETTERS
+	public QueryResult getResult() {
+		return result;
+	}
 }
