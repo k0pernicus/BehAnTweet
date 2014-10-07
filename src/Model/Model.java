@@ -85,47 +85,51 @@ public class Model extends Observable {
 		}	
 	}
 
-	void cleanCSVFile() throws IOException{//exception a gerer dans le main
+	void cleanCSVFile() throws IOException{//exception à gérer dans le main
 		File csvFile = new File(FILE_NAME);
 		File csvFile_clean   = new File(CLEAN_FILE_NAME);
 		
 		if (!csvFile_clean.exists()) 
 			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
-		else if (!csvFile_clean.exists())
-			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
-		else{
-			
-			BufferedReader buff = new BufferedReader(new FileReader(FILE_NAME));
-			FileOutputStream out_CSVFile = new FileOutputStream(CLEAN_FILE_NAME, true);
-			
-			String line = "";
-			String newline = "";
-			boolean ignore = false;
-			boolean maybe_RT = false;
-			char c;
-			while((line = buff.readLine()) != null){
-				newline = "";
-				for(int i = 0; i< line.length(); i++){
-					c = line.charAt(i);
-					if(c == '#' || c == '@')
-						ignore = true;
-					if(c == ' ') 
-						ignore = false;
-					if(c == 'R') 
-						maybe_RT = true;
-					if(maybe_RT && c == 'T'){
-						maybe_RT = false;
-						continue;
-					}
-					
-					if(!ignore){
-						newline += c;
-					}
-				}
+		else
+			if (!csvFile_clean.exists())
+				throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+			else
+			{
 				
+				BufferedReader in_CSVFile = new BufferedReader(new FileReader(FILE_NAME));
+				FileOutputStream out_CSVFile = new FileOutputStream(CLEAN_FILE_NAME, true);
+				
+				String ligneLue = "";
+				String ligneSauvee = "";
+				String totalLignes = "";
+				//Lecture des lignes du fichier CSV -> Tant que la fin du fichier n'est pas atteint
+				while((ligneLue = in_CSVFile.readLine()) != null){
+					char caractereLu = ' ';
+					ligneSauvee = "";
+					//Lecture des caractères d'une ligne
+					for (int i = 0; i < ligneLue.length(); i++) {
+						caractereLu = ligneLue.charAt(i);
+						//Si l'on croise un RT -> On ne sauvegarde rien!
+						if (caractereLu == 'R' && ligneLue.charAt(i+1) == 'T') {
+							ligneSauvee = "";
+							break;
+						}
+						//Si l'on croise un @ ou # -> On avant jusqu'à un nouvel espace
+//						if (caractereLu == '@' || caractereLu == '#') {
+//							caractereLu = ligneLue.charAt(i++);
+//							while ((caractereLu != ' ' || caractereLu != ':') && i<= ligneLue.length())
+//								caractereLu = ligneLue.charAt(i++);
+//						}
+						else {
+							ligneSauvee+=caractereLu;
+						}
+					}
+					if (ligneSauvee != "")
+						totalLignes += ligneSauvee + "\n";
+				}
+				System.out.println(totalLignes);
 			}
-			
-		}
 	}
 	
 	
@@ -142,4 +146,6 @@ public class Model extends Observable {
 	public QueryResult getResult() {
 		return result;
 	}
+	
+	
 }
