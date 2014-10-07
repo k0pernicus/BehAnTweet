@@ -53,7 +53,7 @@ public class Model extends Observable {
 				
 			    for (Status status : result.getTweets()) {
 			    	String tweet = new String();
-			    	tweet = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+"\"";
+			    	tweet = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+"\";" + status.getCreatedAt() + ";" + request;
 			    	this.writeIntoCSVFile(tweet);
 			    }
 			} catch (TwitterException e) {
@@ -85,6 +85,10 @@ public class Model extends Observable {
 		}	
 	}
 
+	/**
+	 * Méthode permettant de générer un fichier .csv, contenant des tweets nettoyés (sans @, #, RT, URL)
+	 * @throws IOException Non-possibilité d'écrire à l'intérieur du fichier
+	 */
 	void cleanCSVFile() throws IOException{//exception à gérer dans le main
 		File csvFile = new File(FILE_NAME);
 		File csvFile_clean   = new File(CLEAN_FILE_NAME);
@@ -100,35 +104,17 @@ public class Model extends Observable {
 				BufferedReader in_CSVFile = new BufferedReader(new FileReader(FILE_NAME));
 				FileOutputStream out_CSVFile = new FileOutputStream(CLEAN_FILE_NAME, true);
 				
-				String ligneLue = "";
-				String ligneSauvee = "";
-				String totalLignes = "";
-				//Lecture des lignes du fichier CSV -> Tant que la fin du fichier n'est pas atteint
-				while((ligneLue = in_CSVFile.readLine()) != null){
-					char caractereLu = ' ';
-					ligneSauvee = "";
-					//Lecture des caractères d'une ligne
-					for (int i = 0; i < ligneLue.length(); i++) {
-						caractereLu = ligneLue.charAt(i);
-						//Si l'on croise un RT -> On ne sauvegarde rien!
-						if (caractereLu == 'R' && ligneLue.charAt(i+1) == 'T') {
-							ligneSauvee = "";
-							break;
-						}
-						//Si l'on croise un @ ou # -> On avant jusqu'à un nouvel espace
-//						if (caractereLu == '@' || caractereLu == '#') {
-//							caractereLu = ligneLue.charAt(i++);
-//							while ((caractereLu != ' ' || caractereLu != ':') && i<= ligneLue.length())
-//								caractereLu = ligneLue.charAt(i++);
-//						}
-						else {
-							ligneSauvee+=caractereLu;
-						}
-					}
-					if (ligneSauvee != "")
-						totalLignes += ligneSauvee + "\n";
+				while (in_CSVFile.readLine() != null) {
+					
 				}
-				System.out.println(totalLignes);
+				
+				/* Ce que l'on veut:
+				 * Pattern Matcher sur chaque ligne du tableau .csv
+				 * 	-> '@' (on kill tout le mot d'après)
+				 * 	-> '#' (on kill tout le mot d'après)
+				 *  -> 'RT' (on n'enregistre rien)
+				 */
+				
 			}
 	}
 	
