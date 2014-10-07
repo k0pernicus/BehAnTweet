@@ -25,6 +25,12 @@ public class Model extends Observable {
 	
 	private QueryResult result;
 	
+	
+	
+	
+	
+	//MAIN METHOD
+	
 	public void run(String request) throws IOException{
 		Twitter twitter = TwitterFactory.getSingleton();
 
@@ -35,7 +41,7 @@ public class Model extends Observable {
 			
 		    for (Status status : result.getTweets()) {
 		    	String tweet = new String();
-		    	tweet = status.getId() + ";" + status.getUser().getScreenName() + ";" + status.getText();
+		    	tweet = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+"\"";
 		    	this.writeIntoCSVFile(tweet);
 		    }
 		} catch (TwitterException e) {
