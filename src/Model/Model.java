@@ -37,4 +37,6 @@ public class Model extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+	
+	}
 }
