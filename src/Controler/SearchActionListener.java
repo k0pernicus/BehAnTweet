@@ -42,7 +42,7 @@ public class SearchActionListener implements ActionListener {
 			//Erreur lors de l'écriture des octets dans le fichier initial
 			writeError.printStackTrace();
 		} catch (TwitterException e1) {
-			// TODO Erreur lors de l'envoi de la requête sur les serveurs de Twitter
+			//Erreur lors de l'envoi de la requête sur les serveurs de Twitter
 			e1.printStackTrace();
 		}	
 	}
