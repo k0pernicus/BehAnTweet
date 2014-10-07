@@ -47,18 +47,17 @@ public class Model extends Observable {
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
+		//TEST
+		this.cleanCSVFile();
+		//TEST
 	}
 	
-	public QueryResult getResult() {
-		return result;
-	}
 
-	void updateObservers(){
-		setChanged();
-		notifyObservers();
-	}
 	
-	void writeIntoCSVFile(String tweet) throws IOException{
+	//CSV FILE METHOD
+	
+	
+	void writeIntoCSVFile(String tweet) throws IOException{//exception a gerer dans le main
 		File csvFile = new File(FILE_NAME); 
 		if (!csvFile.exists()) 
 			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
