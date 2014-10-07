@@ -4,7 +4,6 @@ import java.io.File;
 
 /**
  * Classe permettant de récupérer des informations sur un fichier CSV
- * @author WebTogz
  */
 public class CsvFile {
 
@@ -14,7 +13,6 @@ public class CsvFile {
 	 * @return Le chemin du fichier entré en paramètre
 	 */
     public static String getResourcePath(String fileName) {
-       final File f = new File("");
        final String dossierPath = "../resources/" + fileName;
        return dossierPath;
    }
