@@ -16,10 +16,13 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
+
+
 public class Model extends Observable {
 	
 	private static final String FILE_NAME = "src/resources/tweets.csv";
-
+	private static final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
+	
 	private QueryResult result;
 	
 	public void run(String request) throws IOException{
