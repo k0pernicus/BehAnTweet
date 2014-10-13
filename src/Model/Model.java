@@ -106,6 +106,7 @@ public class Model extends Observable {
 			String line;
 			String patternRT     = "[\\p{Digit}]*;[[\\p{Alpha}]|[\\p{Digit}]]*;\"RT[\\p{ASCII}]*";
 			String patternAROBAS_HASHTAG = "[@|#][[^\\s]&&\\p{ASCII}]*\\s"; // need espace autour des hashtags
+			String patternHTTP = "http[[^\\s]&&\\p{ASCII}]*\\s";
 			while ((line = in_CSVFile.readLine()) != null) {
 				p = Pattern.compile(patternRT);	
 				m = p.matcher(line);
@@ -123,6 +124,15 @@ public class Model extends Observable {
 				m.appendTail(sb);
 				//SB contient la ligne a conserver sans les @
 
+				line = sb.toString();
+
+				p = Pattern.compile(patternHTTP);
+				m = p.matcher(line);
+				sb = new StringBuffer();
+				while(m.find())
+					m.appendReplacement(sb, "");
+				m.appendTail(sb);
+				
 				line = sb.toString();
 
 				this.writeIntoCSVFile(CLEAN_FILE_NAME,line);
