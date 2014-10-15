@@ -2,7 +2,6 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -49,6 +48,7 @@ public class Model extends Observable {
 		Twitter twitter = TwitterFactory.getSingleton();
 
 		Query query = new Query(request);
+		query.setLang("fr");
 		try {
 			result = twitter.search(query);
 			updateObservers();
@@ -104,9 +104,10 @@ public class Model extends Observable {
 			Pattern p;
 			Matcher m;
 			String line;
-			String patternRT     = "[\\p{Digit}]*;[[\\p{Alpha}]|[\\p{Digit}]]*;\"RT[\\p{ASCII}]*";
+			String patternRT     = "RT ";
 			String patternAROBAS_HASHTAG = "[@|#][[^\\s]&&\\p{ASCII}]*\\s"; // need espace autour des hashtags
 			String patternHTTP = "http[[^\\s]&&\\p{ASCII}]*\\s";
+
 			while ((line = in_CSVFile.readLine()) != null) {
 				p = Pattern.compile(patternRT);	
 				m = p.matcher(line);
@@ -114,6 +115,7 @@ public class Model extends Observable {
 				if(m.find()){
 					continue;
 				}
+
 				//LIGNE A CONSERVER 
 				p = Pattern.compile(patternAROBAS_HASHTAG);	
 				m = p.matcher(line);
@@ -132,7 +134,7 @@ public class Model extends Observable {
 				while(m.find())
 					m.appendReplacement(sb, "");
 				m.appendTail(sb);
-				
+
 				line = sb.toString();
 
 				this.writeIntoCSVFile(CLEAN_FILE_NAME,line);
