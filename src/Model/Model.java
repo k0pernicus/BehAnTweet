@@ -147,6 +147,9 @@ public class Model extends Observable {
 			 * 	-> '#' (on kill tout le mot d'après) FAIT
 			 *  -> 'RT' (on n'enregistre rien) FAIT
 			 */
+			
+			//Fermeture du fichier
+			in_CSVFile.close();
 
 		}
 	}
