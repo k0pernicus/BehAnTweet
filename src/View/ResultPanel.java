@@ -31,6 +31,7 @@ public class ResultPanel extends JPanel implements Observer{
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
 		this.model = model;
+		nbrTweets = new String[] {"20", "40", "60", "80", "100", "150", "200"};
 		model.addObserver(this);
 		text_pane = new JTextPane();
 		add(text_pane, BorderLayout.CENTER);
