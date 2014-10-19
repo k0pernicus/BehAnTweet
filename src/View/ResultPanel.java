@@ -39,6 +39,10 @@ public class ResultPanel extends JPanel implements Observer{
 		textField = new JTextField();
 		add(textField, BorderLayout.NORTH);
 		textField.setColumns(10);
+		addNbrTweets = new JComboBox(nbrTweets);
+		addNbrTweets.setName("NbrTweetsButton");
+		addNbrTweets.setSelectedIndex(0);
+		add(addNbrTweets, BorderLayout.SOUTH);
 		btnSearch = new JButton("Search");
 		btnSearch.setName("SearchButton");
 		btnSearch.addActionListener(new SearchActionListener(this.model));
