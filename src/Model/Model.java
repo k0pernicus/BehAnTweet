@@ -34,6 +34,11 @@ public class Model extends Observable {
 	 * Attribut contenant le r√©sultat de la recherche
 	 */
 	private QueryResult result;
+	
+	/**
+	 * Attribut contenant le nombre de tweets à recueillir pour une recherche
+	 */
+	private int nbrTweets;
 
 	//MAIN METHOD
 	/**
