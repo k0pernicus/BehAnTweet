@@ -39,6 +39,24 @@ public class Model extends Observable {
 	 * Attribut contenant le nombre de tweets ˆ recueillir pour une recherche
 	 */
 	private int nbrTweets;
+	
+	/**
+	 * Getter nbrTweets
+	 */
+	public int getNbrTweets() {
+		
+		return this.nbrTweets;
+		
+	}
+	
+	/**
+	 * Setter nbrTweets
+	 */
+	public void setNbrTweets(int nbrTweets) {
+		
+		this.nbrTweets = nbrTweets;
+		
+	}
 
 	//MAIN METHOD
 	/**
