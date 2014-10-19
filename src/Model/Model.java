@@ -72,6 +72,8 @@ public class Model extends Observable {
 
 		Query query = new Query(request);
 		query.setLang("fr");
+		/*Nombre de tweets par requête*/
+		query.setCount(nbrTweets);
 		try {
 			result = twitter.search(query);
 			updateObservers();
