@@ -22,6 +22,9 @@ public class ResultPanel extends JPanel implements Observer{
 	private JTextField textField;
 	private Model model;
 	private JButton btnSearch;
+	//Nombre de tweets ˆ retourner
+	private String[] nbrTweets;
+	private JComboBox addNbrTweets;
 
 	public ResultPanel(Model model) {
 		super();
