@@ -18,33 +18,81 @@ import twitter4j.Status;
 import Model.Model;
 import Controler.*;
 
+
+/**
+ * Classe permettant d'instancier le panel principal 
+ * qui contiendra tout les composants necessaire a l'application 
+ * @author verkyndt
+ *
+ */
 public class ResultPanel extends JPanel implements Observer{
 	
+	/*
+	 * Zone de texte contenant les tweets a afficher
+	 */
 	protected JTextPane text_pane;
+	
+	/*
+	 * Zone permettant à l'utilisateur d'entrée le mot clef qu'il désir pour sa recherche
+	 */
 	private JTextField textField;
+	
+	/*
+	 * Modele contenant les méthodes permettant d'interagir avec les données via l'interface graphique 
+	 */
 	private Model model;
+	
+	/*
+	 * Bouton de lancement de la recherche a partir du mot entré dans @textField
+	 */
 	private JButton btnSearch;
-	//Nombre de tweets � retourner
+	
+	//Nombre de tweets a retourner
 	private String[] nbrTweets;
+	
+	/*
+	 * Boite deroulante avec les choix predefinient du nombre de tweets a recuperer
+	 */
 	private JComboBox addNbrTweets;
 
+	
 	public ResultPanel(Model model) {
 		super();
+		/*
+		 * gestion de la forme et de l'agencement du panel
+		 */
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
+		/*
+		 * liaison avec un model
+		 */
 		this.model = model;
-		nbrTweets = new String[] {"20", "40", "60", "80", "100", "150", "200"};
 		model.addObserver(this);
+		/*
+		 * set des quantites par defaut des tweets recuperables
+		 */
+		nbrTweets = new String[] {"20", "40", "60", "80", "100", "150", "200"};
+		
+		/*
+		 * ajout des differents composants qui composeront notre panel
+		 */
+		/* #JTextPane */
 		text_pane = new JTextPane();
-		add(text_pane, BorderLayout.CENTER);
 		text_pane.setEditable(false);
+		add(text_pane, BorderLayout.CENTER);
+		
+		/* #JTextField */
 		textField = new JTextField();
-		add(textField, BorderLayout.NORTH);
 		textField.setColumns(10);
+		add(textField, BorderLayout.NORTH);
+		
+		/* #NbrTweets */
 		addNbrTweets = new JComboBox(nbrTweets);
 		addNbrTweets.setName("NbrTweetsButton");
 		addNbrTweets.setSelectedIndex(0);
 		add(addNbrTweets, BorderLayout.SOUTH);
+		
+		/* #SearchButton */
 		btnSearch = new JButton("Search");
 		btnSearch.setName("SearchButton");
 		btnSearch.addActionListener(new SearchActionListener(this.model));
@@ -55,6 +103,9 @@ public class ResultPanel extends JPanel implements Observer{
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
+		/*
+		 * rafraichit le panel
+		 */
 		repaint(); 
 		revalidate();
 	}
