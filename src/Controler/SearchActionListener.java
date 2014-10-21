@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 import twitter4j.TwitterException;
 import Model.Model;
-import View.ResultPanel;
+import View.MainPanel;
 
 /**
  * ActionListener du bouton "Search" dans le main
@@ -32,7 +32,7 @@ public class SearchActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton searchButton = (JButton) e.getSource();	
-		ResultPanel sBParent = (ResultPanel) searchButton.getParent().getParent();
+		MainPanel sBParent = (MainPanel) searchButton.getParent().getParent();
 		try {
 			model.run(sBParent.getSearchText());
 		} catch (FileNotFoundException fileNotFound) {

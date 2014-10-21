@@ -1,7 +1,7 @@
 import java.io.IOException;
 
 import Model.Model;
-import View.TestJFrame;
+import View.MainFrame;
 
 public class Main {
 
@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args){
 		Model model = new Model();
 		try{
-			TestJFrame window = new TestJFrame(model);
+			MainFrame window = new MainFrame(model);
 			window.setVisible(true);
 		}
 		catch(Exception e) {
