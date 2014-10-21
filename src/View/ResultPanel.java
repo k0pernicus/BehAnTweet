@@ -1,22 +1,20 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Graphics;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import twitter4j.Status;
+import Controler.SearchActionListener;
 import Model.Model;
-import Controler.*;
 
 
 /**
@@ -35,7 +33,7 @@ public class ResultPanel extends JPanel implements Observer{
 	/*
 	 * Zone permettant à l'utilisateur d'entrée le mot clef qu'il désir pour sa recherche
 	 */
-	private JTextField textField;
+	private SearchPanel searchPanel;
 	
 	/*
 	 * Modele contenant les méthodes permettant d'interagir avec les données via l'interface graphique 
@@ -55,8 +53,12 @@ public class ResultPanel extends JPanel implements Observer{
 	 */
 	private JComboBox addNbrTweets;
 
-	
-	public ResultPanel(Model model) {
+	/**
+	 * 
+	 * @param model
+	 * @throws IOException
+	 */
+	public ResultPanel(Model model) throws IOException {
 		super();
 		/*
 		 * gestion de la forme et de l'agencement du panel
@@ -81,10 +83,9 @@ public class ResultPanel extends JPanel implements Observer{
 		text_pane.setEditable(false);
 		add(text_pane, BorderLayout.CENTER);
 		
-		/* #JTextField */
-		textField = new JTextField();
-		textField.setColumns(10);
-		add(textField, BorderLayout.NORTH);
+		/* #searchPanel */
+		this.searchPanel = new SearchPanel(this.model);
+		add(this.searchPanel, BorderLayout.NORTH);
 		
 		/* #NbrTweets */
 		addNbrTweets = new JComboBox(nbrTweets);
@@ -124,7 +125,7 @@ public class ResultPanel extends JPanel implements Observer{
 	}
 
 	public String getSearchText() {
-		return this.textField.getText();
+		return this.searchPanel.getText();
 	}
 
 }
