@@ -1,5 +1,7 @@
+import java.io.IOException;
+
 import Model.Model;
-import View.TestJFrame;
+import View.MainFrame;
 
 public class Main {
 
@@ -7,10 +9,15 @@ public class Main {
 	 * @param args
 	 */
 	
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		Model model = new Model();
-		TestJFrame window = new TestJFrame(model);
-		window.setVisible(true);
+		try{
+			MainFrame window = new MainFrame(model);
+			window.setVisible(true);
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
