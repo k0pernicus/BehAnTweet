@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 
 import Model.Model;
 
-public class TestJFrame extends JFrame implements Observer{
+public class MainFrame extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -23,12 +23,12 @@ public class TestJFrame extends JFrame implements Observer{
 	 * Create the frame.
 	 * @throws IOException 
 	 */
-	public TestJFrame(Model model) throws IOException {
+	public MainFrame(Model model) throws IOException {
 		this.model = model;
 		model.addObserver(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		contentPane = new ResultPanel(model);
+		contentPane = new MainPanel(model);
 		setContentPane(contentPane);
 
 	}

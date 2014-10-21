@@ -23,7 +23,7 @@ import Model.Model;
  * @author verkyndt
  *
  */
-public class ResultPanel extends JPanel implements Observer{
+public class MainPanel extends JPanel implements Observer{
 	
 	/*
 	 * Zone de texte contenant les tweets a afficher
@@ -58,7 +58,7 @@ public class ResultPanel extends JPanel implements Observer{
 	 * @param model
 	 * @throws IOException
 	 */
-	public ResultPanel(Model model) throws IOException {
+	public MainPanel(Model model) throws IOException {
 		super();
 		/*
 		 * gestion de la forme et de l'agencement du panel
