@@ -1,10 +1,11 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -21,7 +22,7 @@ import Model.Model;
  * - un bouton de validation
  * @author Antonin
  */
-public class SearchPanel extends JPanel {
+public class SearchPanel extends JPanel implements Observer {
 	
 	/*
 	 * champ texte contenant l'URL du logo
@@ -55,6 +56,7 @@ public class SearchPanel extends JPanel {
 		 */
 		super();
 		this.model = model;
+		this.model.addObserver((Observer) this);
 		
 		//Initialisation du BorderLayout
 		setLayout(new BorderLayout(0, 0));
@@ -74,4 +76,14 @@ public class SearchPanel extends JPanel {
 		add(this.searchButton, BorderLayout.EAST);
 	}
 
+	public String getText() {
+		return this.searchBar.getText();
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
