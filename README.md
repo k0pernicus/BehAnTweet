@@ -17,8 +17,6 @@ Ce qu'il reste à faire
 ----------------------
 
 ###Fonctionnalités
-*	Fichier .csv (voir librairie opencsv)
-* 	Parser .csv
 *  Intégration .csv
 
 ###IHM
