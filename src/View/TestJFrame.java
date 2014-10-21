@@ -1,5 +1,6 @@
 package View;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,8 +21,9 @@ public class TestJFrame extends JFrame implements Observer{
 
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
-	public TestJFrame(Model model) {
+	public TestJFrame(Model model) throws IOException {
 		this.model = model;
 		model.addObserver(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
