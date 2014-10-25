@@ -40,11 +40,6 @@ public class MainPanel extends JPanel implements Observer{
 	 */
 	private Model model;
 	
-	/*
-	 * Bouton de lancement de la recherche a partir du mot entré dans @textField
-	 */
-	private JButton btnSearch;
-	
 	//Nombre de tweets a retourner
 	private String[] nbrTweets;
 	
@@ -93,11 +88,6 @@ public class MainPanel extends JPanel implements Observer{
 		addNbrTweets.setSelectedIndex(0);
 		add(addNbrTweets, BorderLayout.SOUTH);
 		
-		/* #SearchButton */
-		btnSearch = new JButton("Search");
-		btnSearch.setName("SearchButton");
-		btnSearch.addActionListener(new SearchActionListener(this.model));
-		add(btnSearch, BorderLayout.EAST);
 	}
 
 	@Override
