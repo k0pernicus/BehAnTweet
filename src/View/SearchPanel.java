@@ -47,8 +47,8 @@ public class SearchPanel extends JPanel implements Observer {
 	
 	/**
 	 * Constructeur de la classe SearchPanel
-	 * @param model Le modèle du projet
-	 * @throws IOException Exception levée lors du chargement de l'image - problème de lecture
+	 * @param model Le mod√®le du projet
+	 * @throws IOException Exception lev√©e lors du chargement de l'image - probl√®me de lecture
 	 */
 	public SearchPanel(Model model) throws IOException {
 		/*
