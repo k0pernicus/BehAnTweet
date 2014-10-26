@@ -3,6 +3,11 @@ import java.io.IOException;
 import Model.Model;
 import View.MainFrame;
 
+/**
+ * 
+ * @author verkyndt
+ *
+ */
 public class Main {
 
 	/**

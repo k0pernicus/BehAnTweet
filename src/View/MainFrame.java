@@ -10,6 +10,11 @@ import javax.swing.JTextField;
 
 import Model.Model;
 
+/**
+ * 
+ * @author verkyndt
+ *
+ */
 public class MainFrame extends JFrame implements Observer{
 
 	private JPanel contentPane;

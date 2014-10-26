@@ -13,6 +13,7 @@ import View.MainPanel;
 
 /**
  * ActionListener du bouton "Search" dans le main
+ * @author antonin verkyndt
  */
 public class SearchActionListener implements ActionListener {
 

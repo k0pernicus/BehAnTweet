@@ -1,7 +1,11 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * 
+ * @author verkyndt
+ *
+ */
 public class TestPatternMatcher {
 
 	public static void main(String[] args) {
@@ -12,7 +16,7 @@ public class TestPatternMatcher {
 		//		while (m.find())
 		//		System.out.println(entree.substring(m.start(), m.end()));
 
-		/** test avec une ligne RT entière BUG*/
+		/** test avec une ligne RT entiï¿½re BUG*/
 		//		String entree = "521293952037949440;HuvenoitC;\"RT @TerrierEla: Repose en paix papy.. ? 12/10/14 ??\";Sun Oct 12 15:38:58 CEST 2014;papy";
 		//		String pattern = "[\\p{Digit}]*;[[\\p{Alpha}]&&[\\p{Digit}]]*;\"RT[\\p{ASCII}]*";
 		//		Pattern p = Pattern.compile(pattern);	
@@ -21,7 +25,7 @@ public class TestPatternMatcher {
 		//		while (m.find())
 		//			System.out.println(entree.substring(m.start(), m.end()));
 
-		/** test avec le debut de la ligne RT car ne fonctionne pas avec l'entière*/
+		/** test avec le debut de la ligne RT car ne fonctionne pas avec l'entiï¿½re*/
 		//		String entree = "521293952037949440;";
 		//		String pattern = "[\\p{Digit}]*;";
 		//		Pattern p = Pattern.compile(pattern);	

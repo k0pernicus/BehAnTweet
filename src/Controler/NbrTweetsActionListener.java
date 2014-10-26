@@ -7,6 +7,11 @@ import javax.swing.JComboBox;
 
 import Model.Model;
 
+/**
+ * 
+ * @author antonin
+ *
+ */
 public class NbrTweetsActionListener implements ActionListener {
 	
 	private Model model;

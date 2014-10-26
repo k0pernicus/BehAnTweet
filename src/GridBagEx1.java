@@ -5,6 +5,11 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+/**
+ * 
+ * @author verkyndt
+ *
+ */
  public class GridBagEx1 extends Applet {
 
      protected void makebutton(String name,

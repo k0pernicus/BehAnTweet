@@ -9,6 +9,11 @@ import Controler.SearchActionListener;
 import Controler.ValidateActionListener;
 import Model.Model;
 
+/**
+ * 
+ * @author verkyndt
+ *
+ */
 public class ButtonPanel extends JPanel {
 
 	private JButton btnSearch;

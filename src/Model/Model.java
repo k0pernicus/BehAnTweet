@@ -20,6 +20,7 @@ import twitter4j.TwitterFactory;
 /**
  * Classe Mod√®le, avec utilisation du mod√®le MVC
  * @extends Observable
+ * @author antonin verkyndt
  */
 public class Model extends Observable {
 
@@ -36,7 +37,7 @@ public class Model extends Observable {
 	private QueryResult result;
 	
 	/**
-	 * Attribut contenant le nombre de tweets à recueillir pour une recherche
+	 * Attribut contenant le nombre de tweets ÔøΩ recueillir pour une recherche
 	 */
 	private int nbrTweets;
 	
@@ -72,7 +73,7 @@ public class Model extends Observable {
 
 		Query query = new Query(request);
 		query.setLang("fr");
-		/*Nombre de tweets par requête*/
+		/*Nombre de tweets par requÔøΩte*/
 		query.setCount(nbrTweets);
 		try {
 			result = twitter.search(query);
