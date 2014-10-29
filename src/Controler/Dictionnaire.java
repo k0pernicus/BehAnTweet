@@ -38,4 +38,8 @@ public class Dictionnaire {
 		}
 	}
 	
+	public int getNbr() {
+		return this.nb_display;
+	}
+	
 }

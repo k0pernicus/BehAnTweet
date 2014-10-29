@@ -181,11 +181,11 @@ public class Model extends Observable {
 		int result = 0;
 		for (String elt: dico_positif.getDictionnaire()) {
 			if (tweet_clean.contains(elt))
-				result -= 1;
+				result += dico_positif.getNbr();
 		}
 		for (String elt: dico_negatif.getDictionnaire()) {
-			if (tweet_clean.contains(elt))
-				result += 1;
+			if (tweet_clean.contains(elt));
+				result += dico_negatif.getNbr();
 		}
 		if (result > 0)
 			return "Negatif";
