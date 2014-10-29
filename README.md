@@ -23,3 +23,7 @@ Ce qu'il reste à faire
 
 ###IHM
 *	Finition de l'interface
+
+
+###Specifications
+*	valeur de retour KNN : Indertermine -> -1, Positif -> 0, Negatif -> 1
