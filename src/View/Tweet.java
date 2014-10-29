@@ -55,7 +55,12 @@ public class Tweet extends JPanel {
 	}
 
 	
-	
+	public String toString(){
+		String str = "";
+		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem();
+		
+		return str;
+	}
 	
 	
 	
