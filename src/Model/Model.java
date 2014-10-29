@@ -177,9 +177,22 @@ public class Model extends Observable {
 	}
 
 	
-	public String getEvaluationTweet(String contentClean) {
-		// TODO Auto-generated method stub
-		
+	public String getEvaluationTweet(String tweet_clean) {
+		int result = 0;
+		for (String elt: dico_positif.getDictionnaire()) {
+			if (tweet_clean.contains(elt))
+				result -= 1;
+		}
+		for (String elt: dico_negatif.getDictionnaire()) {
+			if (tweet_clean.contains(elt))
+				result += 1;
+		}
+		if (result > 0)
+			return "Negatif";
+		if (result < 0)
+			return "Positif";
+		else
+			return "Indetermine";
 	}
 
 
