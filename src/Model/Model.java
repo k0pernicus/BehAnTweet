@@ -17,6 +17,8 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import Controler.NegativeDictionnaire;
+import Controler.PositiveDictionnaire;
 
 /**
  * Classe ModÃ¨le, avec utilisation du modÃ¨le MVC
@@ -177,7 +179,13 @@ public class Model extends Observable {
 
 		}
 	}
-
+	
+	public void generateDictionnaireFile() throws IOException {
+		PositiveDictionnaire posi_dict = new PositiveDictionnaire();
+		NegativeDictionnaire nega_dict = new NegativeDictionnaire();
+		posi_dict.parse();
+		nega_dict.parse();
+	}
 
 	//COMMUNICATION WITH THE VIEW
 
