@@ -31,7 +31,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		this.model = model;
 		this.model.addObserver((Observer) this);
 		this.tweetsList = new ArrayList<Tweet>();
-		//Initialisation du BorderLayout
+		//Initialisation du BoxLayout
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 
@@ -39,9 +39,16 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	public void update(Observable o, Object arg) {
 		tweetsList.clear();
 		String content = "";
+		String contentClean = "";
+		String contentText = "";
 		for (Status status : model.getResult().getTweets()) {
-			content = "@" + status.getUser().getScreenName() + ":" + status.getText();
-			tweetsList.add(new Tweet(content));
+			content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+			contentClean = model.cleanTweet(content);
+			contentText = '@' + status.getText().replace('\n', ' ');
+			if(!contentClean.equals("RT")) {
+				int eval = model.getEvaluationTweet(contentClean);
+				tweetsList.add(new Tweet(content, contentClean, contentText, eval));
+			}
 		}
 		
 		this.removeAll();
