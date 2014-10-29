@@ -174,6 +174,8 @@ public class Model extends Observable {
 
 	
 	public String getEvaluationTweet(String contentClean) {
+		// TODO Auto-generated method stub
+		return "Indetermine";
 	}
 
 

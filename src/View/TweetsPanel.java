@@ -46,7 +46,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			contentClean = model.cleanTweet(content);
 			contentText = '@' + status.getText().replace('\n', ' ');
 			if(!contentClean.equals("RT")) {
-				int eval = model.getEvaluationTweet(contentClean);
+				String eval = model.getEvaluationTweet(contentClean);
 				tweetsList.add(new Tweet(content, contentClean, contentText, eval));
 			}
 		}
