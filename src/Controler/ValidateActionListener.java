@@ -36,7 +36,7 @@ public class ValidateActionListener implements ActionListener {
 		try {
 //			model.cleanCSVFile();
 //			model.resetCSVFile();
-			model.writeIntoCSVFileBitch(sBParentParentParent.getTweetList());
+			model.writeIntoCSVFile(sBParentParentParent.getTweetList());
 		} catch (FileNotFoundException fileNotFound) {
 			//Fichier non trouvé
 			fileNotFound.printStackTrace();
