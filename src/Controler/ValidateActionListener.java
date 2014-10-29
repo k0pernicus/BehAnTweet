@@ -9,6 +9,7 @@ import javax.swing.JButton;
 
 import Model.Model;
 import View.ButtonPanel;
+import View.MainPanel;
 
 public class ValidateActionListener implements ActionListener {
 
@@ -29,11 +30,13 @@ public class ValidateActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton validateButton = (JButton) e.getSource();	
 		ButtonPanel sBParent = (ButtonPanel) validateButton.getParent();
+		MainPanel sBParentParentParent = (MainPanel) validateButton.getParent().getParent().getParent();
 		sBParent.setSearchButton(false);
 		sBParent.setValidateButton(false);
 		try {
-			model.cleanCSVFile();
-			model.resetCSVFile();			
+//			model.cleanCSVFile();
+//			model.resetCSVFile();
+			model.writeIntoCSVFile(sBParentParentParent.getTweetList());
 		} catch (FileNotFoundException fileNotFound) {
 			//Fichier non trouvé
 			fileNotFound.printStackTrace();

@@ -80,12 +80,6 @@ public class Model extends Observable {
 		try {
 			result = twitter.search(query);
 			updateObservers();
-
-			for (Status status : result.getTweets()) {
-				String tweet = new String();
-				tweet = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + request;
-				this.writeIntoCSVFile(FILE_NAME,tweet);
-			}
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
@@ -94,92 +88,23 @@ public class Model extends Observable {
 
 	//CSV FILE METHOD
 
-	/**
-	 * MÃ©thode permettant d'Ã©crire tous les tweets rÃ©cupÃ©rÃ©s dans un fichier .csv
-	 * @param tweet Une chaÃ®ne de caractÃ¨res contenant le tweet
-	 * @throws FileNotFoundException Le fichier .csv n'a pas Ã©tÃ© trouvÃ©
-	 * @throws IOException L'Ã©criture du tweet dans le fichier n'a pu se faire
-	 */
-	void writeIntoCSVFile(String file_name, String tweet) throws FileNotFoundException, IOException{
-		File csvFile = new File(file_name);
+	
+	public void writeIntoCSVFile(String[] tweet) throws FileNotFoundException, IOException{
+		File csvFile = new File(CLEAN_FILE_NAME);
 		if (!csvFile.exists()) 
 			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
 		else{
-			FileOutputStream in_CSVFile = new FileOutputStream((file_name), true);
-			in_CSVFile.write(tweet.getBytes());
-			in_CSVFile.write("\n".getBytes());
+			FileOutputStream in_CSVFile = new FileOutputStream((csvFile), true);
+			for (String strTweet : tweet) {
+				in_CSVFile.write(strTweet.getBytes());
+				in_CSVFile.write("\n".getBytes());
+				
+			}
 			in_CSVFile.flush();
 			in_CSVFile.close();
 		}	
 	}
-
-	/**
-	 * MÃ©thode permettant de gÃ©nÃ©rer un fichier .csv, contenant des tweets nettoyÃ©s (sans @, #, RT, URL)
-	 * @throws IOException Non-possibilitÃ© d'Ã©crire Ã  l'intÃ©rieur du fichier
-	 */
-	public void cleanCSVFile() throws IOException{//exception Ã  gÃ©rer dans le main
-		File csvFile = new File(FILE_NAME);
-
-		if (!csvFile.exists())
-			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
-		else
-		{
-
-			BufferedReader in_CSVFile = new BufferedReader(new FileReader(FILE_NAME));
-
-			Pattern p;
-			Matcher m;
-			String line;
-			String patternRT     = "RT ";
-			String patternAROBAS_HASHTAG = "[@|#][[^\\s]&&\\p{ASCII}]*\\s"; // need espace autour des hashtags
-			String patternHTTP = "http[[^\\s]&&\\p{ASCII}]*\\s";
-
-			while ((line = in_CSVFile.readLine()) != null) {
-				p = Pattern.compile(patternRT);	
-				m = p.matcher(line);
-
-				if(m.find()){
-					continue;
-				}
-
-				//LIGNE A CONSERVER 
-				p = Pattern.compile(patternAROBAS_HASHTAG);	
-				m = p.matcher(line);
-
-				StringBuffer sb = new StringBuffer();
-				while(m.find())
-					m.appendReplacement(sb, "");
-				m.appendTail(sb);
-				//SB contient la ligne a conserver sans les @
-
-				line = sb.toString();
-
-				p = Pattern.compile(patternHTTP);
-				m = p.matcher(line);
-				sb = new StringBuffer();
-				while(m.find())
-					m.appendReplacement(sb, "");
-				m.appendTail(sb);
-
-				line = sb.toString();
-
-				this.writeIntoCSVFile(CLEAN_FILE_NAME,line);
-
-			}
-
-			/* Ce que l'on veut:
-			 * Pattern Matcher sur chaque ligne du tableau .csv
-			 * 	-> '@' (on kill tout le mot d'aprÃ¨s) FAIT
-			 * 	-> '#' (on kill tout le mot d'aprÃ¨s) FAIT
-			 *  -> 'RT' (on n'enregistre rien) FAIT
-			 */
-			
-			//Fermeture du fichier
-			in_CSVFile.close();
-
-		}
-	}
-	
+		
 	public void generateDictionnaireFile() throws IOException {
 		PositiveDictionnaire posi_dict = new PositiveDictionnaire();
 		NegativeDictionnaire nega_dict = new NegativeDictionnaire();
@@ -210,6 +135,51 @@ public class Model extends Observable {
 		new File("src/resources/", "tweets.csv");
 		new File("src/resources/","tweets_clean.csv");
 		
+	}
+
+	public String cleanTweet(String content) {
+		Pattern p;
+		Matcher m;
+		String line;
+		String patternRT     = "RT ";
+		String patternAROBAS_HASHTAG = "[@|#][[^\\s]&&\\p{ASCII}]*\\s"; // need espace autour des hashtags
+		String patternHTTP = "http[[^\\s]&&\\p{ASCII}]*\\s";
+		
+		line = content;
+		//LIGNE A IGNORER
+		p = Pattern.compile(patternRT);	
+		m = p.matcher(line);
+
+		if(m.find()){
+			return "RT";
+		}
+
+		//LIGNE A CONSERVER 
+		p = Pattern.compile(patternAROBAS_HASHTAG);	
+		m = p.matcher(line);
+
+		StringBuffer sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, "");
+		m.appendTail(sb);
+		//SB contient la ligne a conserver sans les @
+
+		line = sb.toString();
+
+		p = Pattern.compile(patternHTTP);
+		m = p.matcher(line);
+		sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, "");
+		m.appendTail(sb);
+
+		return sb.toString();
+	}
+
+	
+	public int getEvaluationTweet(String contentClean) {
+		// TODO Auto-generated method stub
+		return -1;
 	}
 
 
