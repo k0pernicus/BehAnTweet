@@ -63,7 +63,16 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	}
 	
 	
-	
+	public String[] getTweetList() {
+		String str = "";
+		for (Tweet tweet : tweetsList) {
+			str += tweet.toString() + ";;;";
+		}
+		str = str.substring(0, str.length()-3);
+		String[] result = str.split(";;;");
+
+		return result;
+	}
 	
 	//GROS COPIER COLLER SISI LA FAMILLE
 	public Dimension getPreferredScrollableViewportSize() {
