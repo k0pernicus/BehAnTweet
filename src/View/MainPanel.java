@@ -119,5 +119,8 @@ public class MainPanel extends JPanel implements Observer{
 	public String getSearchText() {
 		return this.searchPanel.getText();
 	}
-
+	
+	public String[] getTweetList(){
+		return tweet_pane.getTweetList();
+	}
 }
