@@ -19,6 +19,7 @@ public class Main {
 		try{
 			model.generateCSVFile();
 			model.resetCSVFile();
+			model.generateDictionnaireFile();
 			MainFrame window = new MainFrame(model);
 			window.setVisible(true);
 		}
