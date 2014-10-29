@@ -1,5 +1,3 @@
-import Controler.NegativeDictionnaire;
-import Controler.PositiveDictionnaire;
 import Model.Model;
 import View.MainFrame;
 

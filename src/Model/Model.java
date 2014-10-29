@@ -1,10 +1,8 @@
 package Model;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Observable;
@@ -13,12 +11,10 @@ import java.util.regex.Pattern;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import Controler.NegativeDictionnaire;
-import Controler.PositiveDictionnaire;
+import Controler.Dictionnaire;
 
 /**
  * Classe ModÃ¨le, avec utilisation du modÃ¨le MVC
@@ -106,8 +102,8 @@ public class Model extends Observable {
 	}
 		
 	public void generateDictionnaireFile() throws IOException {
-		PositiveDictionnaire posi_dict = new PositiveDictionnaire();
-		NegativeDictionnaire nega_dict = new NegativeDictionnaire();
+		Dictionnaire posi_dict = new Dictionnaire("src/resources/positive.txt", 0);
+		Dictionnaire nega_dict = new Dictionnaire("src/resources/negative.txt", 1);
 		posi_dict.parse();
 		nega_dict.parse();
 	}
