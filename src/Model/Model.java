@@ -39,6 +39,10 @@ public class Model extends Observable {
 	 */
 	private int nbrTweets;
 	
+	private Dictionnaire dico_positif;
+	
+	private Dictionnaire dico_negatif;
+	
 	/**
 	 * Getter nbrTweets
 	 */
@@ -102,10 +106,10 @@ public class Model extends Observable {
 	}
 		
 	public void generateDictionnaireFile() throws IOException {
-		Dictionnaire posi_dict = new Dictionnaire("src/resources/positive.txt", 0);
-		Dictionnaire nega_dict = new Dictionnaire("src/resources/negative.txt", 1);
-		posi_dict.parse();
-		nega_dict.parse();
+		this.dico_positif = new Dictionnaire("src/resources/positive.txt", 0);
+		this.dico_negatif = new Dictionnaire("src/resources/negative.txt", 1);
+		dico_positif.parse();
+		dico_negatif.parse();
 	}
 
 	//COMMUNICATION WITH THE VIEW
@@ -175,7 +179,7 @@ public class Model extends Observable {
 	
 	public String getEvaluationTweet(String contentClean) {
 		// TODO Auto-generated method stub
-		return "Indetermine";
+		
 	}
 
 
