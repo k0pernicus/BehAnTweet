@@ -3,14 +3,19 @@ package Controler;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
-abstract class Dictionnaire {
+public class Dictionnaire {
 
-	protected String[] dictionnaire;
-	protected String file_name;
+	private String[] dictionnaire;
+	private String file_name;
+	private int nb_display;
+	
+	public Dictionnaire(String file_name, int nb_display){
+		this.file_name = file_name;
+		this.nb_display = nb_display;
+	}
 	
 	public String[] getDictionnaire() {
 		return this.dictionnaire;
