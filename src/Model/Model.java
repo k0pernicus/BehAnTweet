@@ -108,8 +108,7 @@ public class Model extends Observable {
 	public void generateDictionnaireFile() throws IOException {
 		this.dico_positif = new Dictionnaire("src/resources/positive.txt", -1);
 		this.dico_negatif = new Dictionnaire("src/resources/negative.txt", 1);
-		dico_positif.parse();
-		dico_negatif.parse();
+
 	}
 
 	//COMMUNICATION WITH THE VIEW
