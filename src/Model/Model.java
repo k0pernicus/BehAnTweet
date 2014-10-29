@@ -108,8 +108,7 @@ public class Model extends Observable {
 	public void generateDictionnaireFile() throws IOException {
 		this.dico_positif = new Dictionnaire("src/resources/positive.txt", 0);
 		this.dico_negatif = new Dictionnaire("src/resources/negative.txt", 1);
-		dico_positif.parse();
-		dico_negatif.parse();
+
 	}
 
 	//COMMUNICATION WITH THE VIEW
@@ -179,14 +178,20 @@ public class Model extends Observable {
 	
 	public String getEvaluationTweet(String tweet_clean) {
 		int result = 0;
-		for (String elt: dico_positif.getDictionnaire()) {
-			if (tweet_clean.contains(elt))
-				result -= 1;
-		}
 		for (String elt: dico_negatif.getDictionnaire()) {
-			if (tweet_clean.contains(elt))
+			if (tweet_clean.contains(elt)){
 				result += 1;
+				System.out.println("NEGATIF");
+			}
 		}
+		for (String elt: dico_positif.getDictionnaire()) {
+			if (tweet_clean.contains(elt)){
+				result -= 1;
+				System.out.println("POSITIF");
+			}
+		}
+		System.out.println("COUCOU");
+		System.out.println(result);
 		if (result > 0)
 			return "Negatif";
 		if (result < 0)

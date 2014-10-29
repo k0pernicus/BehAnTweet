@@ -15,6 +15,12 @@ public class Dictionnaire {
 	public Dictionnaire(String file_name, int nb_display){
 		this.file_name = file_name;
 		this.nb_display = nb_display;
+		try {
+			this.dictionnaire = this.parse();
+		} catch (IOException e) {
+			System.out.println("There is no file named " + file_name);
+			e.printStackTrace();
+		}
 	}
 	
 	public String[] getDictionnaire() {
