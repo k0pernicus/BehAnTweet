@@ -17,10 +17,9 @@ Ce qu'il reste à faire
 ----------------------
 
 ###Fonctionnalités
-*  Intégration .csv
+*	Vérification du nombre de tweets à récupérer
+*	Réalisation automatique du KNN
+*	Intégration de la réalisation automatique du KNN dans l'interface
 
 ###IHM
-*	Barre de menu
-* 	Réduction du bouton "Search"
-*  Bouton "sauver", pour sauvegarder la liste de tweets dans le fichier .csv
-*  Autorisation d'éditer le .csv, via une nouvelle fenêtre
+*	Finition de l'interface
