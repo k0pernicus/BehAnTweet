@@ -37,9 +37,9 @@ public class SearchPanel extends JPanel implements Observer {
 	 */
 	private JTextField searchBar;
 	/*
-	 * searchButton contient le bouton de validation
+	 * Panel contenant les boutons d'interactions
 	 */
-	private JButton searchButton;
+	private ButtonPanel buttonPanel;
 	/*
 	 * Le model du projet
 	 */
@@ -69,11 +69,9 @@ public class SearchPanel extends JPanel implements Observer {
 		this.searchBar.setColumns(10);
 		add(this.searchBar, BorderLayout.CENTER);
 		
-		//Construction du searchButton
-		this.searchButton = new JButton("Search");
-		this.searchButton.setName("searchButton");
-		this.searchButton.addActionListener(new SearchActionListener(this.model));
-		add(this.searchButton, BorderLayout.EAST);
+		//Construction du buttonPanel
+		this.buttonPanel = new ButtonPanel(model);
+		add(this.buttonPanel, BorderLayout.EAST);
 	}
 
 	public String getText() {

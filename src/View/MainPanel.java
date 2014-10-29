@@ -2,6 +2,7 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.ScrollPane;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,6 +10,7 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
@@ -25,10 +27,14 @@ import Model.Model;
  */
 public class MainPanel extends JPanel implements Observer{
 	
+	
+	
+	
+	protected JScrollPane scrollPane;
 	/*
 	 * Zone de texte contenant les tweets a afficher
 	 */
-	protected JTextPane text_pane;
+	protected TweetsPanel tweet_pane;
 	
 	/*
 	 * Zone permettant à l'utilisateur d'entrée le mot clef qu'il désir pour sa recherche
@@ -73,10 +79,11 @@ public class MainPanel extends JPanel implements Observer{
 		/*
 		 * ajout des differents composants qui composeront notre panel
 		 */
-		/* #JTextPane */
-		text_pane = new JTextPane();
-		text_pane.setEditable(false);
-		add(text_pane, BorderLayout.CENTER);
+		/* #TweetPane */
+		tweet_pane = new TweetsPanel(model);
+		scrollPane = new JScrollPane();
+		scrollPane.setViewportView(tweet_pane);
+		add(scrollPane, BorderLayout.CENTER);
 		
 		/* #searchPanel */
 		this.searchPanel = new SearchPanel(this.model);
@@ -103,11 +110,6 @@ public class MainPanel extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String content = "";
-		for (Status status : model.getResult().getTweets()) {
-			content += "@" + status.getUser().getScreenName() + ":" + status.getText() + "\n";
-		}
-		this.text_pane.setText(content);
 		
 		repaint();
 		revalidate();

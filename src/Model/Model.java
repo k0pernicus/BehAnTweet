@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.regex.Matcher;
@@ -18,26 +19,25 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
 /**
- * Classe Modèle, avec utilisation du modèle MVC
+ * Classe ModÃ¨le, avec utilisation du modÃ¨le MVC
  * @extends Observable
- * @author antonin verkyndt
  */
 public class Model extends Observable {
 
 	/**
-	 * Attribut contenant la chaîne de caractères contenant le chemin relatif du fichier CSV contenant tous les tweets (non-nettoyés)
+	 * Attribut contenant la chaÃ®ne de caractÃ¨res contenant le chemin relatif du fichier CSV contenant tous les tweets (non-nettoyÃ©s)
 	 */
 	private static final String FILE_NAME = "src/resources/tweets.csv";
 
 	private static final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
 
 	/**
-	 * Attribut contenant le résultat de la recherche
+	 * Attribut contenant le rÃ©sultat de la recherche
 	 */
 	private QueryResult result;
 	
 	/**
-	 * Attribut contenant le nombre de tweets � recueillir pour une recherche
+	 * Attribut contenant le nombre de tweets ˆ recueillir pour une recherche
 	 */
 	private int nbrTweets;
 	
@@ -61,11 +61,11 @@ public class Model extends Observable {
 
 	//MAIN METHOD
 	/**
-	 * Méthode permettant de faire une requête sur Twitter
-	 * @param request La requête à envoyer
-	 * @throws TwitterException Exception si la requête n'a pas être validée / si la réponse n'a pu nous parvenir
-	 * @throws IOException Exception si l'écriture des tweets n'a pu se faire
-	 * @throws FileNotFoundException Exception si le fichier .csv (utilisé pour y écrire les tweets) n'est pas trouvé
+	 * MÃ©thode permettant de faire une requÃªte sur Twitter
+	 * @param request La requÃªte Ã  envoyer
+	 * @throws TwitterException Exception si la requÃªte n'a pas Ãªtre validÃ©e / si la rÃ©ponse n'a pu nous parvenir
+	 * @throws IOException Exception si l'Ã©criture des tweets n'a pu se faire
+	 * @throws FileNotFoundException Exception si le fichier .csv (utilisÃ© pour y Ã©crire les tweets) n'est pas trouvÃ©
 	 */
 	public void run(String request) throws TwitterException, FileNotFoundException, IOException{
 
@@ -88,17 +88,17 @@ public class Model extends Observable {
 			e.printStackTrace();
 		}
 		//TEST
-		this.cleanCSVFile();
+		//this.cleanCSVFile();
 		//TEST
 	}
 
 	//CSV FILE METHOD
 
 	/**
-	 * Méthode permettant d'écrire tous les tweets récupérés dans un fichier .csv
-	 * @param tweet Une chaîne de caractères contenant le tweet
-	 * @throws FileNotFoundException Le fichier .csv n'a pas été trouvé
-	 * @throws IOException L'écriture du tweet dans le fichier n'a pu se faire
+	 * MÃ©thode permettant d'Ã©crire tous les tweets rÃ©cupÃ©rÃ©s dans un fichier .csv
+	 * @param tweet Une chaÃ®ne de caractÃ¨res contenant le tweet
+	 * @throws FileNotFoundException Le fichier .csv n'a pas Ã©tÃ© trouvÃ©
+	 * @throws IOException L'Ã©criture du tweet dans le fichier n'a pu se faire
 	 */
 	void writeIntoCSVFile(String file_name, String tweet) throws FileNotFoundException, IOException{
 		File csvFile = new File(file_name);
@@ -114,10 +114,10 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Méthode permettant de générer un fichier .csv, contenant des tweets nettoyés (sans @, #, RT, URL)
-	 * @throws IOException Non-possibilité d'écrire à l'intérieur du fichier
+	 * MÃ©thode permettant de gÃ©nÃ©rer un fichier .csv, contenant des tweets nettoyÃ©s (sans @, #, RT, URL)
+	 * @throws IOException Non-possibilitÃ© d'Ã©crire Ã  l'intÃ©rieur du fichier
 	 */
-	void cleanCSVFile() throws IOException{//exception à gérer dans le main
+	public void cleanCSVFile() throws IOException{//exception Ã  gÃ©rer dans le main
 		File csvFile = new File(FILE_NAME);
 
 		if (!csvFile.exists())
@@ -169,8 +169,8 @@ public class Model extends Observable {
 
 			/* Ce que l'on veut:
 			 * Pattern Matcher sur chaque ligne du tableau .csv
-			 * 	-> '@' (on kill tout le mot d'après) FAIT
-			 * 	-> '#' (on kill tout le mot d'après) FAIT
+			 * 	-> '@' (on kill tout le mot d'aprÃ¨s) FAIT
+			 * 	-> '#' (on kill tout le mot d'aprÃ¨s) FAIT
 			 *  -> 'RT' (on n'enregistre rien) FAIT
 			 */
 			
@@ -193,6 +193,11 @@ public class Model extends Observable {
 	//GETTERS / SETTERS
 	public QueryResult getResult() {
 		return result;
+	}
+
+	public void resetCSVFile() throws IOException {
+		new FileWriter(new File(FILE_NAME)).close();
+		
 	}
 
 

@@ -40,5 +40,12 @@ public class ButtonPanel extends JPanel {
 		return model;
 	}
 	
+	public void setSearchButton(boolean b){
+		this.btnSearch.setEnabled(b);
+	}
+	public void setValidateButton(boolean b){
+		this.btnValidate.setEnabled(b);
+	}
+	
 	
 }
