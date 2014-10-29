@@ -133,5 +133,50 @@ public class Model extends Observable {
 		
 	}
 
+	public String cleanTweet(String content) {
+		Pattern p;
+		Matcher m;
+		String line;
+		String patternRT     = "RT ";
+		String patternAROBAS_HASHTAG = "[@|#][[^\\s]&&\\p{ASCII}]*\\s"; // need espace autour des hashtags
+		String patternHTTP = "http[[^\\s]&&\\p{ASCII}]*\\s";
+		
+		line = content;
+		//LIGNE A IGNORER
+		p = Pattern.compile(patternRT);	
+		m = p.matcher(line);
+
+		if(m.find()){
+			return "RT";
+		}
+
+		//LIGNE A CONSERVER 
+		p = Pattern.compile(patternAROBAS_HASHTAG);	
+		m = p.matcher(line);
+
+		StringBuffer sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, "");
+		m.appendTail(sb);
+		//SB contient la ligne a conserver sans les @
+
+		line = sb.toString();
+
+		p = Pattern.compile(patternHTTP);
+		m = p.matcher(line);
+		sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, "");
+		m.appendTail(sb);
+
+		return sb.toString();
+	}
+
+	
+	public int getEvaluationTweet(String contentClean) {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
 
 }
