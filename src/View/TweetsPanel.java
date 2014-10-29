@@ -74,7 +74,6 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		return result;
 	}
 	
-	//GROS COPIER COLLER SISI LA FAMILLE
 	public Dimension getPreferredScrollableViewportSize() {
 		   return getPreferredSize();
 		}

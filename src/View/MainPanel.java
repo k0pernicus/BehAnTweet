@@ -27,9 +27,6 @@ import Model.Model;
  */
 public class MainPanel extends JPanel implements Observer{
 	
-	
-	
-	
 	protected JScrollPane scrollPane;
 	/*
 	 * Zone de texte contenant les tweets a afficher

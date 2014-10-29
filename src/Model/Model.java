@@ -74,7 +74,7 @@ public class Model extends Observable {
 		/*Nombre de tweets par requ�te*/
 		query.setCount(nbrTweets);
 		try {
-			result = twitter.search(query);
+			this.result = twitter.search(query);
 			updateObservers();
 		} catch (TwitterException e) {
 			e.printStackTrace();
@@ -173,9 +173,7 @@ public class Model extends Observable {
 	}
 
 	
-	public int getEvaluationTweet(String contentClean) {
-		// TODO Auto-generated method stub
-		return -1;
+	public String getEvaluationTweet(String contentClean) {
 	}
 
 
