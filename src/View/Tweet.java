@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -18,11 +17,11 @@ public class Tweet extends JPanel {
 	
 	private JComboBox comboBox;
 	
-	private int evalAlgo;
+	private String evalAlgo;
 
 	
 	
-	public Tweet(String infoTweet, String infoTweetClean,String tweetText, int evalAlgo) {
+	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo) {
 		super();
 		this.evalAlgo = evalAlgo;
 		this.nonNettoyer = infoTweet;
@@ -34,7 +33,8 @@ public class Tweet extends JPanel {
 		this.comboBox.addItem("Indetermine");
 		this.comboBox.addItem("Positif");
 		this.comboBox.addItem("Negatif");
-		this.comboBox.setSelectedIndex(evalAlgo + 1);
+		this.comboBox.setSelectedItem(evalAlgo);
+		
 		
 		this.setLayout(new BorderLayout(0, 0));
 		this.add(label,BorderLayout.CENTER);
