@@ -26,4 +26,4 @@ Ce qu'il reste à faire
 
 
 ###Specifications
-*	valeur de retour KNN : Indertermine -> -1, Positif -> 0, Negatif -> 1
+*	valeur de retour KNN : Positif < 0, Indetermine = 0, Negatif > 0
