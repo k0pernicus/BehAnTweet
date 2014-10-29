@@ -17,6 +17,7 @@ public class Main {
 	public static void main(String[] args){
 		Model model = new Model();
 		try{
+			model.generateCSVFile();
 			model.resetCSVFile();
 			MainFrame window = new MainFrame(model);
 			window.setVisible(true);

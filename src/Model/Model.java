@@ -87,9 +87,7 @@ public class Model extends Observable {
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
-		//TEST
-		//this.cleanCSVFile();
-		//TEST
+
 	}
 
 	//CSV FILE METHOD
@@ -197,6 +195,13 @@ public class Model extends Observable {
 
 	public void resetCSVFile() throws IOException {
 		new FileWriter(new File(FILE_NAME)).close();
+		
+	}
+
+	public void generateCSVFile() {
+		System.out.println("COUCOU");
+		new File("src/resources/", "tweets.csv");
+		new File("src/resources/","tweets_clean.csv");
 		
 	}
 
