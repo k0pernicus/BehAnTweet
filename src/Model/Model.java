@@ -199,7 +199,6 @@ public class Model extends Observable {
 	}
 
 	public void generateCSVFile() {
-		System.out.println("COUCOU");
 		new File("src/resources/", "tweets.csv");
 		new File("src/resources/","tweets_clean.csv");
 		
