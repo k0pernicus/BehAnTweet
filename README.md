@@ -18,12 +18,8 @@ Ce qu'il reste à faire
 
 ###Fonctionnalités
 *	Vérification du nombre de tweets à récupérer
-*	Réalisation automatique du KNN
+*	Réalisation du KNN
 *	Intégration de la réalisation automatique du KNN dans l'interface
-
-###IHM
-*	Finition de l'interface
-
 
 ###Specifications
 *	valeur de retour KNN : Positif < 0, Indetermine = 0, Negatif > 0
