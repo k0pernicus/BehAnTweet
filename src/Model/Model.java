@@ -36,32 +36,9 @@ public class Model extends Observable {
 	 */
 	private QueryResult result;
 
-	/**
-	 * Attribut contenant le nombre de tweets ˆ recueillir pour une recherche
-	 */
-	private int nbrTweets;
-
 	private Dictionnaire dico_positif;
 
 	private Dictionnaire dico_negatif;
-
-	/**
-	 * Getter nbrTweets
-	 */
-	public int getNbrTweets() {
-
-		return this.nbrTweets;
-
-	}
-
-	/**
-	 * Setter nbrTweets
-	 */
-	public void setNbrTweets(int nbrTweets) {
-
-		this.nbrTweets = nbrTweets;
-
-	}
 
 	//MAIN METHOD
 	/**
@@ -71,7 +48,7 @@ public class Model extends Observable {
 	 * @throws IOException Exception si l'Ã©criture des tweets n'a pu se faire
 	 * @throws FileNotFoundException Exception si le fichier .csv (utilisÃ© pour y Ã©crire les tweets) n'est pas trouvÃ©
 	 */
-	public void run(String request) throws TwitterException, FileNotFoundException, IOException{
+	public void run(String request, int nbrTweets) throws TwitterException, FileNotFoundException, IOException{
 
 		Twitter twitter = TwitterFactory.getSingleton();
 

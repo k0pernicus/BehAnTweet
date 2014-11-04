@@ -71,7 +71,7 @@ public class MainPanel extends JPanel implements Observer{
 		/*
 		 * set des quantites par defaut des tweets recuperables
 		 */
-		nbrTweets = new String[] {"20", "40", "60", "80", "100", "150", "200"};
+		nbrTweets = new String[] {"20", "40", "60", "80", "100"};
 		
 		/*
 		 * ajout des differents composants qui composeront notre panel
@@ -92,6 +92,10 @@ public class MainPanel extends JPanel implements Observer{
 		addNbrTweets.setSelectedIndex(0);
 		add(addNbrTweets, BorderLayout.SOUTH);
 		
+	}
+	
+	public int getSelectedNbrTweets() {
+		return Integer.parseInt((String) this.addNbrTweets.getSelectedItem());
 	}
 
 	@Override
