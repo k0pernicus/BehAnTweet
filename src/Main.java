@@ -2,7 +2,7 @@ import Model.Model;
 import View.MainFrame;
 
 /**
- * 
+ * Classe main
  * @author verkyndt
  *
  */
