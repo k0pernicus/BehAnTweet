@@ -33,32 +33,32 @@ public class Model extends Observable {
 	 * Attribut contenant le rÃ©sultat de la recherche
 	 */
 	private QueryResult result;
-	
+
 	/**
 	 * Attribut contenant le nombre de tweets ˆ recueillir pour une recherche
 	 */
 	private int nbrTweets;
-	
+
 	private Dictionnaire dico_positif;
-	
+
 	private Dictionnaire dico_negatif;
-	
+
 	/**
 	 * Getter nbrTweets
 	 */
 	public int getNbrTweets() {
-		
+
 		return this.nbrTweets;
-		
+
 	}
-	
+
 	/**
 	 * Setter nbrTweets
 	 */
 	public void setNbrTweets(int nbrTweets) {
-		
+
 		this.nbrTweets = nbrTweets;
-		
+
 	}
 
 	//MAIN METHOD
@@ -88,7 +88,7 @@ public class Model extends Observable {
 
 	//CSV FILE METHOD
 
-	
+
 	public void writeIntoCSVFile(String[] tweet) throws FileNotFoundException, IOException{
 		File csvFile = new File(CLEAN_FILE_NAME);
 		if (!csvFile.exists()) 
@@ -98,13 +98,13 @@ public class Model extends Observable {
 			for (String strTweet : tweet) {
 				in_CSVFile.write(strTweet.getBytes());
 				in_CSVFile.write("\n".getBytes());
-				
+
 			}
 			in_CSVFile.flush();
 			in_CSVFile.close();
 		}	
 	}
-		
+
 	public void generateDictionnaireFile() throws IOException {
 		this.dico_positif = new Dictionnaire("src/resources/positive.txt", -1);
 		this.dico_negatif = new Dictionnaire("src/resources/negative.txt", 1);
@@ -127,13 +127,13 @@ public class Model extends Observable {
 
 	public void resetCSVFile() throws IOException {
 		new FileWriter(new File(FILE_NAME)).close();
-		
+
 	}
 
 	public void generateCSVFile() {
 		new File("src/resources/", "tweets.csv");
 		new File("src/resources/","tweets_clean.csv");
-		
+
 	}
 
 	public String cleanTweet(String content) {
@@ -143,7 +143,7 @@ public class Model extends Observable {
 		String patternRT     = "RT ";
 		String patternAROBAS_HASHTAG = "[@|#][[^\\s]&&\\p{ASCII}]*\\s"; // need espace autour des hashtags
 		String patternHTTP = "http[[^\\s]&&\\p{ASCII}]*\\s";
-		
+
 		line = content;
 		//LIGNE A IGNORER
 		p = Pattern.compile(patternRT);	
@@ -175,16 +175,18 @@ public class Model extends Observable {
 		return sb.toString();
 	}
 
-	
+
 	public String getEvaluationTweet(String tweet_clean) {
 		int result = 0;
 		for (String elt: dico_positif.getDictionnaire()) {
-			if (tweet_clean.contains(elt))
+			if (tweet_clean.contains(elt)) 
 				result += dico_positif.getNbr();
+
 		}
 		for (String elt: dico_negatif.getDictionnaire()) {
-			if (tweet_clean.contains(elt));
+			if (tweet_clean.contains(elt))
 				result += dico_negatif.getNbr();
+
 		}
 		if (result > 0)
 			return "Negatif";
