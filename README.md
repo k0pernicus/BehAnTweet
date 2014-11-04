@@ -19,7 +19,10 @@ Ce qu'il reste à faire
 ###Fonctionnalités
 *	Vérification du nombre de tweets à récupérer
 *	Réalisation du KNN
-*	Intégration de la réalisation automatique du KNN dans l'interface
+*	Réalisation de la classification Baysienne
+
+###IHM
+*	Intégration des solutions dans l'interface
 
 ###Algorithmique
 *	Recherche dichotomique dans le getEvaluationTweet() -> Model.Model
