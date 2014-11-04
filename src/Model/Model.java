@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -178,15 +180,16 @@ public class Model extends Observable {
 
 	public String getEvaluationTweet(String tweet_clean) {
 		int result = 0;
-		for (String elt: dico_positif.getDictionnaire()) {
-			if (tweet_clean.contains(elt)) 
-				result += dico_positif.getNbr();
-
-		}
-		for (String elt: dico_negatif.getDictionnaire()) {
-			if (tweet_clean.contains(elt))
-				result += dico_negatif.getNbr();
-
+		String[] split_tweet = tweet_clean.trim().split(" ");
+		List<String> liste_positive = Arrays.asList(this.dico_positif.getDictionnaire());
+		List<String> liste_negative = Arrays.asList(this.dico_negatif.getDictionnaire());
+		for (String string : split_tweet) {
+			if (liste_positive.contains(" "+string)) {
+				result += this.dico_positif.getNbr();
+			}
+			if (liste_negative.contains(" "+string)) {
+				result += this.dico_negatif.getNbr();
+			}
 		}
 		if (result > 0)
 			return "Negatif";
