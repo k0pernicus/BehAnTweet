@@ -21,5 +21,8 @@ Ce qu'il reste à faire
 *	Réalisation du KNN
 *	Intégration de la réalisation automatique du KNN dans l'interface
 
+###Algorithmique
+*	Recherche dichotomique dans le getEvaluationTweet() -> Model.Model
+
 ###Specifications
 *	valeur de retour KNN : Positif < 0, Indetermine = 0, Negatif > 0
