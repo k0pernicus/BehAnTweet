@@ -17,7 +17,6 @@ Ce qu'il reste à faire
 ----------------------
 
 ###Fonctionnalités
-*	Vérification du nombre de tweets à récupérer
 *	Réalisation du KNN (Antonin)
 *	Réalisation de la classification Baysienne (Alexandre)
 
