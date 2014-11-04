@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Dictionnaire {
 
@@ -17,6 +18,7 @@ public class Dictionnaire {
 		this.nb_display = nb_display;
 		try {
 			this.dictionnaire = this.parse();
+			Arrays.sort(this.dictionnaire);
 		} catch (IOException e) {
 			System.out.println("There is no file named " + file_name);
 			e.printStackTrace();
