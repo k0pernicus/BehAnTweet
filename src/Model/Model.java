@@ -175,6 +175,12 @@ public class Model extends Observable {
 		else
 			return "Indetermine";
 	}
+	
+	public String getEvaluationKNN(String tweet_clean) {
+		
+		return tweet_clean;
+		
+	}
 
 
 }
