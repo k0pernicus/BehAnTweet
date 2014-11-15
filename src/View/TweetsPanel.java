@@ -24,7 +24,9 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	
 	private ArrayList<Tweet> tweetsList;
 	
-	
+	//Méthode d'évaluation - par défaut : Dictionnaire
+	//Autre méthode : "KNN"
+	private String evaluation_tweet = "KNN";
 	
 	public TweetsPanel(Model model) {
 		super();
