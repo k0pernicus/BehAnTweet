@@ -237,7 +237,18 @@ public class Model extends Observable {
 	/**
 	 * Méthode permettant de retourner un tableau d'entiers, correspondant au tableau de groupes de chaque tweet
 	 */
-	public int[] getEvaluationKNNTweet() {
+	public void getEvaluationKNNTweet() {
+		int[] groups = getGroups();
+		int nbGroups = groups.length;
+		ArrayList<ArrayList<String>> arrayGroups = new ArrayList<ArrayList<String>>();
+		for (int i = 0; i < nbGroups; i++) {
+			arrayGroups.get(groups[i]).set(arrayGroups.get(groups[i]).size(), this.tableau_tweets.get(i));
+		}
+		//Positif/Négatif/Intermediaire
+		// ---> A déterminer
+	}
+	
+	public int[] getGroups() {
 		int groupe_nbr = 0;
 		int groupes[] = new int[this.tableau_tweets.size()];
 		for(int i = 0; i < groupes.length; i++)
