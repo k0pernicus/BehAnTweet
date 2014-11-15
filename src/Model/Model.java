@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -33,7 +34,7 @@ public class Model extends Observable {
 	private static final String FILE_NAME = "src/resources/tweets.csv";
 
 	private static final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
-
+	
 	/**
 	 * Attribut contenant le rÃ©sultat de la recherche
 	 */
@@ -215,51 +216,15 @@ public class Model extends Observable {
 			return "Indetermine";
 	}
 	
-	public String setEvaluationKNN(String tweet) {
-		
-		float rstPositif = 0f;
-		float rstNegatif = 0f;
-		float rstIndetermine = 0f;
-		
-		for (String tweet_positif : this.tableau_Positif) {
-			rstPositif += getEvaluationKNN(tweet_positif, tweet);
-		}
-		
-		rstPositif = rstPositif / this.tableau_Positif.size();
-		
-		for (String tweet_negatif : this.tableau_Negatif) {
-			rstNegatif += getEvaluationKNN(tweet_negatif, tweet);
-		}
-		
-		rstNegatif = rstNegatif / this.tableau_Negatif.size();
-		
-		for (String tweet_indet : this.tableau_Indetermine) {
-			rstIndetermine += getEvaluationKNN(tweet_indet, tweet);
-		}
-		
-		rstIndetermine = rstIndetermine / this.tableau_Indetermine.size();
-		
-		if (rstPositif >= rstNegatif) {
-			if (rstPositif > rstIndetermine)
-				return "Positif";
-			return "Indetermine";
-		}
-		else {
-			if (rstNegatif >= rstIndetermine)
-				return "Indetermine";
-			return "Negatif";
-		}
-	}
-	
-	public int getEvaluationKNN(String tweet_clean, String tweet) {
+	public int getEvaluationKNN(String first_tweet, String second_tweet) {
 		
 		int compteur = 0;
 		int nb_words_tweet_clean = 0;
 		int nb_words_tweet = 0;
 		int evaluation = 0;
 		
-		String[] tweet_clean_words = tweet_clean.split(" ");
-		String[] tweet_words = tweet.split(" ");
+		String[] tweet_clean_words = first_tweet.split(" ");
+		String[] tweet_words = second_tweet.split(" ");
 		
 		nb_words_tweet_clean = tweet_clean_words.length;
 		nb_words_tweet = tweet_words.length;
@@ -276,6 +241,5 @@ public class Model extends Observable {
 		return evaluation;
 		
 	}
-
 
 }
