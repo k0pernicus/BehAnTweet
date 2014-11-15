@@ -1,10 +1,14 @@
 package Model;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
@@ -39,7 +43,13 @@ public class Model extends Observable {
 	private Dictionnaire dico_positif;
 
 	private Dictionnaire dico_negatif;
+	
+	private ArrayList<String> tableau_Positif;
 
+	private ArrayList<String> tableau_Indetermine;
+
+	private ArrayList<String> tableau_Negatif;
+	
 	//MAIN METHOD
 	/**
 	 * MÃ©thode permettant de faire une requÃªte sur Twitter
@@ -82,6 +92,42 @@ public class Model extends Observable {
 			in_CSVFile.flush();
 			in_CSVFile.close();
 		}	
+	}
+	
+	/*
+	 * Fonction permettant de stocker dans trois array list différentes (en fonction de 'negatif', 'positif', 'indetermine') tous les mots des tweets nettoyés
+	 */
+	public void getByCSVFile() throws IOException {
+		File csvFile = new File(CLEAN_FILE_NAME);
+		if (!csvFile.exists()) 
+			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+		else{
+			BufferedReader buffer = new BufferedReader(new FileReader(csvFile));
+			String line;
+			while ((line = buffer.readLine()) != null) {
+				String[] words = line.split(";");
+				String tweet = words[2];
+				String avis = words[6];
+				switch (avis) {
+				case "Indetermine":
+					for (String string : tweet.split(" ")) {
+						tableau_Indetermine.add(string);
+					}
+					break;
+				case "Positif":
+					for (String string : tweet.split(" ")) {
+						tableau_Positif.add(string);
+					}
+					break;
+				case "Negatif":
+					for (String string : tweet.split(" ")) {
+						tableau_Negatif.add(string);
+					}
+					break;
+				}
+			}
+			buffer.close();
+		}
 	}
 
 	public void generateDictionnaireFile() throws IOException {
@@ -177,6 +223,8 @@ public class Model extends Observable {
 	}
 	
 	public String getEvaluationKNN(String tweet_clean) {
+		
+		
 		
 		return tweet_clean;
 		
