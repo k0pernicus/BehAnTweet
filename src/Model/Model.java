@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +36,8 @@ public class Model extends Observable {
 
 	private static final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
 	
+	private static final Integer KNN_LIMITS = 10;
+	
 	/**
 	 * Attribut contenant le rÃ©sultat de la recherche
 	 */
@@ -49,6 +52,8 @@ public class Model extends Observable {
 	private ArrayList<String> tableau_Indetermine;
 
 	private ArrayList<String> tableau_Negatif;
+	
+	private ArrayList<String> tableau_tweets;
 	
 	//MAIN METHOD
 	/**
@@ -216,7 +221,42 @@ public class Model extends Observable {
 			return "Indetermine";
 	}
 	
-	public int getEvaluationKNN(String first_tweet, String second_tweet) {
+	public void transformTweet() {
+		this.tableau_tweets = new ArrayList<String>();
+		List<Status> liste_status = this.result.getTweets();
+		//Transformation du Status en String
+		for (Status status : liste_status) {
+			String tweet = cleanTweet(status.getText().toString());
+			this.tableau_tweets.add(tweet);
+		}
+	}
+	
+	public ArrayList<String> getTableauTweet() {
+		return this.tableau_tweets;
+	}
+	
+	/**
+	 * Méthode permettant de retourner un tableau d'entiers, correspondant au tableau de groupes de chaque tweet
+	 */
+	public int[] getEvaluationKNNTweet() {
+		int groupe_nbr = 0;
+		int groupes[] = new int[this.tableau_tweets.size()];
+		for(int i = 0; i < groupes.length; i++)
+			groupes[i] = -1;
+		for(int i = 0; i < this.tableau_tweets.size(); i++) {
+			if (groupes[i] == -1) {
+				groupes[i] = groupe_nbr;
+				groupe_nbr++;
+			}
+			for(int j = i+1; j < this.tableau_tweets.size(); j++) {
+				if (this.calculKNNTweet(this.tableau_tweets.get(i), this.tableau_tweets.get(j)) <= KNN_LIMITS)
+					groupes[j] = groupes[i];
+			}
+		}
+		return groupes;
+	}
+	
+	public int calculKNNTweet(String first_tweet, String second_tweet) {
 		
 		int compteur = 0;
 		int nb_words_tweet_clean = 0;
