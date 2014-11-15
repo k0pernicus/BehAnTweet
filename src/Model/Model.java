@@ -199,8 +199,7 @@ public class Model extends Observable {
 		return sb.toString();
 	}
 
-
-	public String getEvaluationTweet(String tweet_clean) {
+	public String getEvaluationDictTweet(String tweet_clean) {
 		int result = 0;
 		String[] split_tweet = tweet_clean.trim().split(" ");
 		List<String> liste_positive = Arrays.asList(this.dico_positif.getDictionnaire());
