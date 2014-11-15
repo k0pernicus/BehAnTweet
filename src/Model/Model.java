@@ -215,6 +215,42 @@ public class Model extends Observable {
 			return "Indetermine";
 	}
 	
+	public String setEvaluationKNN(String tweet) {
+		
+		float rstPositif = 0f;
+		float rstNegatif = 0f;
+		float rstIndetermine = 0f;
+		
+		for (String tweet_positif : this.tableau_Positif) {
+			rstPositif += getEvaluationKNN(tweet_positif, tweet);
+		}
+		
+		rstPositif = rstPositif / this.tableau_Positif.size();
+		
+		for (String tweet_negatif : this.tableau_Negatif) {
+			rstNegatif += getEvaluationKNN(tweet_negatif, tweet);
+		}
+		
+		rstNegatif = rstNegatif / this.tableau_Negatif.size();
+		
+		for (String tweet_indet : this.tableau_Indetermine) {
+			rstIndetermine += getEvaluationKNN(tweet_indet, tweet);
+		}
+		
+		rstIndetermine = rstIndetermine / this.tableau_Indetermine.size();
+		
+		if (rstPositif >= rstNegatif) {
+			if (rstPositif > rstIndetermine)
+				return "Positif";
+			return "Indetermine";
+		}
+		else {
+			if (rstNegatif >= rstIndetermine)
+				return "Indetermine";
+			return "Negatif";
+		}
+	}
+	
 	public int getEvaluationKNN(String tweet_clean, String tweet) {
 		
 		int compteur = 0;
