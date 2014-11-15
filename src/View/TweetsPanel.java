@@ -43,14 +43,34 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		String content = "";
 		String contentClean = "";
 		String contentText = "";
-		model.transformTweet();
-		for (Status status : model.getResult().getTweets()) {
-			content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
-			contentClean = model.cleanTweet(content);
-			contentText = '@' + status.getText().replace('\n', ' ');
-			if(!contentClean.equals("RT")) {
-				String eval = model.getEvaluationDictTweet(contentClean);
-				tweetsList.add(new Tweet(content, contentClean, contentText, eval));
+		if (this.evaluation_tweet == "KNN") {
+			ArrayList<String> contentTweets = new ArrayList<String>();
+			model.transformTweet();
+			for (Status status : model.getResult().getTweets()) {
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				contentClean = model.cleanTweet(content);
+				contentText = '@' + status.getText().replace('\n', ' ');
+				if(!contentClean.equals("RT"))
+					contentTweets.add(contentText);
+			}
+			int[] groupsTweet = model.getGroups(contentTweets);
+			for (int i = 0; i < groupsTweet.length; i++)
+				System.out.println("Tweet "+i+" : "+groupsTweet[i]+"\n");
+			String[] getKNNTweets = model.getEvaluationKNNTweet(contentTweets);
+			for (int i = 0; i < getKNNTweets.length; i++) {
+				System.out.println("Tweet "+i+" : "+groupsTweet[i]+" == "+getKNNTweets[groupsTweet[i]]+"\n");
+				tweetsList.add(new Tweet("", "", contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
+			}
+		}
+		if (this.evaluation_tweet == "Dict") {
+			for (Status status : model.getResult().getTweets()) {
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				contentClean = model.cleanTweet(content);
+				contentText = '@' + status.getText().replace('\n', ' ');
+				if(!contentClean.equals("RT")) {
+					String eval = model.getResultEvaluationDictTweet(contentClean);
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval));
+				}
 			}
 		}
 		
