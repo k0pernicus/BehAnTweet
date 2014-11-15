@@ -17,7 +17,7 @@ Ce qu'il reste à faire
 ----------------------
 
 ###Fonctionnalités
-*	Réalisation du KNN (Antonin)
+*	Réalisation du KNN (Antonin) -> EN COURS
 *	Réalisation de la classification Baysienne (Alexandre)
 
 ###IHM
@@ -26,5 +26,5 @@ Ce qu'il reste à faire
 ###Algorithmique
 *	Recherche dichotomique dans le getEvaluationTweet() -> Model.Model
 
-###Specifications
-*	valeur de retour KNN : Positif < 0, Indetermine = 0, Negatif > 0
+###Autre
+*	Documentation + nettoyage du code
