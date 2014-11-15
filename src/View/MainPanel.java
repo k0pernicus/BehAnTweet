@@ -2,20 +2,15 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.ScrollPane;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
-import twitter4j.Status;
-import Controler.SearchActionListener;
 import Model.Model;
 
 
