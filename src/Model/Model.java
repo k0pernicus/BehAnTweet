@@ -2,7 +2,6 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -110,19 +109,13 @@ public class Model extends Observable {
 				String avis = words[6];
 				switch (avis) {
 				case "Indetermine":
-					for (String string : tweet.split(" ")) {
-						tableau_Indetermine.add(string);
-					}
+					tableau_Indetermine.add(tweet);
 					break;
 				case "Positif":
-					for (String string : tweet.split(" ")) {
-						tableau_Positif.add(string);
-					}
+					tableau_Positif.add(tweet);
 					break;
 				case "Negatif":
-					for (String string : tweet.split(" ")) {
-						tableau_Negatif.add(string);
-					}
+					tableau_Negatif.add(tweet);
 					break;
 				}
 			}
@@ -222,11 +215,29 @@ public class Model extends Observable {
 			return "Indetermine";
 	}
 	
-	public String getEvaluationKNN(String tweet_clean) {
+	public int getEvaluationKNN(String tweet_clean, String tweet) {
 		
+		int compteur = 0;
+		int nb_words_tweet_clean = 0;
+		int nb_words_tweet = 0;
+		int evaluation = 0;
 		
+		String[] tweet_clean_words = tweet_clean.split(" ");
+		String[] tweet_words = tweet.split(" ");
 		
-		return tweet_clean;
+		nb_words_tweet_clean = tweet_clean_words.length;
+		nb_words_tweet = tweet_words.length;
+		
+		List<String> liste_words = Arrays.asList(tweet_clean_words);
+		
+		for (String string : tweet_words) {
+			if (liste_words.contains(string))
+				compteur++;
+		}
+		
+		evaluation = (nb_words_tweet + nb_words_tweet_clean) - (compteur * 2);
+		
+		return evaluation;
 		
 	}
 
