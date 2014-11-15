@@ -199,7 +199,7 @@ public class Model extends Observable {
 		return sb.toString();
 	}
 
-	public String getEvaluationDictTweet(String tweet_clean) {
+	public int getEvaluationDictTweet(String tweet_clean) {
 		int result = 0;
 		String[] split_tweet = tweet_clean.trim().split(" ");
 		List<String> liste_positive = Arrays.asList(this.dico_positif.getDictionnaire());
@@ -212,6 +212,15 @@ public class Model extends Observable {
 				result += this.dico_negatif.getNbr();
 			}
 		}
+		return result;
+	}
+	
+	public String getResultEvaluationDictTweet(String tweet_clean) {
+		int result = getEvaluationDictTweet(tweet_clean);
+		return this.getEvaluationByResult(result);
+	}
+	
+	public String getEvaluationByResult(int result) {
 		if (result > 0)
 			return "Negatif";
 		if (result < 0)
@@ -237,29 +246,46 @@ public class Model extends Observable {
 	/**
 	 * Méthode permettant de retourner un tableau d'entiers, correspondant au tableau de groupes de chaque tweet
 	 */
-	public void getEvaluationKNNTweet() {
-		int[] groups = getGroups();
-		int nbGroups = groups.length;
-		ArrayList<ArrayList<String>> arrayGroups = new ArrayList<ArrayList<String>>();
+	public String[] getEvaluationKNNTweet(ArrayList<String> tweets) {
+		int[] groups = this.getGroups(tweets);
+		int nbGroups = this.getNbGroups(groups);
+		int sizetab = groups.length;
+		String evaluation_groups[] = new String[nbGroups];
 		for (int i = 0; i < nbGroups; i++) {
-			arrayGroups.get(groups[i]).set(arrayGroups.get(groups[i]).size(), this.tableau_tweets.get(i));
+			int res = 0;
+			int nbr = 0;
+			for (int j = 0; j < sizetab; j++) {
+				if (groups[j] == i) {
+					res += getEvaluationDictTweet(tweets.get(j));
+					nbr++;
+				}
+			}
+			evaluation_groups[i] = this.getEvaluationByResult(res / nbr);
 		}
-		//Positif/Négatif/Intermediaire
-		// ---> A déterminer
+		return evaluation_groups;
 	}
 	
-	public int[] getGroups() {
+	public int getNbGroups(int[] groups) {
+		int max = 0;
+		for (int i = 0; i < groups.length; i++) {
+			if (max < groups[i])
+				max = groups[i];
+		}
+		return max;
+	}
+	
+	public int[] getGroups(ArrayList<String> tweets) {
 		int groupe_nbr = 0;
-		int groupes[] = new int[this.tableau_tweets.size()];
+		int groupes[] = new int[tweets.size()];
 		for(int i = 0; i < groupes.length; i++)
 			groupes[i] = -1;
-		for(int i = 0; i < this.tableau_tweets.size(); i++) {
+		for(int i = 0; i < tweets.size(); i++) {
 			if (groupes[i] == -1) {
 				groupes[i] = groupe_nbr;
 				groupe_nbr++;
 			}
-			for(int j = i+1; j < this.tableau_tweets.size(); j++) {
-				if (this.calculKNNTweet(this.tableau_tweets.get(i), this.tableau_tweets.get(j)) <= KNN_LIMITS)
+			for(int j = i+1; j < tweets.size(); j++) {
+				if (this.calculKNNTweet(tweets.get(i), tweets.get(j)) <= KNN_LIMITS)
 					groupes[j] = groupes[i];
 			}
 		}
