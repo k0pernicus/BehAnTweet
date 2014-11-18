@@ -85,7 +85,8 @@ public class MainPanel extends JPanel implements Observer{
 	}
 	
 	public int getSelectedNbrTweets() {
-		return Integer.parseInt((String) this.propertiesPanel.getNbrTweets().getSelectedItem());
+		int nbrTweets = Integer.parseInt((String) this.propertiesPanel.getNbrTweets().getSelectedItem()); 
+		return nbrTweets;
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class MainPanel extends JPanel implements Observer{
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		/*
-		 * rafraichit le panel
+		 * rafraîchit le panel
 		 */
 		repaint(); 
 		revalidate();
