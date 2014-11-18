@@ -47,6 +47,10 @@ public class PropertiesPanel extends JPanel implements Observer {
 	
 	}
 
+	public JComboBox getNbrTweets() {
+		return this.addNbrTweets;
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
