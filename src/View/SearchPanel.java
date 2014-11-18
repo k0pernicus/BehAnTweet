@@ -30,7 +30,7 @@ public class SearchPanel extends JPanel implements Observer {
 	/*
 	 * champ texte contenant l'URL du logo
 	 */
-	private String URL_logo = "./images/Alpha_Bahamut_LOGO_PROTO2.jpg";
+	private String URL_logo = "./images/Bahamut_icon.jpg";
 	/*
 	 * logo contient le logo du projet
 	 */
