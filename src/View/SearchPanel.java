@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +9,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -62,7 +65,9 @@ public class SearchPanel extends JPanel implements Observer {
 		setLayout(new BorderLayout(0, 0));
 		
 		//Construction du logo
-		this.logo = ImageIO.read(new File(URL_logo));
+		BufferedImage myPicture = ImageIO.read(new File(URL_logo));
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		add(picLabel, BorderLayout.WEST);
 		
 		//Construction de la searchBar
 		this.searchBar = new JTextField();
