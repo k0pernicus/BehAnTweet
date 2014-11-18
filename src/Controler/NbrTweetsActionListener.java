@@ -7,6 +7,11 @@ import javax.swing.JComboBox;
 
 import Model.Model;
 
+/**
+ * 
+ * @author antonin
+ *
+ */
 public class NbrTweetsActionListener implements ActionListener {
 	
 	private Model model;
@@ -18,7 +23,7 @@ public class NbrTweetsActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox rstComboBox = (JComboBox) e.getSource();
-		this.model.setNbrTweets(Integer.parseInt((String) rstComboBox.getSelectedItem()));
+		//this.model.setNbrTweets(Integer.parseInt((String) rstComboBox.getSelectedItem()));
 	}
 
 }

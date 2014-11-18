@@ -4,6 +4,7 @@ import java.io.File;
 
 /**
  * Classe permettant de récupérer des informations sur un fichier CSV
+ * @author antonin
  */
 public class CsvFile {
 
