@@ -68,6 +68,7 @@ public class Model extends Observable {
 		}
 	}
 	
+	
 	//MAIN METHOD
 	/**
 	 * MÃ©thode permettant de faire une requÃªte sur Twitter
