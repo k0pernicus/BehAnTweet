@@ -50,7 +50,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
-				contentText = '@' + status.getText().replace('\n', ' ');
+				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT"))
 					contentTweets.add(contentText);
 			}
@@ -67,7 +67,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
-				contentText = '@' + status.getText().replace('\n', ' ');
+				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = model.getResultEvaluationDictTweet(contentClean);
 					tweetsList.add(new Tweet(content, contentClean, contentText, eval));

@@ -1,3 +1,4 @@
+import Model.KNN_Model;
 import Model.Model;
 import View.MainFrame;
 
