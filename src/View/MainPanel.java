@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
