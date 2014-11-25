@@ -53,6 +53,20 @@ public class Model extends Observable {
 	
 	protected ArrayList<String> tableau_tweets;
 	
+	//CONSTRUCTEUR
+	
+	 
+	public Model(){
+		super();
+		try {
+			generateCSVFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	//MAIN METHOD
 	/**
 	 * MÃ©thode permettant de faire une requÃªte sur Twitter
@@ -77,6 +91,7 @@ public class Model extends Observable {
 		}
 
 	}
+
 
 	//CSV FILE METHOD
 
@@ -111,21 +126,42 @@ public class Model extends Observable {
 				String[] words = line.split(";");
 				String tweet = words[2];
 				String avis = words[6];
-				switch (avis) {
-				case "Indetermine":
-					tableau_Indetermine.add(tweet);
-					break;
-				case "Positif":
-					tableau_Positif.add(tweet);
-					break;
-				case "Negatif":
-					tableau_Negatif.add(tweet);
-					break;
-				}
+//				switch (avis) {
+//				case "Indetermine":
+//					tableau_Indetermine.add(tweet);
+//					break;
+//				case "Positif":
+//					tableau_Positif.add(tweet);
+//					break;
+//				case "Negatif":
+//					tableau_Negatif.add(tweet);
+//					break;
+//				}
 			}
 			buffer.close();
 		}
 	}
+	
+	/*
+	 * Fonction permettant de stocker dans une array list tous les mots des tweets nettoyés
+	 */
+	public void getByCSVFile1Array() throws IOException {
+		File csvFile = new File(CLEAN_FILE_NAME);
+		if (!csvFile.exists()) 
+			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+		else{
+			BufferedReader buffer = new BufferedReader(new FileReader(csvFile));
+			String line;
+			while ((line = buffer.readLine()) != null) {
+				String[] words = line.split(";");
+				String tweet = words[2];
+				String avis = words[6];
+				tableau_Indetermine.add(tweet);
+			}
+			buffer.close();
+		}
+	}
+	
 
 	public void generateDictionnaireFile() throws IOException {
 		this.dico_positif = new Dictionnaire("src/resources/positive.txt", -1);
@@ -152,10 +188,12 @@ public class Model extends Observable {
 
 	}
 
-	public void generateCSVFile() {
-		new File("src/resources/", "tweets.csv");
-		new File("src/resources/","tweets_clean.csv");
-
+	public void generateCSVFile() throws IOException {
+		new File("src/resources/", "tweets.csv").createNewFile();
+		new File("src/resources/", "tweets_clean.csv").createNewFile();
+		new File("src/resources/", "base_apprentissage.csv").createNewFile();
+		 
+		
 	}
 
 	public String cleanTweet(String content) {
