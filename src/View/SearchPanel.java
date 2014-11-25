@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,12 +9,10 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Controler.SearchActionListener;
 import Model.Model;
 
 /**
