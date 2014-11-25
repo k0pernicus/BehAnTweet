@@ -27,8 +27,13 @@ public class ResultPanel extends JPanel implements Observer {
 		add(this.tweets_panel, BorderLayout.CENTER);
 		
 		this.stat_panel = new StatPanel(model);
+		this.stat_panel.setVisible(false);
 		add(this.stat_panel, BorderLayout.EAST);
 		
+	}
+	
+	public void setVisibilityStatPanel(boolean bool) {
+		this.stat_panel.setVisible(bool);
 	}
 	
 	public String[] getTweetList(){
