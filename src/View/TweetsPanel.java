@@ -14,6 +14,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import twitter4j.Status;
+import Model.KNN_Model;
 import Model.Model;
 
 public class TweetsPanel extends JPanel implements Observer, Scrollable{
@@ -23,10 +24,6 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	private Model model;
 	
 	private ArrayList<Tweet> tweetsList;
-	
-	//Méthode d'évaluation - par défaut : Dictionnaire
-	//Autre méthode : "KNN"
-	private String evaluation_tweet = "KNN";
 	
 	public TweetsPanel(Model model) {
 		super();
@@ -43,30 +40,37 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		String content = "";
 		String contentClean = "";
 		String contentText = "";
-		if (this.evaluation_tweet == "KNN") {
+		String classname = this.model.getClassname();
+		if (classname == "KNN_Model") {
+			System.out.println("========================");
+			System.out.println("KNN");
+			System.out.println("========================");
 			ArrayList<String> contentTweets = new ArrayList<String>();
 			model.transformTweet();
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
-				contentText = '@' + status.getText().replace('\n', ' ');
+				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT"))
 					contentTweets.add(contentText);
 			}
-			int[] groupsTweet = model.getGroups(contentTweets);
+			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
 			for (int i = 0; i < groupsTweet.length; i++)
 				System.out.println("Tweet "+i+" : "+groupsTweet[i]+"\n");
-			String[] getKNNTweets = model.getEvaluationKNNTweet(contentTweets);
+			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < getKNNTweets.length; i++) {
 				System.out.println("Tweet "+i+" : "+groupsTweet[i]+" == "+getKNNTweets[groupsTweet[i]]+"\n");
 				tweetsList.add(new Tweet("", "", contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
 			}
 		}
-		if (this.evaluation_tweet == "Dict") {
+		if (classname == "Dict_Model") {
+			System.out.println("========================");
+			System.out.println("DICT");
+			System.out.println("========================");
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
-				contentText = '@' + status.getText().replace('\n', ' ');
+				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = model.getResultEvaluationDictTweet(contentClean);
 					tweetsList.add(new Tweet(content, contentClean, contentText, eval));
