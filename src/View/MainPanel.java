@@ -79,6 +79,10 @@ public class MainPanel extends JPanel implements Observer{
 		
 	}
 	
+	/**
+	 * Méthode permettant de retourner le nombre de tweets voulus, par page
+	 * @return Le nombre de tweets par page
+	 */
 	public int getSelectedNbrTweets() {
 		int nbrTweets = Integer.parseInt((String) this.propertiesPanel.getNbrTweets().getSelectedItem()); 
 		return nbrTweets;
