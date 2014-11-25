@@ -130,17 +130,17 @@ public class Model extends Observable {
 				String[] words = line.split(";");
 				String tweet = words[2];
 				String avis = words[6];
-//				switch (avis) {
-//				case "Indetermine":
-//					tableau_Indetermine.add(tweet);
-//					break;
-//				case "Positif":
-//					tableau_Positif.add(tweet);
-//					break;
-//				case "Negatif":
-//					tableau_Negatif.add(tweet);
-//					break;
-//				}
+				switch (avis) {
+				case "Indetermine":
+					tableau_Indetermine.add(tweet);
+					break;
+				case "Positif":
+					tableau_Positif.add(tweet);
+					break;
+				case "Negatif":
+					tableau_Negatif.add(tweet);
+					break;
+				}
 			}
 			buffer.close();
 		}
