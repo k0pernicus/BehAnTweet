@@ -32,12 +32,12 @@ public class Model extends Observable {
 	/**
 	 * Attribut contenant la chaÃ®ne de caractÃ¨res contenant le chemin relatif du fichier CSV contenant tous les tweets (non-nettoyÃ©s)
 	 */
-	private static final String FILE_NAME = "src/resources/tweets.csv";
+	protected final String FILE_NAME = "src/resources/tweets.csv";
 
 	private static final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
 	
 	private static final Integer KNN_LIMITS = 10;
-	
+
 	/**
 	 * Attribut contenant le rÃ©sultat de la recherche
 	 */

@@ -34,17 +34,14 @@ public class MainPanel extends JPanel implements Observer{
 	private SearchPanel searchPanel;
 	
 	/*
+	 * Zone permettant de choisir plusieurs propriétés quant au projet
+	 */
+	private PropertiesPanel propertiesPanel;
+	
+	/*
 	 * Modele contenant les méthodes permettant d'interagir avec les données via l'interface graphique 
 	 */
 	private Model model;
-	
-	//Nombre de tweets a retourner
-	private String[] nbrTweets;
-	
-	/*
-	 * Boite deroulante avec les choix predefinient du nombre de tweets a recuperer
-	 */
-	private JComboBox addNbrTweets;
 
 	/**
 	 * 
@@ -63,10 +60,6 @@ public class MainPanel extends JPanel implements Observer{
 		 */
 		this.model = model;
 		model.addObserver(this);
-		/*
-		 * set des quantites par defaut des tweets recuperables
-		 */
-		nbrTweets = new String[] {"20", "40", "60", "80", "100"};
 		
 		/*
 		 * ajout des differents composants qui composeront notre panel
@@ -79,18 +72,16 @@ public class MainPanel extends JPanel implements Observer{
 		
 		/* #searchPanel */
 		this.searchPanel = new SearchPanel(this.model);
-		add(this.searchPanel, BorderLayout.NORTH);
+		this.add(this.searchPanel, BorderLayout.NORTH);
 		
-		/* #NbrTweets */
-		addNbrTweets = new JComboBox(nbrTweets);
-		addNbrTweets.setName("NbrTweetsButton");
-		addNbrTweets.setSelectedIndex(0);
-		add(addNbrTweets, BorderLayout.SOUTH);
+		this.propertiesPanel = new PropertiesPanel(this.model);
+		this.add(this.propertiesPanel, BorderLayout.SOUTH);
 		
 	}
 	
 	public int getSelectedNbrTweets() {
-		return Integer.parseInt((String) this.addNbrTweets.getSelectedItem());
+		int nbrTweets = Integer.parseInt((String) this.propertiesPanel.getNbrTweets().getSelectedItem()); 
+		return nbrTweets;
 	}
 
 	@Override
@@ -98,7 +89,7 @@ public class MainPanel extends JPanel implements Observer{
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		/*
-		 * rafraichit le panel
+		 * rafraîchit le panel
 		 */
 		repaint(); 
 		revalidate();
