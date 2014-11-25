@@ -25,7 +25,7 @@ public class MainPanel extends JPanel implements Observer{
 	/*
 	 * Zone de texte contenant les tweets a afficher
 	 */
-	protected TweetsPanel tweet_pane;
+	protected ResultPanel resultPanel;
 	
 	/*
 	 * Zone permettant à l'utilisateur d'entrée le mot clef qu'il désir pour sa recherche
@@ -64,9 +64,9 @@ public class MainPanel extends JPanel implements Observer{
 		 * ajout des differents composants qui composeront notre panel
 		 */
 		/* #TweetPane */
-		tweet_pane = new TweetsPanel(model);
+		resultPanel = new ResultPanel(model);
 		scrollPane = new JScrollPane();
-		scrollPane.setViewportView(tweet_pane);
+		scrollPane.setViewportView(resultPanel);
 		add(scrollPane, BorderLayout.CENTER);
 		
 		/* #searchPanel */
@@ -126,6 +126,6 @@ public class MainPanel extends JPanel implements Observer{
 	}
 	
 	public String[] getTweetList(){
-		return tweet_pane.getTweetList();
+		return resultPanel.getTweetList();
 	}
 }
