@@ -8,7 +8,6 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import Libraries.PieChart;
 import Model.Model;
 
 public class StatPanel extends JPanel implements Observer{
@@ -18,7 +17,8 @@ public class StatPanel extends JPanel implements Observer{
 	public StatPanel(Model model) {
 		this.model = model;
 		
-		
+		PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
+		add(demo);
 		
 	}
 
