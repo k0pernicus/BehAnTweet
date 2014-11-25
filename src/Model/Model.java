@@ -53,8 +53,6 @@ public class Model extends Observable {
 	
 	protected ArrayList<String> tableau_tweets;
 	
-	protected String classname;
-	
 	//CONSTRUCTEUR
 	
 	 
@@ -77,7 +75,7 @@ public class Model extends Observable {
 	 * @throws IOException Exception si l'Ã©criture des tweets n'a pu se faire
 	 * @throws FileNotFoundException Exception si le fichier .csv (utilisÃ© pour y Ã©crire les tweets) n'est pas trouvÃ©
 	 */
-	public void run(String request, int nbrTweets, String classname) throws TwitterException, FileNotFoundException, IOException{
+	public void run(String request, int nbrTweets) throws TwitterException, FileNotFoundException, IOException{
 
 		Twitter twitter = TwitterFactory.getSingleton();
 
@@ -87,16 +85,11 @@ public class Model extends Observable {
 		query.setCount(nbrTweets);
 		try {
 			this.result = twitter.search(query);
-			this.classname = classname;
 			updateObservers();
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
 
-	}
-	
-	public String getClassname() {
-		return this.classname;
 	}
 
 
@@ -133,17 +126,17 @@ public class Model extends Observable {
 				String[] words = line.split(";");
 				String tweet = words[2];
 				String avis = words[6];
-				switch (avis) {
-					case "Indetermine":
-						tableau_Indetermine.add(tweet);
-						break;
-					case "Positif":
-						tableau_Positif.add(tweet);
-						break;
-					case "Negatif":
-						tableau_Negatif.add(tweet);
-						break;
-				}
+//				switch (avis) {
+//				case "Indetermine":
+//					tableau_Indetermine.add(tweet);
+//					break;
+//				case "Positif":
+//					tableau_Positif.add(tweet);
+//					break;
+//				case "Negatif":
+//					tableau_Negatif.add(tweet);
+//					break;
+//				}
 			}
 			buffer.close();
 		}
