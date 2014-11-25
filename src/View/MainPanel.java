@@ -128,4 +128,8 @@ public class MainPanel extends JPanel implements Observer{
 	public String[] getTweetList(){
 		return resultPanel.getTweetList();
 	}
+	
+	public ResultPanel getResultPanel() {
+		return this.resultPanel;
+	}
 }
