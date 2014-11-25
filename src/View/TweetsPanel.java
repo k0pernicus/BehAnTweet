@@ -14,6 +14,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import twitter4j.Status;
+import Model.KNN_Model;
 import Model.Model;
 
 public class TweetsPanel extends JPanel implements Observer, Scrollable{
@@ -53,10 +54,10 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				if(!contentClean.equals("RT"))
 					contentTweets.add(contentText);
 			}
-			int[] groupsTweet = model.getGroups(contentTweets);
+			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
 			for (int i = 0; i < groupsTweet.length; i++)
 				System.out.println("Tweet "+i+" : "+groupsTweet[i]+"\n");
-			String[] getKNNTweets = model.getEvaluationKNNTweet(contentTweets);
+			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < getKNNTweets.length; i++) {
 				System.out.println("Tweet "+i+" : "+groupsTweet[i]+" == "+getKNNTweets[groupsTweet[i]]+"\n");
 				tweetsList.add(new Tweet("", "", contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
