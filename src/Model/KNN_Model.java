@@ -20,7 +20,9 @@ public class KNN_Model extends Model {
 	}
 	
 	/**
-	 * Méthode permettant de retourner un tableau d'entiers, correspondant au tableau de groupes de chaque tweet
+	 * Méthode permettant de récupérer l'évaluation d'un groupe de tweets - renvoie "Positif", "Negatif" ou "Indetermine"
+	 * @param tweets Une liste de tweets
+	 * @return Le tableau de groupes avec son évaluation
 	 */
 	public String[] getEvaluationKNNTweet(ArrayList<String> tweets) {
 		int[] groups = this.getGroups(tweets);
@@ -63,8 +65,10 @@ public class KNN_Model extends Model {
 	public int[] getGroups(ArrayList<String> tweets) {
 		int groupe_nbr = 0;
 		int groupes[] = new int[tweets.size()];
+		//Initialisation du tableau de groupes
 		for(int i = 0; i < groupes.length; i++)
 			groupes[i] = -1;
+		//Calcul des groupes
 		for(int i = 0; i < tweets.size(); i++) {
 			if (groupes[i] == -1) {
 				groupes[i] = groupe_nbr;
