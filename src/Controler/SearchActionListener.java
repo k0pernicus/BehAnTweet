@@ -38,7 +38,7 @@ public class SearchActionListener implements ActionListener {
 		MainPanel sBParentParent = (MainPanel) searchButton.getParent().getParent().getParent();
 		sBParent.setSearchButton(false);
 		try {
-			model.run(sBParentParent.getSearchText(), sBParentParent.getSelectedNbrTweets());
+			model.run(sBParentParent.getSearchText(), sBParentParent.getSelectedNbrTweets(), sBParentParent.getSelectedClassname());
 		} catch (FileNotFoundException fileNotFound) {
 			//Fichier non trouvé
 			fileNotFound.printStackTrace();
