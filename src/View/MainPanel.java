@@ -87,6 +87,21 @@ public class MainPanel extends JPanel implements Observer{
 		int nbrTweets = Integer.parseInt((String) this.propertiesPanel.getNbrTweets().getSelectedItem()); 
 		return nbrTweets;
 	}
+	
+	/**
+	 * Méthode permettant de retourner le nom de la classe de classification voulue
+	 * @return La classe de classification voulue
+	 */
+	public String getSelectedClassname() {
+		switch((String) this.propertiesPanel.getClassname().getSelectedItem()) {
+			case "KNN":
+				return "KNN_Model";
+			case "Bayes":
+				return "Bayes_Model";
+			default:
+				return "Dict_Model";
+		}
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
