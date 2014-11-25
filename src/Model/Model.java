@@ -53,6 +53,8 @@ public class Model extends Observable {
 	
 	protected ArrayList<String> tableau_tweets;
 	
+	protected String classname;
+	
 	//MAIN METHOD
 	/**
 	 * MÃ©thode permettant de faire une requÃªte sur Twitter
@@ -61,7 +63,7 @@ public class Model extends Observable {
 	 * @throws IOException Exception si l'Ã©criture des tweets n'a pu se faire
 	 * @throws FileNotFoundException Exception si le fichier .csv (utilisÃ© pour y Ã©crire les tweets) n'est pas trouvÃ©
 	 */
-	public void run(String request, int nbrTweets) throws TwitterException, FileNotFoundException, IOException{
+	public void run(String request, int nbrTweets, String classname) throws TwitterException, FileNotFoundException, IOException{
 
 		Twitter twitter = TwitterFactory.getSingleton();
 
@@ -71,11 +73,16 @@ public class Model extends Observable {
 		query.setCount(nbrTweets);
 		try {
 			this.result = twitter.search(query);
+			this.classname = classname;
 			updateObservers();
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String getClassname() {
+		return this.classname;
 	}
 
 	//CSV FILE METHOD
