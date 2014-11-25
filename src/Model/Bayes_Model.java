@@ -10,30 +10,30 @@ public class Bayes_Model extends Model {
 
 	enum classe {POSITIVE,NEGATIVE,INDETERMINE};
 
+	//c'est list existe déjà dans model
+	//ArrayList<String> list_POSITIVE;//base d'aprentissage positive
+	protected int nombre_mots_POSITIF;//nombre total de mot dans l'ensemble/* afin d'�viter de devoir le recalculer � chaque fois*/
+	protected int nombre_tweets_POSITIF;//nombre de tweet
 
-	ArrayList<String> list_POSITIVE;//base d'aprentissage positive
-	int nombre_mots_POSITIF;//nombre total de mot dans l'ensemble/* afin d'�viter de devoir le recalculer � chaque fois*/
-	int nombre_tweets_POSITIF;//nombre de tweet
 
+	//ArrayList<String> list_NEGATIVE;//base d'apprentissage negative
+	protected int nombre_mots_NEGATIF;//nombre total de mot dans la classe negative/* afin d'�viter de devoir le recalculer � chaque fois*/
+	protected int nombre_tweets_NEGATIF;//nombre de tweet
 
-	ArrayList<String> list_NEGATIVE;//base d'apprentissage negative
-	int nombre_mots_NEGATIF;//nombre total de mot dans la classe negative/* afin d'�viter de devoir le recalculer � chaque fois*/
-	int nombre_tweets_NEGATIF;//nombre de tweet
-
-	ArrayList<String> list_INDETERMINE;//base d'apprentissage indetermine
-	int nombre_mots_INDETERMINE;//nombre total de mot dans la classe indetermine/* afin d'�viter de devoir le recalculer � chaque fois*/
-	int nombre_tweets_INDETERMINE;//nombre de tweet
+	//ArrayList<String> list_INDETERMINE;//base d'apprentissage indetermine
+	protected int nombre_mots_INDETERMINE;//nombre total de mot dans la classe indetermine/* afin d'�viter de devoir le recalculer � chaque fois*/
+	protected int nombre_tweets_INDETERMINE;//nombre de tweet
 
 
 	/* constructor */
 	public Bayes_Model() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 
 	/* Set the 3 arraylist with default csv file*/
-	private void init_Array() throws IOException{
+	protected void init_Array() throws IOException{
 		FileReader fileR = new FileReader(new File(super.FILE_NAME));
 		BufferedReader reader = new BufferedReader(fileR);
 		String tweet = "";
@@ -50,7 +50,7 @@ public class Bayes_Model extends Model {
 	// solution : utiliser un estimateur de Laplace
 	//retourner (n(m,c)+1) / (n(c) + nombre total des mot de l'ensemble) 
 	//ne retournera jamais zero
-	private float probOccurenceAdvanced(String mot, classe c){
+	protected float probOccurenceAdvanced(String mot, classe c){
 		float result;
 
 		result = (probOccurenceBasique(mot, c)+1) / (getNombreMots(c)+ getNombreMotsTotal() );
@@ -58,7 +58,7 @@ public class Bayes_Model extends Model {
 		return result;
 	}
 
-	private int getNombreMotsTotal(){
+	protected int getNombreMotsTotal(){
 		int result = 0;
 
 		for(classe c : classe.values()){
@@ -71,7 +71,7 @@ public class Bayes_Model extends Model {
 
 	//n(m,c) -> probabilit� d'occurence du mot m dans un tweet de la classe c
 	// /!\ n(m,c) peut �tre nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
-	private float probOccurenceBasique(String mot, classe c){
+	protected float probOccurenceBasique(String mot, classe c){
 		ArrayList<String> list = getClasse(c);
 		int nb_tweets = getNombreTweets(c);
 		int nb_occur = 0;
@@ -86,21 +86,21 @@ public class Bayes_Model extends Model {
 		return (float)nb_occur/(float)nb_tweets;
 	}
 
-	private ArrayList<String> getClasse(classe c){
+	protected ArrayList<String> getClasse(classe c){
 		switch(c){
 		case POSITIVE : 
-			return list_POSITIVE;
+			return tableau_Positif;
 		case NEGATIVE :
-			return list_NEGATIVE;
+			return tableau_Negatif;
 		case INDETERMINE :
-			return list_INDETERMINE;
+			return tableau_Indetermine;
 		default :
 			return null;
 		}
 	}
 	//n(c) -> nombre de mot de la classe c 
 	//utiliser les attributs "nombre total de mot de la classe c
-	private int getNombreMots(classe c){
+	protected int getNombreMots(classe c){
 		switch(c){
 		case POSITIVE : 
 			return nombre_mots_POSITIF;
@@ -114,7 +114,7 @@ public class Bayes_Model extends Model {
 
 	}
 
-	private int getNombreTweets(classe c){
+	protected int getNombreTweets(classe c){
 		switch(c){
 		case POSITIVE : 
 			return nombre_tweets_POSITIF;
@@ -132,7 +132,7 @@ public class Bayes_Model extends Model {
 	//P(negatif|t) = (P(m1|negatif) * P(m2|negatif) * ... ) * P(negatif)
 	//P(indetermine|t) = (P(m1|indetermine) * P(m2|indetermine) * ... ) * P(indetermine)
 	//la valeur la plus eleve l'emporte
-	private classe algoEvalTweetBayes(String tweet_clean){
+	protected classe algoEvalTweetBayes(String tweet_clean){
 		String[] tab = tweet_clean.split(" ");
 		classe result = classe.POSITIVE;
 		float p_POSITIVE = 1;
@@ -159,7 +159,7 @@ public class Bayes_Model extends Model {
 
 
 	}
-	private int getNombreTweetsTotal(){
+	protected int getNombreTweetsTotal(){
 		int result = 0;
 
 		for(classe c : classe.values()){
