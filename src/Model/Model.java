@@ -75,7 +75,7 @@ public class Model extends Observable {
 	 * @throws IOException Exception si l'Ã©criture des tweets n'a pu se faire
 	 * @throws FileNotFoundException Exception si le fichier .csv (utilisÃ© pour y Ã©crire les tweets) n'est pas trouvÃ©
 	 */
-	public void run(String request, int nbrTweets, String classname) throws TwitterException, FileNotFoundException, IOException{
+	public void run(String request, int nbrTweets, String classname ) throws TwitterException, FileNotFoundException, IOException{
 
 		Twitter twitter = TwitterFactory.getSingleton();
 
