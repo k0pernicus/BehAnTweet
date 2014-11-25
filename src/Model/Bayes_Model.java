@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class Bayes_Model extends Model {
 
+	protected final String BASE_APPRENTISSAGE = "src/resources/base_apprentissage.csv";
+	
 	enum classe {POSITIVE,NEGATIVE,INDETERMINE};
 
 	//c'est list existe déjà dans model
@@ -26,21 +28,17 @@ public class Bayes_Model extends Model {
 
 
 	/* constructor */
-	public Bayes_Model() {
+	public Bayes_Model() throws IOException {
 		super();
+		init_Array();
 		
 	}
 
 
 	/* Set the 3 arraylist with default csv file*/
 	protected void init_Array() throws IOException{
-		FileReader fileR = new FileReader(new File(super.FILE_NAME));
-		BufferedReader reader = new BufferedReader(fileR);
-		String tweet = "";
-		
-		while((tweet = reader.readLine()) != null){
-			
-		}
+		super.getByCSVFile(BASE_APPRENTISSAGE);
+	
 	}
 
 
