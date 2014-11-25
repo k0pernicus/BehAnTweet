@@ -119,8 +119,8 @@ public class Model extends Observable {
 	/*
 	 * Fonction permettant de stocker dans trois array list différentes (en fonction de 'negatif', 'positif', 'indetermine') tous les mots des tweets nettoyés
 	 */
-	public void getByCSVFile() throws IOException {
-		File csvFile = new File(CLEAN_FILE_NAME);
+	public void getByCSVFile(String path) throws IOException {
+		File csvFile = new File(path);
 		if (!csvFile.exists()) 
 			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
 		else{
@@ -145,27 +145,6 @@ public class Model extends Observable {
 			buffer.close();
 		}
 	}
-	
-	/*
-	 * Fonction permettant de stocker dans une array list tous les mots des tweets nettoyés
-	 */
-	public void getByCSVFile1Array() throws IOException {
-		File csvFile = new File(CLEAN_FILE_NAME);
-		if (!csvFile.exists()) 
-			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
-		else{
-			BufferedReader buffer = new BufferedReader(new FileReader(csvFile));
-			String line;
-			while ((line = buffer.readLine()) != null) {
-				String[] words = line.split(";");
-				String tweet = words[2];
-				String avis = words[6];
-				tableau_Indetermine.add(tweet);
-			}
-			buffer.close();
-		}
-	}
-	
 
 	public void generateDictionnaireFile() throws IOException {
 		this.dico_positif = new Dictionnaire("src/resources/positive.txt", -1);
