@@ -34,26 +34,24 @@ public class Model extends Observable {
 	 */
 	protected final String FILE_NAME = "src/resources/tweets.csv";
 
-	private static final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
-	
-	private static final Integer KNN_LIMITS = 10;
+	protected final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
 
 	/**
 	 * Attribut contenant le rÃ©sultat de la recherche
 	 */
-	private QueryResult result;
+	protected QueryResult result;
 
-	private Dictionnaire dico_positif;
+	protected Dictionnaire dico_positif;
 
-	private Dictionnaire dico_negatif;
+	protected Dictionnaire dico_negatif;
 	
-	private ArrayList<String> tableau_Positif;
+	protected ArrayList<String> tableau_Positif;
 
-	private ArrayList<String> tableau_Indetermine;
+	protected ArrayList<String> tableau_Indetermine;
 
-	private ArrayList<String> tableau_Negatif;
+	protected ArrayList<String> tableau_Negatif;
 	
-	private ArrayList<String> tableau_tweets;
+	protected ArrayList<String> tableau_tweets;
 	
 	//MAIN METHOD
 	/**
