@@ -45,22 +45,24 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			System.out.println("========================");
 			System.out.println("KNN");
 			System.out.println("========================");
+			ArrayList<String> contentArray = new ArrayList<String>();
+			ArrayList<String> contentCleanArray = new ArrayList<String>();
 			ArrayList<String> contentTweets = new ArrayList<String>();
 			model.transformTweet();
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
-				if(!contentClean.equals("RT"))
+				if(!contentClean.equals("RT")) {
+					contentArray.add(content);
+					contentCleanArray.add(contentClean);
 					contentTweets.add(contentText);
+				}
 			}
 			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
-			for (int i = 0; i < groupsTweet.length; i++)
-				System.out.println("Tweet "+i+" : "+groupsTweet[i]+"\n");
 			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < getKNNTweets.length; i++) {
-				System.out.println("Tweet "+i+" : "+groupsTweet[i]+" == "+getKNNTweets[groupsTweet[i]]+"\n");
-				tweetsList.add(new Tweet("", "", contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
+				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
 			}
 		}
 		if (classname == "Dict_Model") {
