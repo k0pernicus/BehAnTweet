@@ -24,7 +24,7 @@ public class ResultPanel extends JPanel implements Observer {
 		this.model.addObserver((Observer) this);
 		
 		this.tweets_panel = new TweetsPanel(model);
-		add(this.tweets_panel, BorderLayout.CENTER);
+		add(this.tweets_panel, BorderLayout.WEST);
 		
 		this.stat_panel = new StatPanel(model);
 		this.stat_panel.setVisible(false);
