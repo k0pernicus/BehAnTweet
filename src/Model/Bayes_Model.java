@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
+import sun.security.action.GetBooleanAction;
+
 public class Bayes_Model extends KNN_Model {
 
 	protected final String BASE_APPRENTISSAGE = "src/resources/base_apprentissage.csv";
+	
 	
 	enum classe {POSITIVE,NEGATIVE,INDETERMINE};
 
@@ -27,6 +32,9 @@ public class Bayes_Model extends KNN_Model {
 
 	protected int nombre_de_mot_TOTAL; 
 
+	private int nombre_occurence_total;
+	
+	
 	/* constructor */
 	public Bayes_Model() {
 		super();
@@ -60,6 +68,7 @@ public class Bayes_Model extends KNN_Model {
 	}
 	
 	protected void init_Nb_Mots(){
+		
 		for (String str : tableau_Positif)
 			nombre_mots_POSITIF += (1 + this.stringOccur(str.trim(), " " ));
 		
@@ -81,11 +90,16 @@ public class Bayes_Model extends KNN_Model {
 	//retourner (n(m,c)+1) / (n(c) + nombre total des mot de l'ensemble) 
 	//ne retournera jamais zero
 	protected float probOccurenceAdvanced(String mot, classe c){
-		float result;
-
-		result = (probOccurenceBasique(mot, c)+1) / (getNombreMots(c)+ nombre_de_mot_TOTAL );
+		float result, pOBP, nBM;
+		pOBP = probOccurenceBasiquePresence(mot, c);
+		if(pOBP == 0)
+			return 0;
+		nBM = getNombreMots(c);
+		result = (pOBP +1) / ( nBM+ nombre_de_mot_TOTAL );
 		
-		System.out.println("Proba Adv : " + result);
+		System.out.println("probOccurenceBasique : " + pOBP);
+		System.out.println("Nb mots              : " + nBM);
+		System.out.println("result               : " + result);
 		return result;
 	}
 
@@ -102,20 +116,41 @@ public class Bayes_Model extends KNN_Model {
 
 	//n(m,c) -> probabilitï¿½ d'occurence du mot m dans un tweet de la classe c
 	// /!\ n(m,c) peut ï¿½tre nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
-	protected float probOccurenceBasique(String mot, classe c){
+	protected float probOccurenceBasiquePresence(String mot, classe c){
 		ArrayList<String> list = getClasse(c);
-		int nb_tweets = getNombreTweets(c);
+		int nb_tweets = getNombreTweets(c);//MODIF
 		int nb_occur = 0;
 
 		for(String str : list){
 			if(str.contains(mot))
 				nb_occur++;
 		}
-
+		System.out.println("OCCURS : " + nb_occur);
 		//System.out.println("s'assurer que ca retourne bien un float : " + (float)nb_occur/(float)nb_tweets);
 
 		return (float)nb_occur/(float)nb_tweets;
 	}
+	
+	//n(m,c) -> probabilitï¿½ d'occurence du mot m dans un tweet de la classe c
+		// /!\ n(m,c) peut ï¿½tre nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
+		protected float probOccurenceBasiqueFrequence(String mot, classe c){
+			ArrayList<String> list = getClasse(c);
+			int nb_tweets = getNombreTweets(c);
+			int nb_occur = 0;
+			int tmp = 0;
+			nombre_occurence_total = 0;
+			for(String str : list){
+				tmp = stringOccur(str,mot);
+				if(tmp != 0){
+					nombre_occurence_total += tmp;
+					nb_occur += 1;
+				}
+			}
+
+			//System.out.println("s'assurer que ca retourne bien un float : " + (float)nb_occur/(float)nb_tweets);
+
+			return (float)nb_occur/(float)nb_tweets;
+		}
 
 	protected ArrayList<String> getClasse(classe c){
 		switch(c){
@@ -164,7 +199,13 @@ public class Bayes_Model extends KNN_Model {
 	//P(indetermine|t) = (P(m1|indetermine) * P(m2|indetermine) * ... ) * P(indetermine)
 	//la valeur la plus eleve l'emporte
 	protected classe algoEvalTweetBayes(String tweet_clean){
-		String[] tab = tweet_clean.split(" ");
+		
+		System.out.println("TWEET CLEAN BITCH : " + tweet_clean);
+		String[] tab_tweet = tweet_clean.split(";");
+		String string_text = tab_tweet[2];
+		System.out.println("STRING TEXT BITCH : " + string_text);
+		String[] tab_text = string_text.split(" ");
+		
 		classe result = classe.POSITIVE;
 		float p_POSITIVE = 1;
 		float p_NEGATIVE = 1;
@@ -173,34 +214,50 @@ public class Bayes_Model extends KNN_Model {
 //		p_NEGATIVE    = ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
 //		p_INDETERMINE = ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
 
-		for(String str : tab) {
-			p_POSITIVE    *= probOccurenceAdvanced(str, classe.POSITIVE);
-			p_NEGATIVE    *= probOccurenceAdvanced(str, classe.NEGATIVE);
-			p_INDETERMINE *= probOccurenceAdvanced(str,classe.INDETERMINE);
+		for(String str : tab_text) {
+			float tmp = probOccurenceAdvanced(str , classe.POSITIVE);
+			System.out.println("Proba Positif EN COURS 1   : " + p_POSITIVE);
+			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
+			System.out.println("Proba Positif EN COURS 2   : " + p_POSITIVE);
+			tmp = probOccurenceAdvanced(str, classe.NEGATIVE);
+			System.out.println("Proba Negatif EN COURS 1  : " + p_NEGATIVE);
+			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
+			System.out.println("Proba Negatif EN COURS 2  : " + p_NEGATIVE);
+
+			tmp = probOccurenceAdvanced(str,classe.INDETERMINE);
+			System.out.println("Proba Indeter EN COURS 1  : " + p_INDETERMINE);
+			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
+			System.out.println("Proba Indeter EN COURS 2  : " + p_INDETERMINE);
 		}
 		
-		
-		System.out.println("Proba Positif avant : " + p_POSITIVE);
-		System.out.println("Proba Negatif avant : " + p_NEGATIVE);
-		System.out.println("Proba Indeter avant : " + p_INDETERMINE);
+		System.out.println("Proba Positif av : " + p_POSITIVE);
+		System.out.println("Proba Negatif av : " + p_NEGATIVE);
+		System.out.println("Proba Indeter av  : " + p_INDETERMINE);
+
 		
 		
 		p_POSITIVE    *= ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
 		p_NEGATIVE    *= ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
 		p_INDETERMINE *= ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
 		
-		System.out.println("nb positif : " + ((float)getNombreTweets(classe.POSITIVE)    /* getNombreTweetsTotal()*/));
-		System.out.println("nb negatif : " + ((float)getNombreTweets(classe.NEGATIVE)    /* getNombreTweetsTotal()*/));
-		System.out.println("nb indeter : " + ((float)getNombreTweets(classe.INDETERMINE) /* getNombreTweetsTotal()*/));
-		
-		System.out.println("proportion positif apres : " + ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal()));
-		System.out.println("proportion negatif apres : " + ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal()));
-		System.out.println("proportion indeter apres : " + ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal()));
-		
-		
+//		System.out.println("nb positif : " + ((float)getNombreTweets(classe.POSITIVE)    /* getNombreTweetsTotal()*/));
+//		System.out.println("nb negatif : " + ((float)getNombreTweets(classe.NEGATIVE)    /* getNombreTweetsTotal()*/));
+//		System.out.println("nb indeter : " + ((float)getNombreTweets(classe.INDETERMINE) /* getNombreTweetsTotal()*/));
+//		
+//		System.out.println("proportion positif apres : " + ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal()));
+//		System.out.println("proportion negatif apres : " + ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal()));
+//		System.out.println("proportion indeter apres : " + ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal()));
+//		
+//		
 		System.out.println("Proba Positif : " + p_POSITIVE);
 		System.out.println("Proba Negatif : " + p_NEGATIVE);
 		System.out.println("Proba Indeter : " + p_INDETERMINE);
+//		
+//		
+//		System.out.println("taille tableau positif" + tableau_Positif.size());
+//		System.out.println("taille tableau negatif" + tableau_Negatif.size());
+//		System.out.println("taille tableau indetermine" + tableau_Indetermine.size());
+		
 		
 		if (p_NEGATIVE > p_POSITIVE && p_NEGATIVE > p_INDETERMINE)
 			return classe.NEGATIVE;
@@ -240,20 +297,20 @@ public class Bayes_Model extends KNN_Model {
 	
 	
 	/**
-	 * Renvoie le nombre d'occurrences de la sous-chaine de caractères spécifiée dans la chaine de caractères spécifiée
-	 * @param text chaine de caractères initiale
-	 * @param string sous-chaine de caractères dont le nombre d'occurrences doit etre compté
-	 * @return le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
+	 * Renvoie le nombre d'occurrences de la sous-chaine de caractï¿½res spï¿½cifiï¿½e dans la chaine de caractï¿½res spï¿½cifiï¿½e
+	 * @param text chaine de caractï¿½res initiale
+	 * @param string sous-chaine de caractï¿½res dont le nombre d'occurrences doit etre comptï¿½
+	 * @return le nombre d'occurrences du pattern spï¿½cifiï¿½ dans la chaine de caractï¿½res spï¿½cifiï¿½e
 	 */
 	 public final int stringOccur(String text, String string) {
 	    return regexOccur(text, Pattern.quote(string));
 	}
 
 	 /**
-	 * Renvoie le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
-	 * @param text chaine de caractères initiale
-	 * @param regex expression régulière dont le nombre d'occurrences doit etre compté
-	 * @return le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
+	 * Renvoie le nombre d'occurrences du pattern spï¿½cifiï¿½ dans la chaine de caractï¿½res spï¿½cifiï¿½e
+	 * @param text chaine de caractï¿½res initiale
+	 * @param regex expression rï¿½guliï¿½re dont le nombre d'occurrences doit etre comptï¿½
+	 * @return le nombre d'occurrences du pattern spï¿½cifiï¿½ dans la chaine de caractï¿½res spï¿½cifiï¿½e
 	 */
 	 public final int regexOccur(String text, String regex) {
 	    Matcher matcher = Pattern.compile(regex).matcher(text);
@@ -264,7 +321,15 @@ public class Bayes_Model extends KNN_Model {
 	    return occur;
 	}
 
-
+	 public static void main(String[] args) {
+		String tweet = ";;Mommy c'est trop bien;;;;Positif;";
+		Bayes_Model model = new Bayes_Model();
+		
+		System.out.println(model.getEvaluationTweetBayes(tweet));
+		
+		 
+		 
+	}
 
 
 }
