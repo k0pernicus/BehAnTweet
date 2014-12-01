@@ -28,3 +28,28 @@ Ce qu'il reste à faire
 *	Panel statistique
 ###Autre
 *	Documentation + nettoyage du code
+
+
+;;"c'est nul je comprend rien ca m'�nerve";;;;Negatif;
+;;"Mommy pas ci cool que ca, j'esp�rais mieux";;;;Negatif;
+;;"Peut mieux faire on dirai que c'est bacl�";;;;Negatif;
+;;"Je l'ai vu une fois mais ne comptez pas sur moi pour aller le voir une deuxi�me fois";;;;Negatif;
+;;"ok c'�tait bien mais apr�s tous ce que les gens m'en ont dis j'esp�rai mieux";;;;Negatif;
+;;"� voir oui, mais � revoir je n'irai pas aussi loin tu vois";;;;Negatif;
+;;"c'est nul je comprend rien ca m'�nerve";;;;Negatif;
+;;"Mommy pas ci cool que ca, j'esp�rais mieux";;;;Negatif;
+;;"Peut mieux faire on dirai que c'est bacl�";;;;Negatif;
+;;"Je l'ai vu une fois mais ne comptez pas sur moi pour aller le voir une deuxi�me fois";;;;Negatif;
+;;"ok c'�tait bien mais apr�s tous ce que les gens m'en ont dis j'esp�rai mieux";;;;Negatif;
+;;"� voir oui, mais � revoir je n'irai pas aussi loin tu vois";;;;Negatif;
+;;"c'est nul je comprend rien ca m'�nerve";;;;Negatif;
+;;"Mommy pas ci cool que ca, j'esp�rais mieux";;;;Negatif;
+;;"Peut mieux faire on dirai que c'est bacl�";;;;Negatif;
+;;"Je l'ai vu une fois mais ne comptez pas sur moi pour aller le voir une deuxi�me fois";;;;Negatif;
+;;"ok c'�tait bien mais apr�s tous ce que les gens m'en ont dis j'esp�rai mieux";;;;Negatif;
+;;"� voir oui, mais � revoir je n'irai pas aussi loin tu vois";;;;Negatif;
+;;"je sais pas";;;;"Indetermine";
+;;"c'est quoi Mommy, un film ou autre chose ?";;;;"Indetermine";
+;;"Mommy se trouve dans le jardin � cueillir des tomates et des aubergine pour le repas de ce soir";;;;"Indetermine";
+;;"Mommy est en haut, qui fais du gateau, papa est en bas, il fait du chocolat";;;;"Indetermine";
+;;"je me suis tomber de fatigue au milieu du film, c'est dommage je vais devoir all� le revoir une seconde fois vu que vous insister tant";;;;"Indetermine";
