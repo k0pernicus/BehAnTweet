@@ -22,7 +22,7 @@ public class PieChart extends JPanel {
         // we put the chart into a panel
         ChartPanel chartPanel = new ChartPanel(chart);
         // default size
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        chartPanel.setPreferredSize(new java.awt.Dimension(100, 75));
         // add it to our application
         add(chartPanel);
     }
