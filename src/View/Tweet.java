@@ -18,8 +18,6 @@ public class Tweet extends JPanel {
 	private JComboBox comboBox;
 	
 	private String evalAlgo;
-
-	
 	
 	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo) {
 		super();
