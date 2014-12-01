@@ -43,30 +43,34 @@ public class Model extends Observable {
 	protected Dictionnaire dico_positif;
 
 	protected Dictionnaire dico_negatif;
-	
+
 	protected ArrayList<String> tableau_Positif;
 
 	protected ArrayList<String> tableau_Indetermine;
 
 	protected ArrayList<String> tableau_Negatif;
-	
+
 	protected ArrayList<String> tableau_tweets;
-	
+
 	protected String classname;
-	
+
 	//CONSTRUCTEUR
-	
-	 
+
+
 	public Model(){
 		super();
 		try {
 			generateCSVFile();
+			tableau_Indetermine = new ArrayList<String>();
+			tableau_Positif = new ArrayList<String>();
+			tableau_Negatif = new ArrayList<String>();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	//MAIN METHOD
 	/**
 	 * MÃ©thode permettant de faire une requÃªte sur Twitter
@@ -92,19 +96,17 @@ public class Model extends Observable {
 		}
 
 	}
-	
-	public String getClassname() {
-		return this.classname;
-	}
 
 
 	//CSV FILE METHOD
 
 
+
+
 	public void writeIntoCSVFile(String[] tweet) throws FileNotFoundException, IOException{
 		File csvFile = new File(CLEAN_FILE_NAME);
-		if (!csvFile.exists()) 
-			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+		if (!csvFile.exists())
+			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas...");
 		else{
 			FileOutputStream in_CSVFile = new FileOutputStream((csvFile), true);
 			for (String strTweet : tweet) {
@@ -114,16 +116,16 @@ public class Model extends Observable {
 			}
 			in_CSVFile.flush();
 			in_CSVFile.close();
-		}	
+		}
 	}
-	
+
 	/*
 	 * Fonction permettant de stocker dans trois array list différentes (en fonction de 'negatif', 'positif', 'indetermine') tous les mots des tweets nettoyés
 	 */
-	public void getByCSVFile() throws IOException {
-		File csvFile = new File(CLEAN_FILE_NAME);
-		if (!csvFile.exists()) 
-			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
+	public void getByCSVFile(String path) throws IOException {
+		File csvFile = new File(path);
+		if (!csvFile.exists())
+			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas...");
 		else{
 			BufferedReader buffer = new BufferedReader(new FileReader(csvFile));
 			String line;
@@ -132,41 +134,20 @@ public class Model extends Observable {
 				String tweet = words[2];
 				String avis = words[6];
 				switch (avis) {
-					case "Indetermine":
-						tableau_Indetermine.add(tweet);
-						break;
-					case "Positif":
-						tableau_Positif.add(tweet);
-						break;
-					case "Negatif":
-						tableau_Negatif.add(tweet);
-						break;
+				case "Indetermine":
+					tableau_Indetermine.add(tweet);
+					break;
+				case "Positif":
+					tableau_Positif.add(tweet);
+					break;
+				case "Negatif":
+					tableau_Negatif.add(tweet);
+					break;
 				}
 			}
 			buffer.close();
 		}
 	}
-	
-	/*
-	 * Fonction permettant de stocker dans une array list tous les mots des tweets nettoyés
-	 */
-	public void getByCSVFile1Array() throws IOException {
-		File csvFile = new File(CLEAN_FILE_NAME);
-		if (!csvFile.exists()) 
-			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas..."); 
-		else{
-			BufferedReader buffer = new BufferedReader(new FileReader(csvFile));
-			String line;
-			while ((line = buffer.readLine()) != null) {
-				String[] words = line.split(";");
-				String tweet = words[2];
-				String avis = words[6];
-				tableau_Indetermine.add(tweet);
-			}
-			buffer.close();
-		}
-	}
-	
 
 	public void generateDictionnaireFile() throws IOException {
 		this.dico_positif = new Dictionnaire("src/resources/positive.txt", -1);
@@ -197,10 +178,13 @@ public class Model extends Observable {
 		new File("src/resources/", "tweets.csv").createNewFile();
 		new File("src/resources/", "tweets_clean.csv").createNewFile();
 		new File("src/resources/", "base_apprentissage.csv").createNewFile();
-		 
-		
+
+
 	}
 
+	public String getClassname() {
+		return classname;
+	}
 	public String cleanTweet(String content) {
 		Pattern p;
 		Matcher m;
@@ -211,15 +195,15 @@ public class Model extends Observable {
 
 		line = content;
 		//LIGNE A IGNORER
-		p = Pattern.compile(patternRT);	
+		p = Pattern.compile(patternRT);
 		m = p.matcher(line);
 
 		if(m.find()){
 			return "RT";
 		}
 
-		//LIGNE A CONSERVER 
-		p = Pattern.compile(patternAROBAS_HASHTAG);	
+		//LIGNE A CONSERVER
+		p = Pattern.compile(patternAROBAS_HASHTAG);
 		m = p.matcher(line);
 
 		StringBuffer sb = new StringBuffer();
@@ -255,12 +239,12 @@ public class Model extends Observable {
 		}
 		return result;
 	}
-	
+
 	public String getResultEvaluationDictTweet(String tweet_clean) {
 		int result = getEvaluationDictTweet(tweet_clean);
 		return this.getEvaluationByResult(result);
 	}
-	
+
 	public String getEvaluationByResult(int result) {
 		if (result > 0)
 			return "Negatif";
@@ -269,7 +253,7 @@ public class Model extends Observable {
 		else
 			return "Indetermine";
 	}
-	
+
 	public void transformTweet() {
 		this.tableau_tweets = new ArrayList<String>();
 		List<Status> liste_status = this.result.getTweets();
@@ -279,9 +263,9 @@ public class Model extends Observable {
 			this.tableau_tweets.add(tweet);
 		}
 	}
-	
+
 	public ArrayList<String> getTableauTweet() {
 		return this.tableau_tweets;
 	}
-	
+
 }

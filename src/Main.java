@@ -1,3 +1,4 @@
+import Model.Bayes_Model;
 import Model.KNN_Model;
 import Model.Model;
 import View.MainFrame;
@@ -14,7 +15,7 @@ public class Main {
 	 */
 	
 	public static void main(String[] args){
-		Model model = new KNN_Model();
+		Model model = new Bayes_Model();
 		try{
 			model.generateCSVFile();
 			model.resetCSVFile();

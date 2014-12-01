@@ -11,20 +11,22 @@ import javax.swing.JPanel;
 public class Tweet extends JPanel {
 
 	private JLabel label;
-	
+
 	private String nettoyer;
 	private String nonNettoyer;
-	
+
 	private JComboBox comboBox;
-	
+
 	private String evalAlgo;
-	
-	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo) {
+
+	private String methode;
+
+	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo, String methode) {
 		super();
 		this.evalAlgo = evalAlgo;
 		this.nonNettoyer = infoTweet;
 		this.nettoyer = infoTweetClean;
-
+		this.methode = methode;
 		this.label = new JLabel(tweetText);
 
 		this.comboBox = new JComboBox();
@@ -32,11 +34,11 @@ public class Tweet extends JPanel {
 		this.comboBox.addItem("Positif");
 		this.comboBox.addItem("Negatif");
 		this.comboBox.setSelectedItem(evalAlgo);
-		
-		
+
+
 		this.setLayout(new BorderLayout(0, 0));
 		this.add(label,BorderLayout.CENTER);
-		
+
 		this.add(comboBox, BorderLayout.WEST);
 	}
 
@@ -52,21 +54,21 @@ public class Tweet extends JPanel {
 		return comboBox;
 	}
 
-	
+
 	public String toString(){
 		String str = "";
-		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem();
-		
+		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem() +";" +  methode;
+
 		return str;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
 }

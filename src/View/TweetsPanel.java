@@ -14,6 +14,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import twitter4j.Status;
+import Model.Bayes_Model;
 import Model.KNN_Model;
 import Model.Model;
 
@@ -22,9 +23,9 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	 * Le model du projet
 	 */
 	private Model model;
-	
+
 	private ArrayList<Tweet> tweetsList;
-	
+
 	public TweetsPanel(Model model) {
 		super();
 		this.model = model;
@@ -62,7 +63,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
 			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < getKNNTweets.length; i++) {
-				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
+				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN"));
 			}
 		}
 		if (classname == "Dict_Model") {
@@ -75,23 +76,38 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = model.getResultEvaluationDictTweet(contentClean);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval));
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Dictionnaire"));
 				}
 			}
 		}
-		
+		if (classname == "Bayes_Model"){
+
+			System.out.println("========================");
+			System.out.println("BAYES");
+			System.out.println("========================");
+			for (Status status : model.getResult().getTweets()) {
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				contentClean = model.cleanTweet(content);
+				contentText = status.getText().replace('\n', ' ');
+				if(!contentClean.equals("RT")) {
+					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean);
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes"));
+				}
+			}
+		}
+
 		this.removeAll();
-		
+
 		for (Tweet tweet : tweetsList) {
 			this.add(tweet, BorderLayout.CENTER);
 			this.add(tweet);
 		}
-		
+
 		repaint();
 		revalidate();
 	}
-	
-	
+
+
 	public String[] getTweetList() {
 		String str = "";
 		for (Tweet tweet : tweetsList) {
@@ -102,7 +118,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 
 		return result;
 	}
-	
+
 	public Dimension getPreferredScrollableViewportSize() {
 		   return getPreferredSize();
 		}
@@ -114,14 +130,14 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 
 		public int getScrollableBlockIncrement(Rectangle visibleRect,
 		   int orientation, int direction) {
-		   return (orientation == SwingConstants.VERTICAL) 
+		   return (orientation == SwingConstants.VERTICAL)
 		      ? visibleRect.height
 		      : visibleRect.width;
 		}
 
 		public boolean getScrollableTracksViewportWidth() {
 		   if (getParent() instanceof JViewport) {
-		      return 
+		      return
 		       (((JViewport) getParent()).getWidth() > getPreferredSize().width);
 		   }
 		   return false;
@@ -129,7 +145,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 
 		public boolean getScrollableTracksViewportHeight() {
 		   if (getParent() instanceof JViewport) {
-		      return 
+		      return
 		       (((JViewport) getParent()).getHeight() > getPreferredSize().height);
 		   }
 		   return false;

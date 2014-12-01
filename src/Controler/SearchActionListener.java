@@ -33,7 +33,7 @@ public class SearchActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton searchButton = (JButton) e.getSource();	
+		JButton searchButton = (JButton) e.getSource();
 		ButtonPanel sBParent = (ButtonPanel) searchButton.getParent();
 		MainPanel sBParentParent = (MainPanel) searchButton.getParent().getParent().getParent();
 		sBParent.setSearchButton(false);

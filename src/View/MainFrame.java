@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import Model.Model;
 
 /**
- * 
+ *
  * @author verkyndt
  *
  */
@@ -26,13 +26,13 @@ public class MainFrame extends JFrame implements Observer{
 
 	/**
 	 * Create the frame.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public MainFrame(Model model) throws IOException {
 		this.model = model;
 		model.addObserver(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new MainPanel(model);
 		setContentPane(contentPane);
 
@@ -41,7 +41,7 @@ public class MainFrame extends JFrame implements Observer{
 	public void update(Observable arg0, Object arg1) {
 		repaint();
 		validate();
-		
+
 	}
 
 }
