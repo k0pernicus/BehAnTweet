@@ -61,6 +61,9 @@ public class Model extends Observable {
 		super();
 		try {
 			generateCSVFile();
+			tableau_Indetermine = new ArrayList<String>();
+			tableau_Positif = new ArrayList<String>();
+			tableau_Negatif = new ArrayList<String>();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

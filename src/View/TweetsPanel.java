@@ -61,7 +61,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < getKNNTweets.length; i++) {
 				System.out.println("Tweet "+i+" : "+groupsTweet[i]+" == "+getKNNTweets[groupsTweet[i]]+"\n");
-				tweetsList.add(new Tweet("", "", contentTweets.get(i), getKNNTweets[groupsTweet[i]]));
+				tweetsList.add(new Tweet("", "", contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN"));
 			}
 		}
 		if (classname == "Dict_Model") {
@@ -74,7 +74,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = model.getResultEvaluationDictTweet(contentClean);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval));
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Dictionnaire"));
 				}
 			}
 		}
@@ -89,7 +89,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval));
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes"));
 				}
 			}
 		}

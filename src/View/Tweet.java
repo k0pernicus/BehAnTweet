@@ -18,15 +18,17 @@ public class Tweet extends JPanel {
 	private JComboBox comboBox;
 	
 	private String evalAlgo;
+	
+	private String methode;
 
 	
 	
-	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo) {
+	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo, String methode) {
 		super();
 		this.evalAlgo = evalAlgo;
 		this.nonNettoyer = infoTweet;
 		this.nettoyer = infoTweetClean;
-
+		this.methode = methode;
 		this.label = new JLabel(tweetText);
 
 		this.comboBox = new JComboBox();
@@ -57,7 +59,7 @@ public class Tweet extends JPanel {
 	
 	public String toString(){
 		String str = "";
-		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem();
+		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem() +";" +  methode;
 		
 		return str;
 	}

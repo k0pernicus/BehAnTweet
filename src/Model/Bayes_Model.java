@@ -1,12 +1,11 @@
 package Model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Bayes_Model extends Model {
+public class Bayes_Model extends KNN_Model {
 
 	protected final String BASE_APPRENTISSAGE = "src/resources/base_apprentissage.csv";
 	
@@ -26,20 +25,53 @@ public class Bayes_Model extends Model {
 	protected int nombre_mots_INDETERMINE;//nombre total de mot dans la classe indetermine/* afin d'ï¿½viter de devoir le recalculer ï¿½ chaque fois*/
 	protected int nombre_tweets_INDETERMINE;//nombre de tweet
 
+	protected int nombre_de_mot_TOTAL; 
 
 	/* constructor */
-	public Bayes_Model() throws IOException {
+	public Bayes_Model() {
 		super();
-		init_Array();
+		init_Bayes();
+		
+		
 		
 	}
+	
+	protected void init_Bayes(){
+		try {
+			init_Array();
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
+		
+		init_Nb_Tweets();
+		init_Nb_Mots();
+	}
 
-
-	/* Set the 3 arraylist with default csv file*/
+	/* Set the 3 arraylist with default csv file and the numbre of tweets and words*/
 	protected void init_Array() throws IOException{
 		super.getByCSVFile(BASE_APPRENTISSAGE);
+		
 	
 	}
+	protected void init_Nb_Tweets(){
+		nombre_tweets_POSITIF = tableau_Positif.size();
+		nombre_tweets_NEGATIF = tableau_Negatif.size();
+		nombre_tweets_INDETERMINE = tableau_Indetermine.size();
+	}
+	
+	protected void init_Nb_Mots(){
+		for (String str : tableau_Positif)
+			nombre_mots_POSITIF += (1 + this.stringOccur(str.trim(), " " ));
+		
+		for (String str : tableau_Negatif)
+			nombre_mots_NEGATIF += (1 + this.stringOccur(str.trim(), " " ));
+		
+		for (String str : tableau_Indetermine)
+			nombre_mots_INDETERMINE += (1 + this.stringOccur(str.trim(), " " ));
+		
+		nombre_de_mot_TOTAL = setNombreMotsTotal();
+	}
+	
 
 
 	//P(m|C) -> probabilitï¿½ d'occurence du mot m dans un tweet de la classe c ï¿½ l'aide de l'ensemble d'apprentissage
@@ -51,12 +83,13 @@ public class Bayes_Model extends Model {
 	protected float probOccurenceAdvanced(String mot, classe c){
 		float result;
 
-		result = (probOccurenceBasique(mot, c)+1) / (getNombreMots(c)+ getNombreMotsTotal() );
-
+		result = (probOccurenceBasique(mot, c)+1) / (getNombreMots(c)+ nombre_de_mot_TOTAL );
+		
+		System.out.println("Proba Adv : " + result);
 		return result;
 	}
 
-	protected int getNombreMotsTotal(){
+	protected int setNombreMotsTotal(){
 		int result = 0;
 
 		for(classe c : classe.values()){
@@ -79,7 +112,7 @@ public class Bayes_Model extends Model {
 				nb_occur++;
 		}
 
-		System.out.println("s'assurer que ca retourne bien un float : " + (float)nb_occur/(float)nb_tweets);
+		//System.out.println("s'assurer que ca retourne bien un float : " + (float)nb_occur/(float)nb_tweets);
 
 		return (float)nb_occur/(float)nb_tweets;
 	}
@@ -136,22 +169,43 @@ public class Bayes_Model extends Model {
 		float p_POSITIVE = 1;
 		float p_NEGATIVE = 1;
 		float p_INDETERMINE = 1;
-
+//		p_POSITIVE    = ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
+//		p_NEGATIVE    = ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
+//		p_INDETERMINE = ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
 
 		for(String str : tab) {
 			p_POSITIVE    *= probOccurenceAdvanced(str, classe.POSITIVE);
 			p_NEGATIVE    *= probOccurenceAdvanced(str, classe.NEGATIVE);
 			p_INDETERMINE *= probOccurenceAdvanced(str,classe.INDETERMINE);
 		}
+		
+		
+		System.out.println("Proba Positif avant : " + p_POSITIVE);
+		System.out.println("Proba Negatif avant : " + p_NEGATIVE);
+		System.out.println("Proba Indeter avant : " + p_INDETERMINE);
+		
+		
 		p_POSITIVE    *= ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
 		p_NEGATIVE    *= ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
 		p_INDETERMINE *= ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
 		
+		System.out.println("nb positif : " + ((float)getNombreTweets(classe.POSITIVE)    /* getNombreTweetsTotal()*/));
+		System.out.println("nb negatif : " + ((float)getNombreTweets(classe.NEGATIVE)    /* getNombreTweetsTotal()*/));
+		System.out.println("nb indeter : " + ((float)getNombreTweets(classe.INDETERMINE) /* getNombreTweetsTotal()*/));
 		
-		if (p_POSITIVE > p_NEGATIVE && p_POSITIVE > p_INDETERMINE)
-			return classe.POSITIVE;
-		if (p_NEGATIVE > p_INDETERMINE )
+		System.out.println("proportion positif apres : " + ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal()));
+		System.out.println("proportion negatif apres : " + ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal()));
+		System.out.println("proportion indeter apres : " + ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal()));
+		
+		
+		System.out.println("Proba Positif : " + p_POSITIVE);
+		System.out.println("Proba Negatif : " + p_NEGATIVE);
+		System.out.println("Proba Indeter : " + p_INDETERMINE);
+		
+		if (p_NEGATIVE > p_POSITIVE && p_NEGATIVE > p_INDETERMINE)
 			return classe.NEGATIVE;
+		if (p_POSITIVE > p_INDETERMINE )
+			return classe.POSITIVE;
 		else
 			return classe.INDETERMINE;
 
@@ -182,6 +236,33 @@ public class Bayes_Model extends Model {
 
 
 
+	/////////////////////////////////////
+	
+	
+	/**
+	 * Renvoie le nombre d'occurrences de la sous-chaine de caractères spécifiée dans la chaine de caractères spécifiée
+	 * @param text chaine de caractères initiale
+	 * @param string sous-chaine de caractères dont le nombre d'occurrences doit etre compté
+	 * @return le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
+	 */
+	 public final int stringOccur(String text, String string) {
+	    return regexOccur(text, Pattern.quote(string));
+	}
+
+	 /**
+	 * Renvoie le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
+	 * @param text chaine de caractères initiale
+	 * @param regex expression régulière dont le nombre d'occurrences doit etre compté
+	 * @return le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
+	 */
+	 public final int regexOccur(String text, String regex) {
+	    Matcher matcher = Pattern.compile(regex).matcher(text);
+	    int occur = 0;
+	    while(matcher.find()) {
+	        occur ++;
+	    }
+	    return occur;
+	}
 
 
 
