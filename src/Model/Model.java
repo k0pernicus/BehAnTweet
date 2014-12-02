@@ -54,6 +54,11 @@ public class Model extends Observable {
 
 	protected String classname;
 	
+	protected int nb_tweets_positifs;
+	
+	protected int nb_tweets_indetermines;
+	
+	protected int nb_tweets_negatifs;
 
 	//CONSTRUCTEUR
 
@@ -97,7 +102,79 @@ public class Model extends Observable {
 		}
 
 	}
+	
+	/* Modifie le nombre de tweets positifs de l'objet
+	 */
+	public void setNbTweetsPositifs(int nb_tweets_positifs) {
+		this.nb_tweets_positifs = nb_tweets_positifs;
+	}
+	
+	/* Modifie le nombre de tweets négatifs de l'objet
+	 */
+	public void setNbTweetsNegatifs(int nb_tweets_negatifs) {
+		this.nb_tweets_negatifs = nb_tweets_negatifs;
+	}
 
+	/* Modifie le nombre de tweets indéterminés de l'objet
+	 */
+	public void setNbTweetsIndetermines(int nb_tweets_indetermines) {
+		this.nb_tweets_indetermines = nb_tweets_indetermines;
+	}
+
+	public int getNb_tweets_positifs() {
+		return nb_tweets_positifs;
+	}
+
+
+	public void setNb_tweets_positifs(int nb_tweets_positifs) {
+		this.nb_tweets_positifs = nb_tweets_positifs;
+	}
+
+
+	public int getNb_tweets_indetermines() {
+		return nb_tweets_indetermines;
+	}
+
+
+	public void setNb_tweets_indetermines(int nb_tweets_indetermines) {
+		this.nb_tweets_indetermines = nb_tweets_indetermines;
+	}
+
+
+	public int getNb_tweets_negatifs() {
+		return nb_tweets_negatifs;
+	}
+
+
+	public void setNb_tweets_negatifs(int nb_tweets_negatifs) {
+		this.nb_tweets_negatifs = nb_tweets_negatifs;
+	}
+
+
+	/*
+	 * Apporte les modifications nécessaires au nombre de tweets +, - et indéterminés
+	 */
+	public void countResult(String[] result_tweets) {
+		int nb_tweets_positifs = 0;
+		int nb_tweets_negatifs = 0;
+		int nb_tweets_indetermines = 0;
+		for (String tweets : result_tweets) {
+			switch (tweets.split(";")[5]) {
+			case "Positif":
+				nb_tweets_positifs++;
+				break;
+			case "Negatif":
+				nb_tweets_negatifs++;
+				break;
+			case "Indetermine":
+				nb_tweets_indetermines++;
+				break;
+			}
+		}
+		this.setNbTweetsPositifs(nb_tweets_positifs);
+		this.setNbTweetsNegatifs(nb_tweets_negatifs);
+		this.setNbTweetsIndetermines(nb_tweets_indetermines);
+	}
 
 	//CSV FILE METHOD
 

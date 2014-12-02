@@ -62,7 +62,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			}
 			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
 			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
-			for (int i = 0; i < getKNNTweets.length; i++) {
+			for (int i = 0; i < contentTweets.size(); i++) {
 				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN"));
 			}
 		}

@@ -14,18 +14,15 @@ public class StatPanel extends JPanel implements Observer{
 
 	private Model model;
 	
+	private PieChart demo;
+	
 	public StatPanel(Model model) {
 		this.model = model;
-		
-		PieChart demo = new PieChart("Comparaison", "", );
-		add(demo);
 		
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }
