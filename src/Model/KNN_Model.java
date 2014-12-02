@@ -54,7 +54,7 @@ public class KNN_Model extends Model {
 			if (max < groups[i])
 				max = groups[i];
 		}
-		return max;
+		return max + 1;
 	}
 	
 	/**
