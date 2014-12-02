@@ -12,7 +12,7 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
 
 public class PieChart extends JPanel {
-
+	
 	public PieChart(String applicationTitle, String chartTitle) {
         super();
         // This will create the dataset 
@@ -32,9 +32,6 @@ public class PieChart extends JPanel {
 
    private  PieDataset createDataset() {
        DefaultPieDataset result = new DefaultPieDataset();
-       result.setValue("Linux", 29);
-       result.setValue("Mac", 20);
-       result.setValue("Windows", 51);
        return result;
    }
    
