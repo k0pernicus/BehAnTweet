@@ -53,6 +53,7 @@ public class Model extends Observable {
 	protected ArrayList<String> tableau_tweets;
 
 	protected String classname;
+	
 
 	//CONSTRUCTEUR
 
