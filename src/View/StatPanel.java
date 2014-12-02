@@ -17,7 +17,7 @@ public class StatPanel extends JPanel implements Observer{
 	public StatPanel(Model model) {
 		this.model = model;
 		
-		PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
+		PieChart demo = new PieChart("Comparaison", "", );
 		add(demo);
 		
 	}
