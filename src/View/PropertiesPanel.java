@@ -49,7 +49,7 @@ public class PropertiesPanel extends JPanel implements Observer {
 		/*
 		 * set des méthodes de classification
 		 */
-		this.methods = new String[] {"Dictionnaire", "KNN", "Bayes"};
+		this.methods = new String[] {"Dictionnaire", "KNN", "Bayes_Presence", "Bayes_Frequence"};
 		
 		/* #NbrTweets */
 		this.addNbrTweets = new JComboBox(this.nbrTweets);

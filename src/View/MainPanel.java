@@ -95,8 +95,10 @@ public class MainPanel extends JPanel implements Observer{
 		switch((String) this.propertiesPanel.getClassname().getSelectedItem()) {
 			case "KNN":
 				return "KNN_Model";
-			case "Bayes":
-				return "Bayes_Model";
+			case "Bayes_Presence":
+				return "Bayes_Model_Presence";
+			case "Bayes_Frequence":
+				return "Bayes_Model_Frequence";
 			default:
 				return "Dict_Model";
 		}

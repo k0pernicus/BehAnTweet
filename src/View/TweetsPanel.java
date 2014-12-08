@@ -80,7 +80,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				}
 			}
 		}
-		if (classname == "Bayes_Model"){
+		if (classname == "Bayes_Model_Presence"){
 
 			System.out.println("========================");
 			System.out.println("BAYES");
@@ -90,8 +90,24 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
-					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes"));
+					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean,true);
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Presence"));
+				}
+			}
+		}
+		
+		if (classname == "Bayes_Model_Frequence"){
+
+			System.out.println("========================");
+			System.out.println("BAYES");
+			System.out.println("========================");
+			for (Status status : model.getResult().getTweets()) {
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				contentClean = model.cleanTweet(content);
+				contentText = status.getText().replace('\n', ' ');
+				if(!contentClean.equals("RT")) {
+					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean, false);
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Frequence"));
 				}
 			}
 		}
@@ -120,34 +136,34 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	}
 
 	public Dimension getPreferredScrollableViewportSize() {
-		   return getPreferredSize();
-		}
+		return getPreferredSize();
+	}
 
-		public int getScrollableUnitIncrement(Rectangle visibleRect,
-		   int orientation, int direction) {
-		   return 10;
-		}
+	public int getScrollableUnitIncrement(Rectangle visibleRect,
+			int orientation, int direction) {
+		return 10;
+	}
 
-		public int getScrollableBlockIncrement(Rectangle visibleRect,
-		   int orientation, int direction) {
-		   return (orientation == SwingConstants.VERTICAL)
-		      ? visibleRect.height
-		      : visibleRect.width;
-		}
+	public int getScrollableBlockIncrement(Rectangle visibleRect,
+			int orientation, int direction) {
+		return (orientation == SwingConstants.VERTICAL)
+				? visibleRect.height
+						: visibleRect.width;
+	}
 
-		public boolean getScrollableTracksViewportWidth() {
-		   if (getParent() instanceof JViewport) {
-		      return
-		       (((JViewport) getParent()).getWidth() > getPreferredSize().width);
-		   }
-		   return false;
+	public boolean getScrollableTracksViewportWidth() {
+		if (getParent() instanceof JViewport) {
+			return
+					(((JViewport) getParent()).getWidth() > getPreferredSize().width);
 		}
+		return false;
+	}
 
-		public boolean getScrollableTracksViewportHeight() {
-		   if (getParent() instanceof JViewport) {
-		      return
-		       (((JViewport) getParent()).getHeight() > getPreferredSize().height);
-		   }
-		   return false;
+	public boolean getScrollableTracksViewportHeight() {
+		if (getParent() instanceof JViewport) {
+			return
+					(((JViewport) getParent()).getHeight() > getPreferredSize().height);
 		}
+		return false;
+	}
 }

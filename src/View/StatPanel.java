@@ -14,7 +14,7 @@ public class StatPanel extends JPanel implements Observer{
 
 	private Model model;
 	
-	private PieChart demo;
+	private PieTest demo;
 	
 	public StatPanel(Model model) {
 		this.model = model;
@@ -23,6 +23,20 @@ public class StatPanel extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		
+		removeAll();
+		ArrayList<Double> integer = new ArrayList<Double>();
+		integer.add(33.33);
+		integer.add(33.33);
+		integer.add(33.33);
+		
+		ArrayList<Color> color = new ArrayList<Color>();
+		color.add(Color.RED);//positif
+		color.add(Color.BLUE);//negatif
+		color.add(Color.WHITE);//neutre
+		demo = new PieTest(integer, color);
+		
+		
 	}
 	
 }
