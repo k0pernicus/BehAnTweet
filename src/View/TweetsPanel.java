@@ -19,24 +19,47 @@ import Model.Bayes_Model;
 import Model.KNN_Model;
 import Model.Model;
 
+/**
+ * Classe TweetsPanel
+ * Panel contenant l'ensemble des tweets résultants de la recherche utilisateur
+ * @author antonin
+ */
 public class TweetsPanel extends JPanel implements Observer, Scrollable{
-	/*
-	 * Le model du projet
+	
+	/**
+	 * Le modèle du projet
 	 */
 	private Model model;
-
+	
+	/**
+	 * La liste des tweets résultants de la recherche utilisateur
+	 */
 	private ArrayList<Tweet> tweetsList;
 
+	/**
+	 * Constructeur de l'objet TweetsPanel
+	 * @param model Le modèle du projet
+	 */
 	public TweetsPanel(Model model) {
 		super();
+		
+		/*
+		 * Relation Modèle-objet
+		 */
 		this.model = model;
 		this.model.addObserver((Observer) this);
+		
 		this.tweetsList = new ArrayList<Tweet>();
+		
 		//Initialisation du BoxLayout
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 
 	@Override
+	/**
+	 * Méthode permettant de mettre à jour l'objet sur lequel on invoque la méthode
+	 * Cette méthode, en fonction de la méthode de classification, évaluera les tweets différemment
+	 */
 	public void update(Observable o, Object arg) {
 		tweetsList.clear();
 		String content = "";
@@ -46,6 +69,13 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		String gramme     = this.model.getGramme();
 		String nbrLettres = this.model.getNbrLettres();
 
+		/*
+		 * En fonction de la méthode de classification, on évaluera les tweets différemment
+		 */
+		
+		/*
+		 * Méthode KNN
+		 */
 		if (classname == "KNN_Model") {
 			System.out.println("========================");
 			System.out.println("KNN");
@@ -70,6 +100,10 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN","",""));
 			}
 		}
+		
+		/*
+		 * Méthode Dictionnaire
+		 */
 		if (classname == "Dict_Model") {
 			System.out.println("========================");
 			System.out.println("DICT");
@@ -85,9 +119,11 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			}
 		}
 
+		/*
+		 * Méthode Bayes
+		 */
 
 		((Bayes_Model) this.model).setBooleanNbrLetters((nbrLettres.equals("toutes les lettres"))?false:true);
-
 		if(gramme.equals("Uni-Bigramme")){
 			((Bayes_Model) this.model).setBooleanUnigramme(true);
 			((Bayes_Model) this.model).setBooleanBigramme(true);
@@ -100,17 +136,10 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			((Bayes_Model) this.model).setBooleanUnigramme(true);
 			((Bayes_Model) this.model).setBooleanBigramme(false);
 		}
-
-		
-		
-		if (classname == "Bayes_Model_Presence"){
-
-			
+		if (classname == "Bayes_Model_Presence"){	
 			System.out.println("========================");
 			System.out.println("BAYES");
 			System.out.println("========================");
-
-
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
@@ -121,9 +150,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				}
 			}
 		}
-
 		if (classname == "Bayes_Model_Frequence"){
-
 			System.out.println("========================");
 			System.out.println("BAYES");
 			System.out.println("========================");
@@ -137,39 +164,38 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				}
 			}
 		}
-
 		this.removeAll();
-
+		/*
+		 * Positionnement au centre de l'application
+		 */
 		for (Tweet tweet : tweetsList) {
 			this.add(tweet, BorderLayout.CENTER);
 			this.add(tweet);
 		}
-
 		repaint();
 		revalidate();
 	}
 
-
+	/**
+	 * Méthode permettant de renvoyer la liste de tweets
+	 * @return Un tableau de chaînes de caractères contenant la liste de tweets
+	 */
 	public String[] getTweetList() {
-		
+		/*
+		 * Si la liste de tweets est nulle, on renvoie une exception
+		 */
 		if(tweetsList.isEmpty()){
 			System.err.println("aucun tweet detecte");
-			//TODO
 			throw new NullPointerException();
 		}
-		
+		/*
+		 * Sinon, on remplit un tableau selon tous les tweets recueillis
+		 */
 		int size = tweetsList.size();
-		String str = "";
 		String[] result = new String[size];
 		for (int i = 0; i < size; i++) {
 			result[i] = tweetsList.get(i).toString();
 		}
-//		for (Tweet tweet : tweetsList) {
-//			result[size] = tweet.toString();
-//		}
-//		str = str.substring(0, str.length()-3);
-//		 str.split(";;;");
-
 		return result;
 	}
 
