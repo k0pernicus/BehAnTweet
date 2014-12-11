@@ -31,6 +31,44 @@
 \setlength{\parskip}{1mm}
 
 \begin{document}
+
+\begin{titlepage}
+  \begin{sffamily}
+  \begin{center}
+
+    % Upper part of the page. The '~' is needed because \\
+    % only works if a paragraph has started.
+    \includegraphics[scale=0.6]{./img/univ-lille1.png}~\\[1.5cm]
+    
+    \textsc{\Large Master INFORMATIQUE}\\[0.5cm]
+    
+    \textsc{\Large Mention INFORMATIQUE}\\[2cm]
+
+    \textsc{\LARGE Rapport de ProJet Encadré}\\[2cm]
+
+    % Title
+    \HRule \\[0.4cm]
+    { \huge \bfseries Analyse de Comportements avec Twitter\\[0.4cm] }
+
+   \vfill
+
+    % Author and supervisor
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        Antonin \textsc{Carette}\\
+        Alexandre \textsc{Verkyndt}\\
+      \end{flushleft}
+    \end{minipage}
+    
+    \vfill
+
+    % Bottom of the page
+    {\large Promo 2014/2015}
+
+  \end{center}
+  \end{sffamily}
+\end{titlepage}
+
 \begin{spacing}{1.2}
 
 \tableofcontents
@@ -39,9 +77,39 @@
 
 \addcontentsline{toc}{chapter}{Introduction} 
 
-\section{Présentation du projet}
+\section{Problèmatique}
+
+Le but de ce projet était de réaliser une application permettant d'analyser les comportements de tweets contenus dans l'application Twitter (en particulier, l'analyse de sentiments), via l'utilisation de son interface de programmation.\\
+L'analyse de comportements sera étudié via différents algorithmes de classification (ou modèle), utilisant ou non une base d'apprentissage : le modèle basique (basé sur des dictionnaires), le modèle KNN et enfin le modèle Bayesien.
+
+\section{Interface de programmation Twitter}
+
+Pour ce projet, nous allons utiliser l'interface de programmation\footnote{Une interface de programmation est aussi appelée "API".} de Twitter.\\
+Cette API nous permettra de récupérer les tweets voulus, sur un sujet donné, ainsi que toutes les informations suivantes : l'ID du tweet, l'émetteur, s'il s'agit d'un tweet original ou s'il s'agit d'un \textit{retweet}\footnote{Un \textit{retweet} est un tweet partagé - il n'est alors en aucun cas original.}.\\
+Aussi, nous allons utiliser cette interface via la librairie Java \textit{Twitter4J}, dans sa version stable. En effet, cette librairie (à jour en fonction des mises à jour de l'interface de programmation) Java nous permettra d'accéder facilement aux tweets recueillis ainsi qu'aux informations du tweet, via des classes et des méthodes Java programmées.
 
 \chapter{Présentation du logiciel}
+
+Notre logiciel se nomme \textit{BehAnTweet}.\\
+En effet, le projet consiste à analyser le comportement des tweets. \textit{BehAnTweet} provient de la concaténation des principales informations données par le titre du projet : Analyser - Comportement - Tweets.\\
+En anglais, nous avons donc la concaténation des mots Behavior, Analysis et Tweet - afin de pouvoir parler de "Behavior the Analysis of a Tweet".\\
+Le logo du logiciel est une référence à \textit{Bahamut}\footnote{Un poisson ou serpent géant dans la mythologie Arabe.}.
+\\
+\\
+Git a été utilisé comme logiciel de versioning principal, dû à sa simplicité d'emploi, à la durée d'utilisation faite de celui-ci depuis plusieurs mois ainsi que grâce à l'application interactive Github\footnote{https://github.com/WebTogz/BehAnTweet}.\\
+Svn a lui été utilisé pour transmettre toutes les 2/3 semaines la version principale du logiciel aux professeurs responsables de l'UE.
+
+\section{Description de l'architecture de l'application}
+
+Nous avons utilisé un modèle \textbf{MVC} (pour Modèle - Vue - Contrôleur) pour notre projet.\\
+Ce modèle, très connu, est destiné à répondre aux besoins des applications interactives, en séparant les problématiques liées aux différents composants au sein de leur architecture respective.\\
+Aussi, le gros bénéfice de ce patron est qu'il permet facilement l'évolution de l'application par la suite.
+
+\section{Interface graphique}
+
+\subsection{Copies d'écran}
+
+\subsection{Manuel d'utilisation}
 
 \chapter{Algorithmes de classification}
 
@@ -51,9 +119,9 @@
 
 \section{Bayes}
 
-\chapter{Résultats}
+\chapter{Résultats de la classification}
 
-\chapter{Conclusion}
+\chapter{Conclusions}
 
 \chapter*{Bibliographie - Webographie}
 
