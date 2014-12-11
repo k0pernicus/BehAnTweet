@@ -14,8 +14,6 @@ public class StatPanel extends JPanel implements Observer{
 
 	private Model model;
 	
-	private PieTest demo;
-	
 	public StatPanel(Model model) {
 		this.model = model;
 		
