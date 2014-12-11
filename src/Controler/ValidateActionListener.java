@@ -14,6 +14,7 @@ import View.MainPanel;
 /**
  * Classe ValidateActionListener
  * ActionListener du bouton "Validate" de la GUI
+ * @implements ActionListener
  * @author antonin
  */
 public class ValidateActionListener implements ActionListener {

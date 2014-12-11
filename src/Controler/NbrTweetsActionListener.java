@@ -10,6 +10,7 @@ import Model.Model;
 /**
  * Classe NbrTweetsActionListener
  * ActionListener du JComboBox contenant le nombre de tweets de la GUI
+ * @implements ActionListener
  * @author antonin
  */
 public class NbrTweetsActionListener implements ActionListener {

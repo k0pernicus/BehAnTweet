@@ -12,6 +12,8 @@ import Model.Model;
 /**
  * Classe PropertiesPanel
  * Classe permettant d'implémenter un panel contenant un large choix de propriétés
+ * @extends JPanel
+ * @implements Observer
  * @author antonin
  */
 public class PropertiesPanel extends JPanel implements Observer {

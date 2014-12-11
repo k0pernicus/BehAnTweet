@@ -23,7 +23,7 @@ import twitter4j.TwitterFactory;
 import Controler.Dictionnaire;
 
 /**
- * Classe ModÃ¨le, avec utilisation du modÃ¨le MVC
+ * Classe Model
  * @extends Observable
  */
 public class Model extends Observable {

@@ -21,6 +21,8 @@ import Model.Model;
  * - un logo
  * - une barre de recherche
  * - un bouton de validation
+ * @extends JPanel
+ * @implements Observer
  * @author Antonin
  */
 public class SearchPanel extends JPanel implements Observer {

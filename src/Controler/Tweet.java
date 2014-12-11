@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 /**
  * Classe Tweet
  * Classe permettant de représenter un tweet
+ * @extends JPanel
  * @author antonin
  * @author verkyndt
  */

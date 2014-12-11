@@ -15,6 +15,7 @@ import View.ButtonPanel;
 /**
  * Classe SearchActionListener
  * ActionListener du bouton "Search" de la GUI
+ * @implements ActionListener
  * @author antonin
  * @author verkyndt
  */

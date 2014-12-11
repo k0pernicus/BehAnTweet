@@ -22,6 +22,9 @@ import Model.Model;
 /**
  * Classe TweetsPanel
  * Panel contenant l'ensemble des tweets résultants de la recherche utilisateur
+ * @extends JPanel
+ * @implements Observer
+ * @implements Scrollable
  * @author antonin
  */
 public class TweetsPanel extends JPanel implements Observer, Scrollable{

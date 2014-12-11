@@ -11,6 +11,8 @@ import Model.Model;
 /**
  * Classe ResultPanel
  * Panel permettant d'afficher les résultats de la recherche demandée (tweets et classification de ceux-ci) dans l'application
+ * @extends JPanel
+ * @implements Observer
  * @author antonin
  */
 public class ResultPanel extends JPanel implements Observer {

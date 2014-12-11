@@ -13,8 +13,9 @@ import Model.Model;
 /**
  * Classe MainFrame
  * Vue permettant d'instancier la fenêtre principale du programme
+ * @extends JFrame
+ * @implements Observer
  * @author verkyndt
- *
  */
 public class MainFrame extends JFrame implements Observer{
 

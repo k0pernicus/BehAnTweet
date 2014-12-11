@@ -12,6 +12,7 @@ import Model.Model;
 /**
  * Classe ButtonPanel
  * Vue permettant l'instanciation des boutons 'Search' et 'Validate', dans la GUI
+ * @extends JPanel
  * @author verkyndt
  */
 public class ButtonPanel extends JPanel {
