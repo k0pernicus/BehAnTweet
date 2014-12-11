@@ -36,23 +36,30 @@ public class SearchActionListener implements ActionListener {
 		JButton searchButton = (JButton) e.getSource();
 		ButtonPanel sBParent = (ButtonPanel) searchButton.getParent();
 		MainPanel sBParentParent = (MainPanel) searchButton.getParent().getParent().getParent();
-		sBParent.setSearchButton(false);
+		
 		try {
+			if(sBParentParent.getSearchText().trim().length()<1)
+				return;
+			sBParent.setSearchButton(false);
 			sBParentParent.getResultPanel().setVisibilityStatPanel(true);
-			model.run(sBParentParent.getSearchText(), sBParentParent.getSelectedNbrTweets(), sBParentParent.getSelectedClassname());
+			model.run(sBParentParent.getSearchText(), sBParentParent.getSelectedNbrTweets(), sBParentParent.getSelectedClassname(), sBParentParent.getSelectedGramme(),sBParentParent.getSelectedNbrLetters());
+			
 			model.countResult(sBParentParent.getResultPanel().getTweetList());
 			sBParentParent.repaint();
 			sBParentParent.revalidate();
 			
 		} catch (FileNotFoundException fileNotFound) {
-			//Fichier non trouvé
-			fileNotFound.printStackTrace();
+			System.out.println("Fichier non trouvé");
+			System.out.println(fileNotFound.getMessage());
 		} catch (IOException writeError) {
-			//Erreur lors de l'écriture des octets dans le fichier initial
-			writeError.printStackTrace();
+			System.out.println("Erreur lors de l'écriture des octets dans le fichier initial");
+			System.out.println(writeError.getMessage());
 		} catch (TwitterException e1) {
-			//Erreur lors de l'envoi de la requête sur les serveurs de Twitter
-			e1.printStackTrace();
+			System.out.println("Erreur lors de l'envoi de la requête sur les serveurs de Twitter");
+			
+			System.out.println(e1.getMessage());
+		} catch (NullPointerException e1){
+			System.out.println(e1.getMessage());
 		}
 		sBParent.setSearchButton(true);
 		sBParent.setValidateButton(true);

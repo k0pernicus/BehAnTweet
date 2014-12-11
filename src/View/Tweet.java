@@ -13,6 +13,7 @@ public class Tweet extends JPanel {
 	private JLabel label;
 
 	private String nettoyer;
+	
 	private String nonNettoyer;
 
 	private JComboBox comboBox;
@@ -20,14 +21,20 @@ public class Tweet extends JPanel {
 	private String evalAlgo;
 
 	private String methode;
+	
+	private String nbrLetters;
+	
+	private String gramme;
 
-	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo, String methode) {
+	public Tweet(String infoTweet, String infoTweetClean,String tweetText, String evalAlgo, String methode, String nbrLetters, String gramme) {
 		super();
 		this.evalAlgo = evalAlgo;
 		this.nonNettoyer = infoTweet;
 		this.nettoyer = infoTweetClean;
 		this.methode = methode;
 		this.label = new JLabel(tweetText);
+		this.nbrLetters = nbrLetters;
+		this.gramme = gramme;
 
 		this.comboBox = new JComboBox();
 		this.comboBox.addItem("Indetermine");
@@ -41,6 +48,8 @@ public class Tweet extends JPanel {
 
 		this.add(comboBox, BorderLayout.WEST);
 	}
+	
+	
 
 
 
@@ -57,7 +66,7 @@ public class Tweet extends JPanel {
 
 	public String toString(){
 		String str = "";
-		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem() +";" +  methode;
+		str = nettoyer + ";" + evalAlgo + ";" + this.comboBox.getSelectedItem() +";" +  methode + ";" + nbrLetters + ";" + gramme;
 
 		return str;
 	}

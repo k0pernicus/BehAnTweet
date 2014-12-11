@@ -54,6 +54,10 @@ public class Model extends Observable {
 
 	protected String classname;
 	
+	protected String nbrLettres;
+	
+	protected String gramme;
+	
 	protected int nb_tweets_positifs;
 	
 	protected int nb_tweets_indetermines;
@@ -85,7 +89,7 @@ public class Model extends Observable {
 	 * @throws IOException Exception si l'Ã©criture des tweets n'a pu se faire
 	 * @throws FileNotFoundException Exception si le fichier .csv (utilisÃ© pour y Ã©crire les tweets) n'est pas trouvÃ©
 	 */
-	public void run(String request, int nbrTweets, String classname) throws TwitterException, FileNotFoundException, IOException{
+	public void run(String request, int nbrTweets, String classname, String gramme, String nbrLettres ) throws TwitterException, FileNotFoundException, IOException{
 
 		Twitter twitter = TwitterFactory.getSingleton();
 
@@ -96,6 +100,8 @@ public class Model extends Observable {
 		try {
 			this.result = twitter.search(query);
 			this.classname = classname;
+			this.nbrLettres = nbrLettres;
+			this.gramme = gramme;
 			updateObservers();
 		} catch (TwitterException e) {
 			e.printStackTrace();
@@ -263,6 +269,14 @@ public class Model extends Observable {
 	public String getClassname() {
 		return classname;
 	}
+	
+	public String getGramme() {
+		return gramme;
+	}
+	
+	public String getNbrLettres() {
+		return nbrLettres;
+	}
 	public String cleanTweet(String content) {
 		Pattern p;
 		Matcher m;
@@ -345,5 +359,8 @@ public class Model extends Observable {
 	public ArrayList<String> getTableauTweet() {
 		return this.tableau_tweets;
 	}
+
+
+	
 
 }

@@ -22,7 +22,7 @@ Ce qu'il reste à faire
 *	Faire les bigrammes pour Baye. Pas besoin pour KNN
 *	Faire Baye frequence
 
-
+*	AlgorithmeBigramme en cour, algoBi+ING à faire, piechart, comparaison des méthodologies(échantillonnage)
 ###IHM
 *	Intégration des solutions dans l'interface
 *	Panel statistique

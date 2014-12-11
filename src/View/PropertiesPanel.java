@@ -23,6 +23,11 @@ public class PropertiesPanel extends JPanel implements Observer {
 	
 	private String[] methods;
 	
+	private String[] grammes;
+
+	private String[] nbrLettre;
+
+	
 	/*
 	 * Boite deroulante avec les choix predefinient du nombre de tweets a recuperer
 	 */
@@ -32,6 +37,16 @@ public class PropertiesPanel extends JPanel implements Observer {
 	 * Boite deroulante avec les choix de méthodes
 	 */
 	private JComboBox addMethods;
+	
+	/*
+	 * Boite deroulante avec les choix d'utiliser différent types de gramme
+	 */
+	private JComboBox addGrammes;
+	
+	/*
+	 * Boite deroulante avec les choix de méthodes
+	 */
+	private JComboBox addNbrLettres;
 	
 	private Model model;
 	
@@ -51,6 +66,19 @@ public class PropertiesPanel extends JPanel implements Observer {
 		 */
 		this.methods = new String[] {"Dictionnaire", "KNN", "Bayes_Presence", "Bayes_Frequence"};
 		
+		/*
+		 * set des types de gramme
+		 */
+		this.grammes = new String[] {"Unigramme", "Bigramme", "Uni-Bigramme"};
+		
+		/*
+		 * set des critères de sélection d'un mot
+		 */
+		this.nbrLettre = new String[] {"toutes les lettres", "+ de 3 lettres"};
+		
+		
+		
+		
 		/* #NbrTweets */
 		this.addNbrTweets = new JComboBox(this.nbrTweets);
 		this.addNbrTweets.setName("NbrTweetsButton");
@@ -63,6 +91,18 @@ public class PropertiesPanel extends JPanel implements Observer {
 		this.addMethods.setSelectedIndex(0);
 		this.add(addMethods, BorderLayout.EAST);
 		
+		/* #Grammes*/
+		this.addGrammes = new JComboBox(this.grammes);
+		this.addGrammes.setName("Grammes");
+		this.addGrammes.setSelectedIndex(0);
+		this.add(addGrammes, BorderLayout.EAST);
+		
+		/* #NbrLettres*/
+		this.addNbrLettres = new JComboBox(this.nbrLettre);
+		this.addNbrLettres.setName("nbrLettres");
+		this.addNbrLettres.setSelectedIndex(0);
+		this.add(addNbrLettres, BorderLayout.EAST);
+		
 	}
 
 	public JComboBox getNbrTweets() {
@@ -72,7 +112,16 @@ public class PropertiesPanel extends JPanel implements Observer {
 	public JComboBox getClassname() {
 		return this.addMethods;
 	}
-
+	
+	public JComboBox getNbrLettres() {
+		return this.addNbrLettres;
+	}
+	
+	public JComboBox getGramme() {
+		return this.addGrammes;
+	}
+	
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub

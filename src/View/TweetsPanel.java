@@ -41,7 +41,10 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		String content = "";
 		String contentClean = "";
 		String contentText = "";
-		String classname = this.model.getClassname();
+		String classname  = this.model.getClassname();
+		String gramme     = this.model.getGramme();
+		String nbrLettres = this.model.getNbrLettres();
+
 		if (classname == "KNN_Model") {
 			System.out.println("========================");
 			System.out.println("KNN");
@@ -63,7 +66,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
 			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < contentTweets.size(); i++) {
-				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN"));
+				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN","",""));
 			}
 		}
 		if (classname == "Dict_Model") {
@@ -76,26 +79,48 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = model.getResultEvaluationDictTweet(contentClean);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Dictionnaire"));
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Dictionnaire","",""));
 				}
 			}
 		}
+
+
+		((Bayes_Model) this.model).setBooleanNbrLetters((nbrLettres.equals("toutes les lettres"))?false:true);
+
+		if(gramme.equals("Uni-Bigramme")){
+			((Bayes_Model) this.model).setBooleanUnigramme(true);
+			((Bayes_Model) this.model).setBooleanBigramme(true);
+		}
+		else if(gramme.equals("Bigramme")){
+			((Bayes_Model) this.model).setBooleanUnigramme(false);
+			((Bayes_Model) this.model).setBooleanBigramme(true);
+		}
+		else{
+			((Bayes_Model) this.model).setBooleanUnigramme(true);
+			((Bayes_Model) this.model).setBooleanBigramme(false);
+		}
+
+		
+		
 		if (classname == "Bayes_Model_Presence"){
 
+			
 			System.out.println("========================");
 			System.out.println("BAYES");
 			System.out.println("========================");
+
+
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean,true);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Presence"));
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Presence", nbrLettres ,gramme));
 				}
 			}
 		}
-		
+
 		if (classname == "Bayes_Model_Frequence"){
 
 			System.out.println("========================");
@@ -107,7 +132,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean, false);
-					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Frequence"));
+					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Frequence", nbrLettres ,gramme));
 				}
 			}
 		}
@@ -125,12 +150,24 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 
 
 	public String[] getTweetList() {
-		String str = "";
-		for (Tweet tweet : tweetsList) {
-			str += tweet.toString() + ";;;";
+		
+		if(tweetsList.isEmpty()){
+			System.err.println("aucun tweet detecte");
+			//TODO
+			throw new NullPointerException();
 		}
-		str = str.substring(0, str.length()-3);
-		String[] result = str.split(";;;");
+		
+		int size = tweetsList.size();
+		String str = "";
+		String[] result = new String[size];
+		for (int i = 0; i < size; i++) {
+			result[i] = tweetsList.get(i).toString();
+		}
+//		for (Tweet tweet : tweetsList) {
+//			result[size] = tweet.toString();
+//		}
+//		str = str.substring(0, str.length()-3);
+//		 str.split(";;;");
 
 		return result;
 	}

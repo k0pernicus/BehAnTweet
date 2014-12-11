@@ -36,7 +36,7 @@ public class ResultPanel extends JPanel implements Observer {
 		this.stat_panel.setVisible(bool);
 	}
 	
-	public String[] getTweetList(){
+	public String[] getTweetList() throws NullPointerException {
 		return this.tweets_panel.getTweetList();
 	}
 

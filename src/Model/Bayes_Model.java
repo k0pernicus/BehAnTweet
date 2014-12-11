@@ -34,10 +34,17 @@ public class Bayes_Model extends KNN_Model {
 
 	private int nombre_occurence_total;
 
+	private boolean isPLUSTroisLettres; 
+
+	private boolean isBigramme;
+
+	private boolean isUnigramme;
+
 
 	/* constructor */
 	public Bayes_Model() {
 		super();
+
 		init_Bayes();
 
 
@@ -50,9 +57,12 @@ public class Bayes_Model extends KNN_Model {
 		} catch (IOException e) {
 			// TODO: handle exception
 		}
-
+		this.isPLUSTroisLettres = false;
+		this.isBigramme = false;
+		this.isUnigramme = false;
 		init_Nb_Tweets();
-		init_Nb_Mots();
+		init_Nb_Mots_Tous();			
+
 	}
 
 	/* Set the 3 arraylist with default csv file and the numbre of tweets and words*/
@@ -67,7 +77,7 @@ public class Bayes_Model extends KNN_Model {
 		nombre_tweets_INDETERMINE = tableau_Indetermine.size();
 	}
 
-	protected void init_Nb_Mots(){
+	protected void init_Nb_Mots_Tous(){
 
 		for (String str : tableau_Positif)
 			nombre_mots_POSITIF += (1 + this.stringOccur(str.trim(), " " ));
@@ -77,6 +87,23 @@ public class Bayes_Model extends KNN_Model {
 
 		for (String str : tableau_Indetermine)
 			nombre_mots_INDETERMINE += (1 + this.stringOccur(str.trim(), " " ));
+
+		nombre_de_mot_TOTAL = setNombreMotsTotal();
+	}
+
+	protected void init_Nb_Mots_PLUS_Trois_Lettres(){
+
+		for (String str : tableau_Positif)
+			for(String mot : str.split(" "))
+				nombre_mots_POSITIF += (mot.length()>3)?1:0;
+
+		for (String str : tableau_Negatif)
+			for(String mot : str.split(" "))
+				nombre_mots_NEGATIF += (mot.length()>3)?1:0;
+
+		for (String str : tableau_Indetermine)
+			for(String mot : str.split(" "))
+				nombre_mots_INDETERMINE += (mot.length()>3)?1:0;
 
 		nombre_de_mot_TOTAL = setNombreMotsTotal();
 	}
@@ -93,16 +120,16 @@ public class Bayes_Model extends KNN_Model {
 		float result, pOBP, nBM;
 		pOBP = (isPresence)?
 				probOccurenceBasiquePresence(mot, c) : //isPresence
-				probOccurenceBasiqueFrequence(mot, c); //!isPresence
-		if(pOBP == 0)
-			return 0;
-		nBM = getNombreMots(c);
-		result = (pOBP +1) / ( nBM+ nombre_de_mot_TOTAL );
+					probOccurenceBasiqueFrequence(mot, c); //!isPresence
+				if(pOBP == 0)
+					return 0;
+				nBM = getNombreMots(c);
+				result = (pOBP +1) / ( nBM+ nombre_de_mot_TOTAL );
 
-		System.out.println("probOccurenceBasique : " + pOBP);
-		System.out.println("Nb mots              : " + nBM);
-		System.out.println("result               : " + result);
-		return result;
+				System.out.println("probOccurenceBasique : " + pOBP);
+				System.out.println("Nb mots              : " + nBM);
+				System.out.println("result               : " + result);
+				return result;
 	}
 
 	protected int setNombreMotsTotal(){
@@ -202,39 +229,150 @@ public class Bayes_Model extends KNN_Model {
 	//la valeur la plus eleve l'emporte
 	protected classe algoEvalTweetBayes(String tweet_clean, boolean isPresence){
 
+
+		/*on a la ligne stocker dans le csv*/
 		System.out.println("TWEET CLEAN BITCH : " + tweet_clean);
 		String[] tab_tweet = tweet_clean.split(";");
 		String string_text = tab_tweet[2];
-		System.out.println("STRING TEXT BITCH : " + string_text);
-		String[] tab_text = string_text.split(" ");
+
+		String strTampon = (isPLUSTroisLettres)?regexReplace(string_text):string_text;
+
+		/*on a le tweet*/
+		System.out.println("STRING TEXT BITCH : " + strTampon);
+		String[] tab_text = strTampon.split(" ");
+
+
+
+		if(isPLUSTroisLettres){
+			init_Nb_Mots_PLUS_Trois_Lettres();
+		}
+		else{
+			init_Nb_Mots_Tous();
+		}
+		System.out.println("GRAMME : " + gramme);
+		System.out.flush();
+		if(gramme.equals("Unigramme"))
+			return AlgoUnigramme(tab_text, isPresence);
+		else if(gramme.equals("Bigramme")){
+			return AlgoBigramme(tab_text, isPresence);
+		}
+		else {
+			return Algo_Uni_Bigramme(tab_text, isPresence);
+		}
+
+
+	}
+	
+	classe Algo_Uni_Bigramme(String[] tab, boolean isPresence){
+		classe result = classe.POSITIVE;
+		/***************************************************************************/
+		/* Unigramme */
+		
+		float p_POSITIVE = 1;
+		float p_NEGATIVE = 1;
+		float p_INDETERMINE = 1;
+
+
+		for(String str : tab) {
+			float tmp = probOccurenceAdvanced(str , classe.POSITIVE, isPresence);
+			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
+			tmp = probOccurenceAdvanced(str, classe.NEGATIVE, isPresence);
+			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
+
+			tmp = probOccurenceAdvanced(str,classe.INDETERMINE, isPresence);
+			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
+		}
+
+
+
+		p_POSITIVE    *= ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE    *= ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE *= ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
+		
+		
+		
+		/***************************************************************************/
+		
+		/*Bigramme*/
+		
+		float p_POSITIVE_BI = 1;
+		float p_NEGATIVE_BI = 1;
+		float p_INDETERMINE_BI = 1;
+
+
+		
+		if(tab.length<2) return AlgoUnigramme(tab, isPresence);
+		
+		String[] tampon_BI = new String[2];
+		tampon_BI[0] = "";
+		tampon_BI[1] = "";
+		
+		int ready_a_deux = 0;
+		
+		
+		for(String strfor : tab) {
+			tampon_BI[0] = tampon_BI[1];
+			tampon_BI[1] = strfor;
+			ready_a_deux++;
+			if(ready_a_deux<2) {
+				continue;
+			}
+			ready_a_deux = 0;
+			String str = tampon_BI[0].concat(" " + tampon_BI[1]);
+			
+			float tmp_BI = probOccurenceAdvanced(str , classe.POSITIVE, isPresence);
+			p_POSITIVE_BI    *= (tmp_BI == 0)? 1 : tmp_BI ;
+			tmp_BI = probOccurenceAdvanced(str, classe.NEGATIVE, isPresence);
+			p_NEGATIVE_BI    *= (tmp_BI == 0)? 1 : tmp_BI ;
+			tmp_BI = probOccurenceAdvanced(str,classe.INDETERMINE, isPresence);
+			p_INDETERMINE_BI *= (tmp_BI == 0)? 1 : tmp_BI ;
+		}
+
+		p_POSITIVE_BI    *= ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE_BI    *= ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE_BI *= ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
+		
+		
+		
+		/*******************************************************/
+		
+		/*Uni-Bigramme*/
+		
+		float p_POSITIVE_UNI_BI = p_POSITIVE * p_POSITIVE_BI;
+		float p_NEGATIVE_UNI_BI = p_NEGATIVE * p_NEGATIVE_BI;
+		float p_INDETERMINE_UNI_BI = p_INDETERMINE * p_INDETERMINE_BI;
+		
+
+		if (p_NEGATIVE_UNI_BI > p_POSITIVE_UNI_BI && p_NEGATIVE_UNI_BI > p_INDETERMINE_UNI_BI)
+			return classe.NEGATIVE;
+		if (p_POSITIVE_UNI_BI > p_INDETERMINE_UNI_BI )
+			return classe.POSITIVE;
+		else
+			return classe.INDETERMINE;
+		
+	}
+
+	classe AlgoUnigramme(String[] tab, boolean isPresence){
 
 		classe result = classe.POSITIVE;
 		float p_POSITIVE = 1;
 		float p_NEGATIVE = 1;
 		float p_INDETERMINE = 1;
-		//		p_POSITIVE    = ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
-		//		p_NEGATIVE    = ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
-		//		p_INDETERMINE = ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
 
-		for(String str : tab_text) {
+
+		for(String str : tab) {
 			float tmp = probOccurenceAdvanced(str , classe.POSITIVE, isPresence);
-			System.out.println("Proba Positif EN COURS 1   : " + p_POSITIVE);
 			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
-			System.out.println("Proba Positif EN COURS 2   : " + p_POSITIVE);
 			tmp = probOccurenceAdvanced(str, classe.NEGATIVE, isPresence);
-			System.out.println("Proba Negatif EN COURS 1  : " + p_NEGATIVE);
 			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
-			System.out.println("Proba Negatif EN COURS 2  : " + p_NEGATIVE);
 
 			tmp = probOccurenceAdvanced(str,classe.INDETERMINE, isPresence);
-			System.out.println("Proba Indeter EN COURS 1  : " + p_INDETERMINE);
 			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
-			System.out.println("Proba Indeter EN COURS 2  : " + p_INDETERMINE);
 		}
 
-		System.out.println("Proba Positif av : " + p_POSITIVE);
-		System.out.println("Proba Negatif av : " + p_NEGATIVE);
-		System.out.println("Proba Indeter av  : " + p_INDETERMINE);
+//		System.out.println("Proba Positif av : " + p_POSITIVE);
+//		System.out.println("Proba Negatif av : " + p_NEGATIVE);
+//		System.out.println("Proba Indeter av  : " + p_INDETERMINE);
 
 
 
@@ -242,23 +380,9 @@ public class Bayes_Model extends KNN_Model {
 		p_NEGATIVE    *= ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
 		p_INDETERMINE *= ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
 
-		//		System.out.println("nb positif : " + ((float)getNombreTweets(classe.POSITIVE)    /* getNombreTweetsTotal()*/));
-		//		System.out.println("nb negatif : " + ((float)getNombreTweets(classe.NEGATIVE)    /* getNombreTweetsTotal()*/));
-		//		System.out.println("nb indeter : " + ((float)getNombreTweets(classe.INDETERMINE) /* getNombreTweetsTotal()*/));
-		//		
-		//		System.out.println("proportion positif apres : " + ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal()));
-		//		System.out.println("proportion negatif apres : " + ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal()));
-		//		System.out.println("proportion indeter apres : " + ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal()));
-		//		
-		//		
-		System.out.println("Proba Positif : " + p_POSITIVE);
-		System.out.println("Proba Negatif : " + p_NEGATIVE);
-		System.out.println("Proba Indeter : " + p_INDETERMINE);
-		//		
-		//		
-		//		System.out.println("taille tableau positif" + tableau_Positif.size());
-		//		System.out.println("taille tableau negatif" + tableau_Negatif.size());
-		//		System.out.println("taille tableau indetermine" + tableau_Indetermine.size());
+//		System.out.println("Proba Positif : " + p_POSITIVE);
+//		System.out.println("Proba Negatif : " + p_NEGATIVE);
+//		System.out.println("Proba Indeter : " + p_INDETERMINE);
 
 
 		if (p_NEGATIVE > p_POSITIVE && p_NEGATIVE > p_INDETERMINE)
@@ -267,9 +391,58 @@ public class Bayes_Model extends KNN_Model {
 			return classe.POSITIVE;
 		else
 			return classe.INDETERMINE;
-
-
 	}
+
+	classe AlgoBigramme(String[] tab, boolean isPresence){
+
+		classe result = classe.POSITIVE;
+		float p_POSITIVE = 1;
+		float p_NEGATIVE = 1;
+		float p_INDETERMINE = 1;
+
+
+		
+		if(tab.length<2) return AlgoUnigramme(tab, isPresence);
+		
+		String[] tampon = new String[2];
+		tampon[0] = "";
+		tampon[1] = "";
+		
+		int ready_a_deux = 0;
+		
+		
+		for(String strfor : tab) {
+			tampon[0] = tampon[1];
+			tampon[1] = strfor;
+			ready_a_deux++;
+			if(ready_a_deux<2) {
+				continue;
+			}
+			ready_a_deux = 0;
+			String str = tampon[0].concat(" " + tampon[1]);
+			
+			float tmp = probOccurenceAdvanced(str , classe.POSITIVE, isPresence);
+			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
+			tmp = probOccurenceAdvanced(str, classe.NEGATIVE, isPresence);
+			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
+			tmp = probOccurenceAdvanced(str,classe.INDETERMINE, isPresence);
+			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
+		}
+
+		p_POSITIVE    *= ((float)getNombreTweets(classe.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE    *= ((float)getNombreTweets(classe.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE *= ((float)getNombreTweets(classe.INDETERMINE) / getNombreTweetsTotal());
+
+		if (p_NEGATIVE > p_POSITIVE && p_NEGATIVE > p_INDETERMINE)
+			return classe.NEGATIVE;
+		if (p_POSITIVE > p_INDETERMINE )
+			return classe.POSITIVE;
+		else
+			return classe.INDETERMINE;
+	}
+
+
+
 	protected int getNombreTweetsTotal(){
 		int result = 0;
 
@@ -294,6 +467,10 @@ public class Bayes_Model extends KNN_Model {
 	}
 
 
+	public void setBooleanNbrLetters(boolean b) {
+		this.isPLUSTroisLettres = b;
+
+	}
 
 	/////////////////////////////////////
 
@@ -323,6 +500,19 @@ public class Bayes_Model extends KNN_Model {
 		return occur;
 	}
 
+	public final String regexReplace(String text){
+		String tampon = text;
+		Pattern p = Pattern.compile("\\s\\S\\S\\S\\s");
+		Matcher m = p.matcher(tampon);
+		StringBuffer sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, " ");
+		m.appendTail(sb);
+
+		return sb.toString();
+	}
+
+
 	public static void main(String[] args) {
 		String tweet = ";;Mommy c'est trop bien;;;;Positif;";
 		Bayes_Model model = new Bayes_Model();
@@ -331,6 +521,14 @@ public class Bayes_Model extends KNN_Model {
 
 
 
+	}
+
+	public void setBooleanBigramme(boolean b) {
+		this.isBigramme = b;
+	}
+
+	public void setBooleanUnigramme(boolean b){
+		this.isUnigramme = b;
 	}
 
 

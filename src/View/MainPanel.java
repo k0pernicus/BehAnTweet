@@ -103,6 +103,38 @@ public class MainPanel extends JPanel implements Observer{
 				return "Dict_Model";
 		}
 	}
+	
+	/**
+	 * Méthode permettant de retourner le type de gramme voulu
+	 * @return Le type de gramme voulu
+	 */
+	public String getSelectedGramme() {
+		switch((String) this.propertiesPanel.getGramme().getSelectedItem()) {
+		case "Unigramme":
+			return "Unigramme";
+		case "Bigramme":
+			return "Bigramme";
+		case "Uni-Bigramme":
+			return "Uni-Bigramme";
+		default:
+			return "Unigramme";
+		}
+	}
+	
+	
+	/**
+	 * Méthode permettant de retourner la taille des mots voulu
+	 * @return La taille minimal des mots voulu
+	 */
+	public String getSelectedNbrLetters() {
+		switch((String) this.propertiesPanel.getNbrLettres().getSelectedItem()) {
+			case "+ de 3 lettres":
+				return "plus_trois_lettres";
+			default:
+				return "toutes_les_lettres";
+		}
+	}
+	
 
 	@Override
 	protected void paintComponent(Graphics g) {

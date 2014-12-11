@@ -33,6 +33,7 @@ public class ButtonPanel extends JPanel {
 		btnValidate = new JButton("Validate");
 		btnValidate.setName("ValidateButton");
 		btnValidate.addActionListener(new ValidateActionListener(this.model));
+		btnValidate.setEnabled(false);
 		add(btnValidate, BorderLayout.PAGE_END);
 	}
 
