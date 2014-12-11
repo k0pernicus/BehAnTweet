@@ -14,6 +14,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import twitter4j.Status;
+import Controler.Tweet;
 import Model.Bayes_Model;
 import Model.KNN_Model;
 import Model.Model;
