@@ -90,14 +90,14 @@ Aussi, nous allons utiliser cette interface via la librairie Java \textit{Twitte
 
 \chapter{Présentation du logiciel}
 
-Notre logiciel se nomme \textit{BehAnTweet}.\\
+Notre logiciel se nomme \textit{BehAnTweet}\footnote{La documentation développeur du logiciel est présente dans le répertoire \textit{\textbf{doc}}, à partir de la racine du projet.}.\\
 En effet, le projet consiste à analyser le comportement des tweets. \textit{BehAnTweet} provient de la concaténation des principales informations données par le titre du projet : Analyser - Comportement - Tweets.\\
 En anglais, nous avons donc la concaténation des mots Behavior, Analysis et Tweet - afin de pouvoir parler de "Behavior the Analysis of a Tweet".\\
 Le logo du logiciel est une référence à \textit{Bahamut}\footnote{Un poisson ou serpent géant dans la mythologie Arabe.}.
 \\
 \\
 Git a été utilisé comme logiciel de versioning principal, dû à sa simplicité d'emploi, à la durée d'utilisation faite de celui-ci depuis plusieurs mois ainsi que grâce à l'application interactive Github\footnote{https://github.com/WebTogz/BehAnTweet}.\\
-Svn a lui été utilisé pour transmettre toutes les 2/3 semaines la version principale du logiciel aux professeurs responsables de l'UE.
+Svn a lui été utilisé pour transmettre la version principale du logiciel aux professeurs responsables de l'UE, à une période de 3 semaines.
 
 \section{Description de l'architecture de l'application}
 
@@ -113,7 +113,20 @@ Aussi, le gros bénéfice de ce patron est qu'il permet facilement l'évolution 
 
 \chapter{Algorithmes de classification}
 
+Pour l'analyse de tweets, divers algorithmes de classification ont été utilisés.\\
+Voici la liste des algorithmes de classification utilisés.
+
 \section{Dictionnaire}
+
+L'algorithme \textbf{Dictionnaire} est l'algorithme le plus facile à programmer.\\
+En effet, il consiste dans un premier temps à obtenir une liste de mots positifs et négatifs. Chaque tweet sera découpé en mots, et chaque mot sera confondu avec les deux listes - aussi, le tweet partira avec un score entier nul. Si un des mots du tweet est reconnu dans la liste de mots positifs, on diminuera son score - à contrario, si ce mot est reconnu dans la liste de mots négatifs, on augmentera son score.\\
+Finalement, on obtiendra pour un tweet un score, somme des scores de chaque mot appartenant à celui-ci. Ce score décidera de la classification auquel appartient le tweet:
+\begin{itemize}
+\item{positif, si le score est négatif,}
+\item{indéterminé, si le score est nul,}
+\item{négatif, si le score est positif.}
+\end{itemize}
+La critique première qui peut être faite pour cette méthode de classification est qu'il est nécessaire de donner tous les mots possibles pour classifier un tweet - aussi, cette méthode ne gère pas le cynisme, ironie et sarcasme des tweets, car cet algorithme ne travaille pas sur une base d'apprentissage.
 
 \section{KNN}
 
