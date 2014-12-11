@@ -3,18 +3,25 @@ package Controler;
 import java.io.File;
 
 /**
- * Classe permettant de récupérer des informations sur un fichier CSV
+ * Classe CsvFile
+ * Classe permettant de récupérer des informations d'un fichier CSV
  * @author antonin
  */
 public class CsvFile {
+	
+	/**
+	 * Constante valant le chemin vers les fichiers ressources du programme
+	 * La constante pointe vers le répertoire 'resources'
+	 */
+	final static String PATH = "../resources/";
 
 	/**
-	 * Méthode permettant de récupérer le chemin du fichier
+	 * Méthode permettant de récupérer le chemin du fichier, dont le nom est passé en paramètre
 	 * @param fileName Le nom du fichier
 	 * @return Le chemin du fichier entré en paramètre
 	 */
     public static String getResourcePath(String fileName) {
-       final String dossierPath = "../resources/" + fileName;
+       final String dossierPath = PATH + fileName;
        return dossierPath;
    }
 
