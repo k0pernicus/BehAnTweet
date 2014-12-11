@@ -10,74 +10,91 @@ import javax.swing.JPanel;
 import Model.Model;
 
 /**
- * Classe permettant d'implémenter un choix de propriétés
+ * Classe PropertiesPanel
+ * Classe permettant d'implémenter un panel contenant un large choix de propriétés
  * @author antonin
- *
  */
 public class PropertiesPanel extends JPanel implements Observer {
 	
-	/*
+	/**
 	 * Nombre de tweets a retourner
 	 */
 	private String[] nbrTweets;
 	
+	/**
+	 * Toutes les méthodes de classification
+	 */
 	private String[] methods;
 	
+	/**
+	 * Toutes les grammes - pour la classification Bayesienne
+	 */
 	private String[] grammes;
 
+	/**
+	 * Tout le choix concernant le nombre de lettres pour les grammes
+	 */
 	private String[] nbrLettre;
 
-	
-	/*
-	 * Boite deroulante avec les choix predefinient du nombre de tweets a recuperer
+	/**
+	 * Boîte déroulante contenant le nombre de tweets à récupérer sur le sujet voulu
 	 */
 	private JComboBox addNbrTweets;
 	
-	/*
-	 * Boite deroulante avec les choix de méthodes
+	/**
+	 * Boîte déroulante contenant tous les choix de méthodes
 	 */
 	private JComboBox addMethods;
 	
-	/*
-	 * Boite deroulante avec les choix d'utiliser différent types de gramme
+	/**
+	 * Boîte déroulante contenant tous les choix de grammes
 	 */
 	private JComboBox addGrammes;
 	
-	/*
-	 * Boite deroulante avec les choix de méthodes
+	/**
+	 * Boite déroulante contenant tous les choix du nombre de lettres choisies
 	 */
 	private JComboBox addNbrLettres;
 	
+	/**
+	 * Modèle du projet
+	 */
 	private Model model;
 	
+	/**
+	 * Constructeur de l'objet PropertiesPanel
+	 * @param model Le modèle du projet
+	 */
 	public PropertiesPanel(Model model) {
 		
 		super();
+		
+		/*
+		 * Relation modèle - objet
+		 */
 		this.model = model;
 		this.model.addObserver(this);
 	
 		/*
-		 * set des quantites par defaut des tweets recuperables
+		 * Quantité par défaut des tweets récupérables
+		 * 100 au maximum - limité par la libraire Twitter4J et l'API Twitter
 		 */
 		this.nbrTweets = new String[] {"20", "40", "60", "80", "100"};
 		
 		/*
-		 * set des méthodes de classification
+		 * Différentes méthodes de de classification disponibles
 		 */
 		this.methods = new String[] {"Dictionnaire", "KNN", "Bayes_Presence", "Bayes_Frequence"};
 		
 		/*
-		 * set des types de gramme
+		 * Différents types de grammes disponibles
 		 */
 		this.grammes = new String[] {"Unigramme", "Bigramme", "Uni-Bigramme"};
 		
 		/*
-		 * set des critères de sélection d'un mot
+		 * Différents critères de sélection d'un mot disponibles
 		 */
 		this.nbrLettre = new String[] {"toutes les lettres", "+ de 3 lettres"};
-		
-		
-		
 		
 		/* #NbrTweets */
 		this.addNbrTweets = new JComboBox(this.nbrTweets);
@@ -105,18 +122,34 @@ public class PropertiesPanel extends JPanel implements Observer {
 		
 	}
 
+	/**
+	 * Méthode permettant de renvoyer une JComboBox contenant toutes les possibilités données quant au nombre de tweets à récupérer
+	 * @return JComboBox contenant toutes les possibilitées données quant au nombre de tweets à récupérer
+	 */
 	public JComboBox getNbrTweets() {
 		return this.addNbrTweets;
 	}
 	
+	/**
+	 * Méthode permettant de renvoyer une JComboBox contenant toutes les possibilités données quant aux méthodes de classification utilisées
+	 * @return JComboBox contenant toutes les possibilitées données quant aux méthodes de classification utilisées
+	 */
 	public JComboBox getClassname() {
 		return this.addMethods;
 	}
 	
+	/**
+	 * Méthode permettant de renvoyer une JComboBox contenant toutes les possibilités données quant aux critères de sélection d'un mot disponibles
+	 * @return JComboBox contenant toutes les possibilitées données quant aux critères de sélection d'un mot disponibles
+	 */
 	public JComboBox getNbrLettres() {
 		return this.addNbrLettres;
 	}
 	
+	/**
+	 * Méthode permettant de renvoyer une JComboBox contenant toutes les possibilités données quant aux grammes disponibles
+	 * @return JComboBox contenant toutes les possibilitées données quant aux grammes disponibles
+	 */
 	public JComboBox getGramme() {
 		return this.addGrammes;
 	}
@@ -124,8 +157,6 @@ public class PropertiesPanel extends JPanel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
-
 }
