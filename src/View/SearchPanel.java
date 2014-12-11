@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import Model.Model;
 
 /**
+ * Classe SearchPanel
  * Classe permettant d'instancier un panel contenant:
  * - un logo
  * - une barre de recherche
@@ -24,29 +25,29 @@ import Model.Model;
  */
 public class SearchPanel extends JPanel implements Observer {
 	
-	/*
-	 * champ texte contenant l'URL du logo
+	/**
+	 * Champ texte contenant l'URL du logo
 	 */
 	private String URL_logo = "./images/Bahamut_icon.jpg";
-	/*
-	 * logo contient le logo du projet
+	/**
+	 * Image contient le logo du projet
 	 */
 	private BufferedImage logo;
-	/*
-	 * searchBar contient la barre de recherche
+	/**
+	 * Attribut contenant la barre de recherche
 	 */
 	private JTextField searchBar;
-	/*
-	 * Panel contenant les boutons d'interactions
+	/**
+	 * Panel contenant les boutons d'intéractions
 	 */
 	private ButtonPanel buttonPanel;
-	/*
-	 * Le model du projet
+	/**
+	 * Le modèle du projet
 	 */
 	private Model model;
 	
 	/**
-	 * Constructeur de la classe SearchPanel
+	 * Constructeur de l'objet SearchPanel
 	 * @param model Le modèle du projet
 	 * @throws IOException Exception levée lors du chargement de l'image - problème de lecture
 	 */
@@ -58,24 +59,36 @@ public class SearchPanel extends JPanel implements Observer {
 		this.model = model;
 		this.model.addObserver((Observer) this);
 		
-		//Initialisation du BorderLayout
+		/*
+		 * Initialisation du BorderLayout
+		 */
 		setLayout(new BorderLayout(0, 0));
 		
-		//Construction du logo
+		/*
+		 * Construction du logo
+		 */
 		BufferedImage myPicture = ImageIO.read(new File(URL_logo));
 		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 		add(picLabel, BorderLayout.WEST);
 		
-		//Construction de la searchBar
+		/*
+		 * Construction de la searchBar
+		 */
 		this.searchBar = new JTextField();
 		this.searchBar.setColumns(10);
 		add(this.searchBar, BorderLayout.CENTER);
 		
-		//Construction du buttonPanel
+		/*
+		 * Construction du buttonPanel	
+		 */
 		this.buttonPanel = new ButtonPanel(model);
 		add(this.buttonPanel, BorderLayout.EAST);
 	}
 
+	/**
+	 * Méthode permettant de récupérer le contenu de la searchBar
+	 * @return Une chaîne de caractères - contenu de la searchBar
+	 */
 	public String getText() {
 		return this.searchBar.getText();
 	}
@@ -83,7 +96,5 @@ public class SearchPanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		
 	}
-	
 }
