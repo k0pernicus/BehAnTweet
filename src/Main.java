@@ -4,13 +4,13 @@ import View.MainFrame;
 
 /**
  * Classe main
- * Classe Main du programme BehAnTweet
+ * Classe principale du programme BehAnTweet
  * @author verkyndt
  */
 public class Main {
 
 	/**
-	 * Méthode Main du programme BehAnTweet
+	 * Méthode de chargement principal du programme BehAnTweet
 	 * Cette méthode permettra de simuler le programme BehAnTweet
 	 */
 	public static void main(String[] args){
