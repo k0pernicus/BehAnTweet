@@ -9,19 +9,19 @@ import Model.Model;
 
 /**
  * Classe NbrTweetsActionListener
- * Classe permettant d'instancier le Listener du nombre de tweets de la GUI
+ * ActionListener du JComboBox contenant le nombre de tweets de la GUI
  * @author antonin
  */
 public class NbrTweetsActionListener implements ActionListener {
 	
 	/**
-	 * Modèle du listener
+	 * Attribut contenant le modèle du listener
 	 */
 	private Model model;
 	
 	/**
-	 * Constructeur de la classe
-	 * @param model Modèle du listener
+	 * Constructeur de l'objet NbrTweetsActionListener
+	 * @param model Le modèle du projet
 	 */
 	public NbrTweetsActionListener(Model model){
 		this.model = model;
