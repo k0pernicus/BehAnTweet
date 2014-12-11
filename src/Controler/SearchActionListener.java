@@ -13,8 +13,10 @@ import View.MainPanel;
 import View.ButtonPanel;
 
 /**
- * ActionListener du bouton "Search" dans le main
- * @author antonin verkyndt
+ * Classe SearchActionListener
+ * ActionListener du bouton "Search" de la GUI
+ * @author antonin
+ * @author verkyndt
  */
 public class SearchActionListener implements ActionListener {
 
@@ -24,7 +26,7 @@ public class SearchActionListener implements ActionListener {
 	private Model model;
 
 	/**
-	 * Constructeur de l'objet Listener
+	 * Constructeur de l'objet SearchActionListener
 	 * @param model Le modèle du projet
 	 */
 	public SearchActionListener(Model model) {
@@ -34,9 +36,18 @@ public class SearchActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton searchButton = (JButton) e.getSource();
+		/*
+		 * sBParent contiendra le ButtonPanel
+		 */
 		ButtonPanel sBParent = (ButtonPanel) searchButton.getParent();
+		/*
+		 * sBParentParent contiendra le MainPanel
+		 */
 		MainPanel sBParentParent = (MainPanel) searchButton.getParent().getParent().getParent();
-		
+		/*
+		 * On essaie d'appeler la méthode 'run', qui permettra d'automatiser toute la procédure de récupération de tweets et d'analyse de comportements.
+		 * On recharge le MainPanel
+		 */
 		try {
 			if(sBParentParent.getSearchText().trim().length()<1)
 				return;
@@ -47,8 +58,11 @@ public class SearchActionListener implements ActionListener {
 			model.countResult(sBParentParent.getResultPanel().getTweetList());
 			sBParentParent.repaint();
 			sBParentParent.revalidate();
-			
-		} catch (FileNotFoundException fileNotFound) {
+		}
+		/*
+		 * Renvoie d'exception
+		 */
+		catch (FileNotFoundException fileNotFound) {
 			System.out.println("Fichier non trouvé");
 			System.out.println(fileNotFound.getMessage());
 		} catch (IOException writeError) {
@@ -61,6 +75,9 @@ public class SearchActionListener implements ActionListener {
 		} catch (NullPointerException e1){
 			System.out.println(e1.getMessage());
 		}
+		/*
+		 * On autorise l'utilisateur a validé une nouvelle recherche, mais aussi à valider manuellement les résultats des algos de comportement
+		 */
 		sBParent.setSearchButton(true);
 		sBParent.setValidateButton(true);
 	}
