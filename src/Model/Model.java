@@ -93,6 +93,7 @@ public class Model extends Observable {
 
 	/**
 	 * Constructeur de l'objet Model
+	 * @constructor
 	 */
 	public Model(){
 		super();
