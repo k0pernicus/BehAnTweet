@@ -17,6 +17,7 @@ import Model.Model;
  * Classe permettant d'instancier le panel principal, qui contiendra tout les composants necessaires à l'application 
  * @extends JPanel
  * @implements Observer
+ * @author antonin
  * @author verkyndt
  */
 public class MainPanel extends JPanel implements Observer{

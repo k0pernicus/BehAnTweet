@@ -26,6 +26,7 @@ import Model.Model;
  * @implements Observer
  * @implements Scrollable
  * @author antonin
+ * @author verkyndt
  */
 public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	

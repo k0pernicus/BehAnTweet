@@ -23,7 +23,7 @@ import Model.Model;
  * - un bouton de validation
  * @extends JPanel
  * @implements Observer
- * @author Antonin
+ * @author antonin
  */
 public class SearchPanel extends JPanel implements Observer {
 	
