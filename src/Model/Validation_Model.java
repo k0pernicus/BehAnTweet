@@ -10,6 +10,10 @@ import java.util.Collections;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
+/**
+ * 
+ * @author verkyndt
+ */
 public class Validation_Model extends Bayes_Model {
 
 	/*Taux d'erreur*/
