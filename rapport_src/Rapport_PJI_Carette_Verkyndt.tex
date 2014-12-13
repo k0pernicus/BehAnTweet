@@ -113,19 +113,21 @@ Nous avons utilisé le modèle \textbf{MVC} (pour Modèle - Vue - Contrôleur) p
 Ce modèle, très connu pour le développement logiciel, est destiné à répondre aux besoins des applications interactives, en séparant les problématiques liées aux différents composants au sein de leur architecture respective.\\
 Aussi, le gros bénéfice de ce patron est qu'il permet facilement l'évolution de l'application par la suite, via l'ajout de classes dans les packages spécifiques suivants: \textbf{Controler}, \textbf{Model}, \textbf{View}.
 
-\subsection{Controler}
+\subsection{Packaging}
+
+\subsubsection{Controler}
 
 Le contrôleur prend en charge la gestion des événements de synchronisation pour mettre à jour la vue ou le modèle, et les synchroniser. Il analyse la requête du client et se contentera alors renvoyer la vue correspondant à la demande, en fonction du modèle appelé. Aussi, il est important de savoir que le contrôleur n'effectue aucun traitement, et ne modifie aucunement les données!
 \\
 Il était ainsi nécessaire d'implémenter le patron \textbf{Observable/Observeur}, afin de pouvoir un Observer (objet qui observe) qu'une modification a été apporté sur un Observable (objet observé par un Observer).
 
-\subsection{Model}
+\subsubsection{Model}
 
 Le modèle est le coeur algorithmique de l'application - il gère le traitement des données, la modification des vues mais aussi les interactions avec la base de données.
 \\
 Le package Model contiendra tous les modèles de l'application - chaque modèle (à part la base Model.java) contiendra sa propre implémentation d'un algorithme de classification (Dictionnaire, KNN, Bayes).
 
-\subsection{View}
+\subsubsection{View}
 
 La vue est le coeur de l'intéraction avec l'application.
 \\
@@ -140,7 +142,7 @@ Toutes ces tâches, une fois finalisées, seront renvoyées au Contrôleur de l'
 
 Nous avons pensé avant tout à une utilisation simple du logiciel, reposant sur une seule fenêtre. Cette fenêtre contiendra tous les paramètres pouvant être manipulés par l'utilisateur (le nombre de tweets à recueillir, l'algorithme utilisé et ses spécifications), une barre de recherche concernant un sujet donné, et enfin un grand espace dédié à la liste des tweets recueillis et de leur classification par l'algorithme choisi.
 
-\subsection{Copies d'écran}
+\subsection{Captures d'écran}
 
 \subsection{Manuel d'utilisation}
 
