@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import Model.Bayes_Model;
 import Model.Dict_Model;
 import Model.Model;
@@ -13,8 +15,9 @@ public class Main {
 	/**
 	 * Méthode de chargement principal du programme BehAnTweet
 	 * Cette méthode permettra de simuler le programme BehAnTweet
+	 * @throws IOException 
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException{
 		/*
 		 * Le modèle par defaut sera Bayes_Model
 		 */

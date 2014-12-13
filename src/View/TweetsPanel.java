@@ -97,7 +97,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			}
 			for (int i = 0; i < contentTweets.size(); i++) {
 				String tweet_i = contentTweets.get(i);
-				int int_avis = ((KNN_Model)this.model).getEvaluationKNNTweet(tweet_i);
+				int int_avis = ((KNN_Model) this.model).getEvaluationKNNTweet(tweet_i);
 				String avis = ((KNN_Model) this.model).getEvaluationByResult(int_avis);
 				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), avis, "KNN","",""));
 			}

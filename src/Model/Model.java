@@ -8,18 +8,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import Controler.Dictionnaire;
 
 /**
  * Classe Model
@@ -99,6 +96,7 @@ public class Model extends Observable {
 			tableau_Indetermine = new ArrayList<String>();
 			tableau_Positif = new ArrayList<String>();
 			tableau_Negatif = new ArrayList<String>();
+			tableau_tweets = new ArrayList<Obj_tweet>();
 		} 
 		/*
 		 * Capture de l'exception si jamais le fichier CSV à générer n'est pas trouvé
@@ -160,11 +158,15 @@ public class Model extends Observable {
 
 	//CSV FILE METHOD
 	
+	protected void init_Clean_CSV() throws IOException {
+		this.getByCSVFile(CLEAN_FILE_NAME);
+	}
+	
 	/**
 	 * Méthode permettant de charger la base d'apprentissage
 	 * @throws IOException Exception levée si le chemin de la base d'apprentissage est incorrect
 	 */
-	protected void init_Array() throws IOException{
+	protected void init_Base_Apprentissage() throws IOException{
 		/*
 		 * Chargement de la base d'apprentissage
 		 * Ajout des tweets de la base dans chaque ensemble (Positif, Négatif, Indéterminé)
@@ -227,7 +229,7 @@ public class Model extends Observable {
 				/*
 				 * On ajoute le tweet dans la liste de tweets (tout avis confondu)
 				 */
-				tableau_tweets.add(new Obj_tweet(tweet, avis));
+				this.tableau_tweets.add(new Obj_tweet(tweet, avis));
 				/*
 				 * On ajoute le tweet dans la liste correspondante, en fonction de l'avis
 				 */

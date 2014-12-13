@@ -35,7 +35,7 @@ public class Validation_Model extends Bayes_Model {
 	
 	/*Constructeur*/
 	
-	public Validation_Model() {
+	public Validation_Model() throws IOException {
 		super();
 		ensemble_Positif = new ArrayList<String>();
 		ensemble_Negatif = new ArrayList<String>();

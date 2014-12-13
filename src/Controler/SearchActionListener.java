@@ -54,7 +54,6 @@ public class SearchActionListener implements ActionListener {
 				return;
 			sBParent.setSearchButton(false);
 			model.run(sBParentParent.getSearchText(), sBParentParent.getSelectedNbrTweets(), sBParentParent.getSelectedClassname(), sBParentParent.getSelectedGramme(),sBParentParent.getSelectedNbrLetters());
-			
 			sBParentParent.repaint();
 			sBParentParent.revalidate();
 		}

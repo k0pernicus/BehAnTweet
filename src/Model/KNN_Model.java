@@ -21,21 +21,9 @@ public class KNN_Model extends Dict_Model {
 	 * Constructeur permettant d'implémenter un modèle KNN
 	 * @constructor
 	 */
-	public KNN_Model() {
+	public KNN_Model() throws IOException {
 		super();
-		/*
-		 * Chargement de la base d'apprentissage
-		 */
-		try {
-			super.init_Array();
-		} 
-		/*
-		 * Exception remontée si la base d'apprentissage n'a pas été trouvé
-		 */
-		catch (IOException e) {
-			System.out.println("Fichier non trouvé");
-			e.printStackTrace();
-		}
+		init_Clean_CSV();
 	}
 	
 	/**
@@ -86,11 +74,13 @@ public class KNN_Model extends Dict_Model {
 				compteur++;
 		}
 		
+		int nb_words = nb_words_tweet + nb_words_tweet_clean;
+		
 		/*
 		 * Evaluation du tweet, selon la formule ci-dessous
 		 * Formule : [Nombre de mots en tout - (nombre de mots en commun * 2)]
 		 */
-		distance = (nb_words_tweet + nb_words_tweet_clean) - (compteur * 2);
+		distance = (nb_words - compteur) / nb_words;
 		
 		/*
 		 * On retourne l'évaluation du tweet
@@ -115,12 +105,12 @@ public class KNN_Model extends Dict_Model {
 		/*
 		 * Tableau d'objets allant contenir les K_LIMITS voisins du tweet donné
 		 */
-		distanceCouple[] KNN_voisins = new distanceCouple[K_LIMITS];
+		DistanceCouple[] KNN_voisins = new DistanceCouple[K_LIMITS];
 		
 		/*
 		 * Méthode de comparaison pour des objets de type distanceCouple
 		 */
-		compareDistanceCouple distance_couple_comparaison = new compareDistanceCouple();
+		CompareDistanceCouple distance_couple_comparaison = new CompareDistanceCouple();
 		
 		/*
 		 * Ajout des K_LIMITS premiers tweets
@@ -128,7 +118,7 @@ public class KNN_Model extends Dict_Model {
 		for (int i = 0; i < K_LIMITS; i++) {
 			Obj_tweet tweet_i = this.tableau_tweets.get(i);
 			String tweet_tweet_i = tweet_i.getTweet();
-			KNN_voisins[i] = new distanceCouple(this.distanceKNNTweets(tweet, tweet_tweet_i), tweet_tweet_i, tweet_i.getAvis());
+			KNN_voisins[i] = new DistanceCouple(this.distanceKNNTweets(tweet, tweet_tweet_i), tweet_tweet_i, tweet_i.getAvis());
 		}
 		
 		/*
@@ -189,7 +179,7 @@ public class KNN_Model extends Dict_Model {
 	 * Classe interne privée (appartenant à KNN_Model), permettant de représenter la distance entre le tweet courant et le tweet donné dans l'objet
 	 * @author antonin
 	 */
-	private class distanceCouple {
+	private class DistanceCouple {
 		
 		/**
 		 * Distance entre le tweet courant et le tweet donné en attribut de l'objet
@@ -211,7 +201,7 @@ public class KNN_Model extends Dict_Model {
 		 * @param distance La distance entre tweet et le tweet courant
 		 * @param tweet Chaîne de caractères représentant un contenu de tweet
 		 */
-		public distanceCouple(int distance, String tweet, String avis) {
+		public DistanceCouple(int distance, String tweet, String avis) {
 			this.distance = distance;
 			this.tweet = tweet;
 			this.avis = avis;
@@ -271,17 +261,15 @@ public class KNN_Model extends Dict_Model {
 	 * Classe interne privée permettant de comparer deux objets distanceCouple
 	 * @author antonin
 	 */
-	private class compareDistanceCouple implements Comparator<distanceCouple> {
+	private class CompareDistanceCouple implements Comparator<DistanceCouple> {
 
 		/**
 		 * Méthode de comparaison entre deux objets distanceCouple
 		 * La comparaison se fera sur la distance des objets
 		 * @return -1 si l'objet1 est inférieur au 2ème, +1 si l'objet1 est supérieur au 2ème, 0 si la comparaison est la même
 		 */
-		public int compare(distanceCouple dC1, distanceCouple dC2) {
+		public int compare(DistanceCouple dC1, DistanceCouple dC2) {
 			return Integer.compare(dC1.getDistance(), dC2.getDistance());
 		}
-		
 	}
-	
 }

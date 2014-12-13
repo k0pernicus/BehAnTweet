@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,9 +76,10 @@ public class Bayes_Model extends KNN_Model {
 
 	/**
 	 * Constructeur du modèle Bayes
+	 * @throws IOException 
 	 * @constructor
 	 */
-	public Bayes_Model() {
+	public Bayes_Model() throws IOException {
 		/*
 		 * Chargement de la base d'apprentissage
 		 */
@@ -92,6 +94,19 @@ public class Bayes_Model extends KNN_Model {
 	 * Méthode permettant d'initialiser le modèle Bayes
 	 */
 	protected void init_Bayes(){
+		/*
+		 * Chargement de la base d'apprentissage
+		 */
+		try {
+			super.init_Base_Apprentissage();
+		} 
+		/*
+		 * Exception remontée si la base d'apprentissage n'a pas été trouvé
+		 */
+		catch (IOException e) {
+			System.out.println("Fichier non trouvé");
+			e.printStackTrace();
+		}
 		/*
 		 * Initialisation des booléens
 		 */
