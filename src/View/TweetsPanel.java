@@ -85,6 +85,9 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			ArrayList<String> contentArray = new ArrayList<String>();
 			ArrayList<String> contentCleanArray = new ArrayList<String>();
 			ArrayList<String> contentTweets = new ArrayList<String>();
+			/*
+			 * Pour tous les status, on récupère le tweet en entier, on le nettoie et on supprime les retweets
+			 */
 			for (Status status : this.model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = this.model.cleanTweet(content);
@@ -97,7 +100,13 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			}
 			for (int i = 0; i < contentTweets.size(); i++) {
 				String tweet_i = contentTweets.get(i);
+				/*
+				 * Récupération de l'avis du tweet
+				 */
 				int int_avis = ((KNN_Model) this.model).getEvaluationKNNTweet(tweet_i);
+				/*
+				 * Transformation en chaîne de caractères
+				 */
 				String avis = ((KNN_Model) this.model).getEvaluationByResult(int_avis);
 				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), avis, "KNN","",""));
 			}
@@ -140,7 +149,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		}
 		if (classname == "Bayes_Model_Presence"){	
 			System.out.println("========================");
-			System.out.println("BAYES");
+			System.out.println("BAYES PRESENCE");
 			System.out.println("========================");
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
@@ -154,7 +163,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		}
 		if (classname == "Bayes_Model_Frequence"){
 			System.out.println("========================");
-			System.out.println("BAYES");
+			System.out.println("BAYES FREQUENCE");
 			System.out.println("========================");
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
