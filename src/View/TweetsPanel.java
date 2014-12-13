@@ -23,9 +23,6 @@ import Model.Model;
 /**
  * Classe TweetsPanel
  * Panel contenant l'ensemble des tweets résultants de la recherche utilisateur
- * @extends JPanel
- * @implements Observer
- * @implements Scrollable
  * @author antonin
  * @author verkyndt
  */
@@ -88,10 +85,9 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			ArrayList<String> contentArray = new ArrayList<String>();
 			ArrayList<String> contentCleanArray = new ArrayList<String>();
 			ArrayList<String> contentTweets = new ArrayList<String>();
-			model.transformTweet();
-			for (Status status : model.getResult().getTweets()) {
+			for (Status status : this.model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
-				contentClean = model.cleanTweet(content);
+				contentClean = this.model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					contentArray.add(content);
@@ -99,10 +95,11 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 					contentTweets.add(contentText);
 				}
 			}
-			int[] groupsTweet = ((KNN_Model) model).getGroups(contentTweets);
-			String[] getKNNTweets = ((KNN_Model) model).getEvaluationKNNTweet(contentTweets);
 			for (int i = 0; i < contentTweets.size(); i++) {
-				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN","",""));
+				String tweet_i = contentTweets.get(i);
+				int int_avis = ((KNN_Model)this.model).getEvaluationKNNTweet(tweet_i);
+				String avis = ((KNN_Model) this.model).getEvaluationByResult(int_avis);
+				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), avis, "KNN","",""));
 			}
 		}
 		
@@ -115,10 +112,10 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			System.out.println("========================");
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
-				contentClean = model.cleanTweet(content);
+				contentClean = this.model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
-					String eval = ((Dict_Model)model).getResultEvaluationDictTweet(contentClean);
+					String eval = ((Dict_Model) this.model).getResultEvaluationDictTweet(contentClean);
 					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Dictionnaire","",""));
 				}
 			}

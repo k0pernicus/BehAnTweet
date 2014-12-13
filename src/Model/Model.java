@@ -24,7 +24,6 @@ import Controler.Dictionnaire;
 /**
  * Classe Model
  * Modèle principal du patron MVC
- * @extends Observable
  * @author antonin
  * @author verkyndt
  */
@@ -39,6 +38,11 @@ public class Model extends Observable {
 	 * Attribut contenant la chaîne de caractères contenant le chemin relatif du fichier CSV de tweets nettoyés
 	 */
 	protected final String CLEAN_FILE_NAME = "src/resources/tweets_clean.csv";
+	
+	/**
+	 * Chemin vers la base d'apprentissage
+	 */
+	protected final String BASE_APPRENTISSAGE = "src/resources/base_apprentissage.csv";
 
 	/**
 	 * Attribut contenant le résultat de la recherche
@@ -63,7 +67,7 @@ public class Model extends Observable {
 	/**
 	 * Liste contenant tous les tweets : positifs/négatifs/indéterminés
 	 */
-	protected ArrayList<String> tableau_tweets;
+	protected ArrayList<Obj_tweet> tableau_tweets;
 
 	/**
 	 * Attribut contenant le nom de la méthode de classification utilisée
@@ -155,6 +159,18 @@ public class Model extends Observable {
 	}
 
 	//CSV FILE METHOD
+	
+	/**
+	 * Méthode permettant de charger la base d'apprentissage
+	 * @throws IOException Exception levée si le chemin de la base d'apprentissage est incorrect
+	 */
+	protected void init_Array() throws IOException{
+		/*
+		 * Chargement de la base d'apprentissage
+		 * Ajout des tweets de la base dans chaque ensemble (Positif, Négatif, Indéterminé)
+		 */
+		this.getByCSVFile(BASE_APPRENTISSAGE);
+	}
 
 	/**
 	 * Méthode permettant de sauver un tableau de tweets dans le fichier CSV nettoyé
@@ -208,6 +224,10 @@ public class Model extends Observable {
 				 * On récupère l'avis de la personne
 				 */
 				String avis = words[6];
+				/*
+				 * On ajoute le tweet dans la liste de tweets (tout avis confondu)
+				 */
+				tableau_tweets.add(new Obj_tweet(tweet, avis));
 				/*
 				 * On ajoute le tweet dans la liste correspondante, en fonction de l'avis
 				 */
@@ -349,7 +369,7 @@ public class Model extends Observable {
 	/**
 	 * Méthode permettant de transformer un objet Status en chaîne de caractère
 	 */
-	public void transformTweet() {
+	/*public void transformTweet() {
 		this.tableau_tweets = new ArrayList<String>();
 		List<Status> liste_status = this.result.getTweets();
 		//Transformation du Status en String
@@ -357,13 +377,63 @@ public class Model extends Observable {
 			String tweet = cleanTweet(status.getText().toString());
 			this.tableau_tweets.add(tweet);
 		}
-	}
+	}*/
 
 	/**
 	 * Méthode permettant de renvoyer le tableau de tweet
 	 * @return Une ArrayList de chaîne de caractères, correspondant à des tweets
 	 */
 	public ArrayList<String> getTableauTweet() {
-		return this.tableau_tweets;
+		ArrayList<String> tableau_tweets = new ArrayList<String>();
+		for (int i = 0; i < this.tableau_tweets.size(); i++) {
+			tableau_tweets.add(this.tableau_tweets.get(i).getTweet());
+		}
+		return tableau_tweets;
 	}
+	
+	/**
+	 * Classe Obj_tweet
+	 * Classe interne permettant de sauver un objet tweet, contenant le tweet (nettoyé) et le sentiment associé à celui-ci
+	 * @author antonin
+	 */
+	public class Obj_tweet {
+		
+		/**
+		 * Tweet associé à l'avis
+		 */
+		private String tweet;
+		
+		/**
+		 * Avis (POSITIF, NEGATIF, INDETERMINE) associé au tweet
+		 */
+		private String avis;
+		
+		/**
+		 * Constructeur de l'objet Obj_tweet
+		 * @param tweet Chaîne de caractères représentant un tweet nettoyé
+		 * @param avis Chaîne de caractères représentant l'avis du tweet
+		 */
+		public Obj_tweet(String tweet, String avis) {
+			this.tweet = tweet;
+			this.avis = avis;
+		}
+		
+		/**
+		 * Méthode permettant de retourner le tweet
+		 * @return Chaîne de caractères représentant le tweet nettoyé
+		 */
+		public String getTweet() {
+			return this.tweet;
+		}
+		
+		/**
+		 * Méthode permettant de retourner l'avis du tweet associé dans l'objet
+		 * @return Chaîne de caractères représentant l'avis du tweet
+		 */
+		public String getAvis() {
+			return this.avis;
+		}
+		
+	}
+	
 }

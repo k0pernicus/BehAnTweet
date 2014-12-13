@@ -1,6 +1,5 @@
 package Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,11 +10,6 @@ import java.util.regex.Pattern;
  * @author verkyndt
  */
 public class Bayes_Model extends KNN_Model {
-
-	/**
-	 * Chemin vers la base d'apprentissage
-	 */
-	protected final String BASE_APPRENTISSAGE = "src/resources/base_apprentissage.csv";
 
 	/**
 	 * Enumération interne
@@ -84,6 +78,9 @@ public class Bayes_Model extends KNN_Model {
 	 * @constructor
 	 */
 	public Bayes_Model() {
+		/*
+		 * Chargement de la base d'apprentissage
+		 */
 		super();
 		/*
 		 * Initialisation du modèle via la méthode init_Bayes
@@ -95,19 +92,6 @@ public class Bayes_Model extends KNN_Model {
 	 * Méthode permettant d'initialiser le modèle Bayes
 	 */
 	protected void init_Bayes(){
-		/*
-		 * Chargement de la base d'apprentissage
-		 */
-		try {
-			init_Array();
-		} 
-		/*
-		 * Exception remontée si la base d'apprentissage n'a pas été trouvé
-		 */
-		catch (IOException e) {
-			System.out.println("Fichier non trouvé");
-			e.printStackTrace();
-		}
 		/*
 		 * Initialisation des booléens
 		 */
@@ -123,18 +107,6 @@ public class Bayes_Model extends KNN_Model {
 		 */
 		init_Nb_Mots_Tous();			
 
-	}
-
-	/**
-	 * Méthode permettant de charger la base d'apprentissage
-	 * @throws IOException Exception levée si le chemin de la base d'apprentissage est incorrect
-	 */
-	protected void init_Array() throws IOException{
-		/*
-		 * Chargement de la base d'apprentissage
-		 * Ajout des tweets de la base dans chaque ensemble (Positif, Négatif, Indéterminé)
-		 */
-		super.getByCSVFile(BASE_APPRENTISSAGE);
 	}
 	
 	/**
