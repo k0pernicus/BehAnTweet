@@ -109,29 +109,32 @@ Svn a lui été utilisé pour transmettre la version principale du logiciel sur 
 
 \section{Description de l'architecture de l'application}
 
-Nous avons utilisé un modèle \textbf{MVC} (pour Modèle - Vue - Contrôleur) pour notre projet.\\
+Nous avons utilisé le modèle \textbf{MVC} (pour Modèle - Vue - Contrôleur) pour notre projet.\\
 Ce modèle, très connu pour le développement logiciel, est destiné à répondre aux besoins des applications interactives, en séparant les problématiques liées aux différents composants au sein de leur architecture respective.\\
 Aussi, le gros bénéfice de ce patron est qu'il permet facilement l'évolution de l'application par la suite, via l'ajout de classes dans les packages spécifiques suivants: \textbf{Controler}, \textbf{Model}, \textbf{View}.
 
 \subsection{Controler}
 
-Le contrôleur prend en charge la gestion des événements de synchronisation pour mettre à jour la vue ou le modèle et les synchroniser. Le contrôleur analyse la requête du client et se contentera alors renvoyer la vue correspondant à la demande, en fonction du modèle appelé - il n'effectue aucun traitement, ni ne modifie aucune donnée!
+Le contrôleur prend en charge la gestion des événements de synchronisation pour mettre à jour la vue ou le modèle, et les synchroniser. Il analyse la requête du client et se contentera alors renvoyer la vue correspondant à la demande, en fonction du modèle appelé. Aussi, il est important de savoir que le contrôleur n'effectue aucun traitement, et ne modifie aucunement les données!
 \\
+Il était ainsi nécessaire d'implémenter le patron \textbf{Observable/Observeur}, afin de pouvoir un Observer (objet qui observe) qu'une modification a été apporté sur un Observable (objet observé par un Observer).
 
 \subsection{Model}
 
 Le modèle est le coeur algorithmique de l'application - il gère le traitement des données, la modification des vues mais aussi les interactions avec la base de données.
+\\
+Le package Model contiendra tous les modèles de l'application - chaque modèle (à part la base Model.java) contiendra sa propre implémentation d'un algorithme de classification (Dictionnaire, KNN, Bayes).
 
 \subsection{View}
 
-La vue est le coeur de l'interaction Homme/Machine.
+La vue est le coeur de l'intéraction avec l'application.
 \\
-Elle détient plusieurs tâches:
+Elle détient plusieurs tâches à effectuer:
 \begin{itemize}
 \item{la première est de présenter les résultats renvoyés par le modèle,}
-\item{la seconde est de recevoir l'action de l'utilisateur, via la manipulation de boutons, objets cliquables, etc...}
+\item{la seconde est de recevoir l'action de l'utilisateur - via la manipulation de boutons, objets cliquables, etc...}
 \end{itemize}
-Toutes ces tâches, une fois finalisées, seront renvoyées au Contrôleur de l'application, afin de pouvoir être traitées par le Modèle.
+Toutes ces tâches, une fois finalisées, seront renvoyées au Contrôleur de l'application afin de pouvoir être traitées par le modèle.
 
 \section{Interface graphique}
 
