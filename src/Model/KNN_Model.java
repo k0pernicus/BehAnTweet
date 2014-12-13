@@ -23,6 +23,9 @@ public class KNN_Model extends Dict_Model {
 	 */
 	public KNN_Model() throws IOException {
 		super();
+		/*
+		 * Initialisation du fichier contenant les tweets nettoyés
+		 */
 		init_Clean_CSV();
 	}
 	
@@ -147,6 +150,9 @@ public class KNN_Model extends Dict_Model {
 			Arrays.sort(KNN_voisins, distance_couple_comparaison);
 		}
 		
+		/*
+		 * Ici, on comptera la ressemblance avec les tweets positifs, négatifs et indéterminés
+		 */
 		for (int i = 0; i < K_LIMITS; i++) {
 			switch(KNN_voisins[i].getAvis()) {
 			case "Positif":
@@ -161,6 +167,9 @@ public class KNN_Model extends Dict_Model {
 			}
 		}
 		
+		/*
+		 * On prendra l'évaluation la plus grande
+		 */
 		if (evaluation_positif > evaluation_negatif) {
 			if (evaluation_positif > evaluation_indetermine) {
 				return -1;
