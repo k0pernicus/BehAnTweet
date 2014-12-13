@@ -13,15 +13,8 @@ Description
 Analyse de comportements avec Twitter (PJE - M1S1)  
 Utilisation de Java, l'API Twitter, Twitter4J et Swing
 
-Programmation
--------------
-
-Utilisation de JAVA 7  
-
-Ce qu'il reste à faire
-----------------------
-
-###Fonctionnalités
-
-###Autre
-*	Documentation + nettoyage du code
+Utilisation
+-----------
+*	Le rapport du projet se trouve dans le dossier rapport_src, au format .pdf
+*	La documentation du projet est disponible (codage UTF-8) est disponible dans le dossier doc, au format .html
+*	Pour utiliser le programme (à partir de Java7): <code>java behantweet</code> - consultez le rapport (partie Manuel d'Utilisation) afin de savoir comment utiliser le programme
