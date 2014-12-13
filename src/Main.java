@@ -1,4 +1,5 @@
 import Model.Bayes_Model;
+import Model.Dict_Model;
 import Model.Model;
 import View.MainFrame;
 
@@ -30,7 +31,7 @@ public class Main {
 			/*
 			 * Chargement des fichiers dictionnaire positif et négatif - chargement général pour une utilisation de la classification par dictionnaire
 			 */
-			model.generateDictionnaireFile();
+			((Dict_Model)model).generateDictionnaireFile();
 			/*
 			 * Chargement/Initialisation de la GUI
 			 */

@@ -10,7 +10,7 @@ import java.util.List;
  * @extends Model
  * @author antonin
  */
-public class KNN_Model extends Model {
+public class KNN_Model extends Dict_Model {
 	
 	/**
 	 * Limite constante - servira quant à la détermination du groupe d'un tweet, en fonction de son score

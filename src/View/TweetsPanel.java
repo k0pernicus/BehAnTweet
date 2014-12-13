@@ -17,6 +17,7 @@ import twitter4j.Status;
 import Controler.Tweet;
 import Model.Bayes_Model;
 import Model.KNN_Model;
+import Model.Dict_Model;
 import Model.Model;
 
 /**
@@ -117,7 +118,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
-					String eval = model.getResultEvaluationDictTweet(contentClean);
+					String eval = ((Dict_Model)model).getResultEvaluationDictTweet(contentClean);
 					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Dictionnaire","",""));
 				}
 			}
