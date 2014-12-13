@@ -6,6 +6,11 @@ import java.util.List;
 
 import Controler.Dictionnaire;
 
+/**
+ * Classe Dict_Model
+ * Modèle contenant tous les attributs et méthodes nécessaires à la détermination des comportements via la classification par Dictionnaire
+ * @author antonin
+ */
 public class Dict_Model extends Model {
 
 	/**
