@@ -163,11 +163,21 @@ La critique première qui peut être faite pour cette méthode de classification
 
 \section{KNN}
 
+La méthode KNN, ou des \textit{k} plus proches voisins, est une méthode d'apprentissage automatique.\\
+Cette méthode consistera, pour chaque tweet recueilli, à calculer sa ressemblance avec tous les autres tweets recueillis, et ainsi former des groupes de ressemblance. Ainsi, un score sera établi en fonction du nombre de mots en commun entre ceux-ci. Si ce score est confortant, le tweet à classifier sera sauvé dans le même groupe que les tweets comparés, appartenant déjà à un groupe, sinon le tweet sera affecté dans un nouveau groupe. Ainsi, nous pourrons avoir au minimum 1 groupe de tweets, mais au maximum \textit{n} groupes, où \textit{n} est le nombre de tweets recueillis lors d'une recherche.\\
+Une fois ces groupes établis, nous utiliserons donc les dictionnaires pré-établis afin de calculer la classification de chaque tweet pour un groupe - la classification du groupe se fera alors quant à la moyenne des scores de chaque tweet.
+
 \section{Bayes}
+
+Pour la méthode Bayes, nous utiliserons deux sous-méthodes de classification: \textit{Présence} et \textit{Fréquence}.
+
+\subsection{Présence}
+
+\subsection{Fréquence}
 
 \chapter{Résultats de la classification}
 
-\chapter{Conclusions}
+\chapter{Conclusion}
 
 \chapter*{Bibliographie - Webographie}
 
