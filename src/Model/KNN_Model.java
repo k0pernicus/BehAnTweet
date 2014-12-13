@@ -129,7 +129,8 @@ public class KNN_Model extends Dict_Model {
 	}
 	
 	/**
-	 * Méthode permettant de calculer l'évaluation sur un tweet
+	 * Méthode permettant de calculer la distance entre deux tweets
+	 * Cette distance sera calculé selon la formule ici : [Nombre_de_mots_en_tout - (nombre_de_mots_en_commun * 2)]
 	 * @param first_tweet Le tweet à classifier
 	 * @param second_tweet Le tweet déjà classifié
 	 * @return Retourne l'évaluation du tweet (négatif, positif, nul)
