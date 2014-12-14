@@ -148,9 +148,9 @@ Nous avons pensé avant tout à une utilisation simple du logiciel, reposant sur
 
 Voici l'écran principal de l'application. Il est constitué en 3 grandes parties, pouvant être divisées à leur tour.
 \begin{itemize}
-\item{encart de recherche de tweet\textbf{(1)}, bouton de recherche\textbf{(2)}, bouton de validation\textbf{(3)} - permet la validation des tweets recueillis après vérification des comportements,}
-\item{paramètres ajustables de l'application\textbf{(4)} - permet la modification du nombre de tweets à recueillir, de la méthode de classification à utiliser, ainsi que les paramètres KNN,}
-\item{visualisation des tweets recueillis\textbf{(5)}.}
+\item{\textbf{encart de recherche} : barre de recherche de tweet\textbf{(1)}, bouton de recherche\textbf{(2)}, bouton de validation\textbf{(3)} - permet la validation des tweets recueillis après vérification des comportements,}
+\item{\textbf{encart de paramètres} : paramètres ajustables de l'application\textbf{(4)} - permet la modification du nombre de tweets à recueillir, de la méthode de classification à utiliser, ainsi que les paramètres KNN,}
+\item{\textbf{encart de visualisation} : visualisation des tweets recueillis\textbf{(5)}.}
 \end{itemize}
 
 \includegraphics[scale=0.26]{img/BehAnTweet_Dict_20.jpeg}
@@ -165,6 +165,52 @@ La classification se trouvant à gauche de chaque contenu de tweet pourra être 
 Modification du nombre de tweets à recueillir - au maximum 80.
 
 \subsection{Manuel d'utilisation}
+
+\subsubsection{Comment modifier les paramètres réseaux de l'application?}
+
+Ouvrez le fichier \textit{twitter4j.properties}.
+\\
+Recherchez les deux lignes situées sous le commentaire : //PROXY.
+\\
+\\
+\underline{Si vous vous trouvez sur l'Université Lille1}, veuillez entrer les propriétés proxy : 
+\\	http.proxyHost=cache-etu.univ-lille1.fr
+\\	http.proxyPort=3128
+\\
+\\
+\underline{Si vous ne vous trouvez pas sur sur l'Université Lille1}, vous pouvez désactiver les propriétés proxy en commentant les lignes précédentes.
+
+\subsubsection{Comment modifier le nombre de tweets recueillis pour une requête?}
+
+Dans l'encart des paramètres, cliquez sur le bouton "20" - cela signifie que le nombre de tweets maximal affiché est de 20.
+\\
+Cliquez alors sur la nouvelle valeur que vous voulez prendre en compte.
+
+\subsubsection{Comment modifier la méthode de classification pour une requête?}
+
+Dans l'encart des paramètres, cliquez sur le bouton "Dictionnaire", et choisissez alors votre méthode de classification.
+\\
+Si vous choisissez la méthode Bayes Fréquence, choisissez alors le nombre de grammes que vous voulez utiliser, et enfin le "type" de mots que vous voulez comparer - avec le nombre de lettres par mot.
+
+\subsubsection{Comment effectuer une requête?}
+
+Vous pouvez effectuer une recherche en tapant votre requête dans la barre de recherche de tweet. Après cela, vous pouvoir choisir dans l'encart de paramètres le nombre de tweets maximal à recueillir pour cette requête, ainsi que la méthode de classification demandée.
+\\
+Après le choix des paramètres, cliquez sur le bouton "Search" afin de lancer votre requête, via \textit{Twitter4J} et l'API Twitter. Vous obtiendrez alors dans l'encart de visualisation, quelques secondes après, un ensemble de tweets recueillis et en lien à cette recherche.
+
+\subsubsection{Comment modifier la classification d'un ou de plusieurs résultat(s) de requêtes?}
+
+Après une requête, vous pouvez remarquer dans l'encart de visualisation que, via la méthode de classification choisie, une classification est déjà établie - à gauche du tweet.
+\\
+Si la classification d'un tweet ne vous plaît pas, vous pouvez la modifier en cliquant sur la classification du tweet. Vous pouvez alors choisir la classification qui vous plaît, en cliquant sur celle choisie.
+\\
+Vous pourrez alors constater que votre demande a bien été prise en compte, via le changement de la classification dans l'encart de visualisation.
+
+\subsubsection{Comment enregistrer les résultats d'une requête dans la base d'apprentissage?}
+
+Une fois les classifications de chaque tweet analysées, vous pouvez enregistrer celles-ci dans la base d'apprentissage, en vue d'une nouvelle recherche avec une méthode de classification KNN ou de Bayes.
+\\
+Pour cela, il vous suffit juste de cliquer sur le bouton "Validate", présent dans l'encart de recherche. Une fois cliqué, le bouton devient gris - il ne vous ai plus possible de valider une seconde fois ces mêmes classifications.
 
 \chapter{Algorithmes de classification}
 
@@ -201,8 +247,21 @@ Pour la méthode Bayes, nous utiliserons deux sous-méthodes de classification: 
 \subsection{Présence}
 
 On devra déterminer la classe la plus probable pour un tweet. Pour cela, on utilisera la règle de Bayes : P(\textit{c} | \textit{t}) = P(\textit{t} | \textit{c}) . P(\textit{c}) / P(\textit{t}), où \textit{c} est la classe d'un tweet (Positif, Négatif ou Indétermine), et \textit{t} le tweet à classifier.
+\\
+Dans cette sous-méthode, on ne se préoccupe pas du nombre d'occurrences des mots.
 
 \subsection{Fréquence}
+
+Dans cette sous-méthode, on prendra en compte le nombre d'occurrences d'un mot du tweet à classifié.
+\\
+On pourra considérer ici plusieurs combinaisons de mots:
+\begin{itemize}
+\item{uni-gramme}
+\item{bi-gramme : chef d'oeuvre}
+\end{itemize}
+Aussi, on pourra considérer de calculer cette fréquence sur tous les mots du tweet, ou alors sur seulement des mots ayant un certain nombre de lettres pour ne pas être considérés comme des mots inutiles (comme "le", "la", "les", "de", "du", ...).
+\\
+Tout ceci pourra réduire les calculs (sans affecter le modèle de classifier), et marquer l'importance de certains mots ou certains groupes de mots. 
 
 \chapter{Résultats de la classification}
 
