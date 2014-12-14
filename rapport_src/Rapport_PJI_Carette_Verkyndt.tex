@@ -144,6 +144,26 @@ Nous avons pensé avant tout à une utilisation simple du logiciel, reposant sur
 
 \subsection{Captures d'écran}
 
+\includegraphics[scale=0.5]{img/BehAnTweet_annotation.jpeg}
+
+Voici l'écran principal de l'application. Il est constitué en 3 grandes parties, pouvant être divisées à leur tour.
+\begin{itemize}
+\item{encart de recherche de tweet\textbf{(1)}, bouton de recherche\textbf{(2)}, bouton de validation\textbf{(3)} - permet la validation des tweets recueillis après vérification des comportements,}
+\item{paramètres ajustables de l'application\textbf{(4)} - permet la modification du nombre de tweets à recueillir, de la méthode de classification à utiliser, ainsi que les paramètres KNN,}
+\item{visualisation des tweets recueillis\textbf{(5)}.}
+\end{itemize}
+
+\includegraphics[scale=0.26]{img/BehAnTweet_Dict_20.jpeg}
+
+Visualisation des tweets recueillis avec le mot-clef "Mommy", et la méthode de classification "Dictionnaire".
+\\
+La classification se trouvant à gauche de chaque contenu de tweet pourra être modifiable - on pourra alors choisir pour chaque tweet d'une classification "Positif", "Négatif" et "Indéterminé". Une fois la modification effectuée (ou non), on pourra valider la classification de tous les tweets en cliquant sur le bouton "Validate", qui enregistrera dans la base d'apprentissage la liste des tweets classifiés.
+\\
+
+\includegraphics[scale=0.52]{img/BehAnTweet_Dict_80_annotation.jpeg}
+
+Modification du nombre de tweets à recueillir - au maximum 80.
+
 \subsection{Manuel d'utilisation}
 
 \chapter{Algorithmes de classification}
@@ -165,15 +185,22 @@ La critique première qui peut être faite pour cette méthode de classification
 
 \section{KNN}
 
-La méthode KNN, ou des \textit{k} plus proches voisins, est une méthode d'apprentissage automatique.\\
-Cette méthode consistera, pour chaque tweet recueilli, à calculer sa ressemblance avec tous les autres tweets recueillis, et ainsi former des groupes de ressemblance. Ainsi, un score sera établi en fonction du nombre de mots en commun entre ceux-ci. Si ce score est confortant, le tweet à classifier sera sauvé dans le même groupe que les tweets comparés, appartenant déjà à un groupe, sinon le tweet sera affecté dans un nouveau groupe. Ainsi, nous pourrons avoir au minimum 1 groupe de tweets, mais au maximum \textit{n} groupes, où \textit{n} est le nombre de tweets recueillis lors d'une recherche.\\
-Une fois ces groupes établis, nous utiliserons donc les dictionnaires pré-établis afin de calculer la classification de chaque tweet pour un groupe - la classification du groupe se fera alors quant à la moyenne des scores de chaque tweet.
+La méthode KNN, ou des \textit{k} plus proches voisins, est une méthode d'apprentissage automatique basée sur des exemples contenus dans une base d'apprentissage.
+On cherchera ici à trouver les \textit{k} plus proches tweets du tweet analysé, contenus dans la base d'apprentissage du projet\footnote{Cette base d'apprentissage consiste en la sauvegarde de tweets déjà analysés pour le comportement.}.
+\\
+Pour chaque tweet, on aura un tableau de \textit{k} objets, contenant un couple (distance, tweet). On range ainsi les \textit{k} premiers tweets de la base d'apprentissage dans le tableau énoncé précédemment, les distances étant calculées entre le tweet à classifier et le tweet de la base d'apprentissage selon la formule suivante : \textbf{((nombreMotsTotal) - nombreMotsCommuns) / nombreMotsTotal}.
+Pour les (\textit{k}+1) à \textit{n}\footnote{\textit{n} étant le nombre de tweets total contenus dans la base d'apprentissage.} tweets, on calculera à chaque fois la distance entre le tweet courant et le tweet à classifier. Si cette distance est inférieure à la plus grande distance contenue dans le tableau des \textit{k} objets, on remplacera alors cet objet par la nouvelle distance ainsi que le tweet courant associé à celle-ci.
+\\
+Une fois cette étape faite, il nous restera à définir le comportement du tweet à classifier - pour cela, on comptera combien il y a de tweets positifs issus de la base d'apprentissage, de même pour les tweets négatifs et indéterminés. Le score le plus élevé parmi les 3 sera l'avis décisif pour le tweet à classifier.
 
 \section{Bayes}
 
-Pour la méthode Bayes, nous utiliserons deux sous-méthodes de classification: \textit{Présence} et \textit{Fréquence}.
+La classification Bayésienne est, quant à elle, basée sur les probabilités conditionnelle et la règle de Bayes. Aussi, on se servira d'une base d'apprentissage, car nous avons besoin de connaissances afin de pouvoir classifier les tweets recueillis.\\
+Pour la méthode Bayes, nous utiliserons deux sous-méthodes de classification: \textit{Présence} et \textit{Fréquence}. Pour la classification par Fréquence, on estimera la probabilité d'occurence d'un événement, ce qui n'est pas pris en compte pour la classification par Présence.
 
 \subsection{Présence}
+
+On devra déterminer la classe la plus probable pour un tweet. Pour cela, on utilisera la règle de Bayes : P(\textit{c} | \textit{t}) = P(\textit{t} | \textit{c}) . P(\textit{c}) / P(\textit{t}), où \textit{c} est la classe d'un tweet (Positif, Négatif ou Indétermine), et \textit{t} le tweet à classifier.
 
 \subsection{Fréquence}
 
