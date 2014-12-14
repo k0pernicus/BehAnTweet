@@ -265,6 +265,12 @@ Tout ceci pourra réduire les calculs (sans affecter le modèle de classifier), 
 
 \chapter{Résultats de la classification}
 
+\section{Dictionnaire}
+
+Cet algorithme, facile à implémenter, est malheureusement peu fiable mais aussi assez lent. En effet, il s'appuie sur deux dictionnaires : un dictionnaire positif et un négatif. Comme dit précédemment, l'algorithme ne gère pas le cynisme, ironie et sarcasme des tweets. Mais surtout, il ne comptabilise pas les mots qui ne sont pas présents dans les deux dictionnaires, ce qui est n'est pas évident pour la conjugaison d'un verbe par exemple, ou alors lors d'une malencontreuse faute d'orthographe dans le mot.
+\\
+Aussi, l'algorithme est lent car, à chaque tweet, il doit regarder si chaque mot issu du dictionnaire positif est présent dans le tweet à analyser - de même pour le dictionnaire négatif.
+
 \chapter{Conclusion}
 
 \chapter*{Bibliographie - Webographie}
