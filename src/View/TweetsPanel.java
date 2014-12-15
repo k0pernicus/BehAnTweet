@@ -30,12 +30,12 @@ import Model.Model;
  * @author verkyndt
  */
 public class TweetsPanel extends JPanel implements Observer, Scrollable{
-	
+
 	/**
 	 * Le modèle du projet
 	 */
 	private Model model;
-	
+
 	/**
 	 * La liste des tweets résultants de la recherche utilisateur
 	 */
@@ -47,15 +47,15 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	 */
 	public TweetsPanel(Model model) {
 		super();
-		
+
 		/*
 		 * Relation Modèle-objet
 		 */
 		this.model = model;
 		this.model.addObserver((Observer) this);
-		
+
 		this.tweetsList = new ArrayList<Tweet>();
-		
+
 		//Initialisation du BoxLayout
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
@@ -66,6 +66,13 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 	 * Cette méthode, en fonction de la méthode de classification, évaluera les tweets différemment
 	 */
 	public void update(Observable o, Object arg) {
+		System.out.println(model.getIsValidate());
+		/* on évite de vider la liste de tweet et la recalculer lors de la validation*/
+		if(model.getIsValidate()){
+			model.setIsValidate(false);
+			return;
+		}
+		System.out.println(model.getIsValidate());
 		tweetsList.clear();
 		String content = "";
 		String contentClean = "";
@@ -77,7 +84,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		/*
 		 * En fonction de la méthode de classification, on évaluera les tweets différemment
 		 */
-		
+
 		/*
 		 * Méthode KNN
 		 */
@@ -105,7 +112,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 				tweetsList.add(new Tweet(contentArray.get(i), contentCleanArray.get(i), contentTweets.get(i), getKNNTweets[groupsTweet[i]], "KNN","",""));
 			}
 		}
-		
+
 		/*
 		 * Méthode Dictionnaire
 		 */
@@ -161,6 +168,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			System.out.println("BAYES");
 			System.out.println("========================");
 			((Bayes_Model)this.model).setBooleanIsPresense(false);
+
 			for (Status status : model.getResult().getTweets()) {
 				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ').replace(';', ',')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
@@ -176,7 +184,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 		 * Positionnement au centre de l'application
 		 */
 		for (Tweet tweet : tweetsList) {
-			this.add(tweet, BorderLayout.CENTER);
+			//this.add(tweet, BorderLayout.CENTER);
 			this.add(tweet);
 		}
 		repaint();
