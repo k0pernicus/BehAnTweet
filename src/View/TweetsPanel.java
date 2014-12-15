@@ -89,7 +89,7 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			 * Pour tous les status, on récupère le tweet en entier, on le nettoie et on supprime les retweets
 			 */
 			for (Status status : this.model.getResult().getTweets()) {
-				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ').replace(';', ',')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = this.model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {

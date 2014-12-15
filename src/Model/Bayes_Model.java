@@ -243,6 +243,7 @@ public class Bayes_Model extends KNN_Model {
 	//la valeur la plus eleve l'emporte
 	protected Classe_e algoEvalTweetBayes(String tweet_clean){
 
+		System.out.println(tweet_clean);
 		/*
 		 * Ligne stockée dans le fichier CSV
 		 */

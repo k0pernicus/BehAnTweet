@@ -161,7 +161,7 @@ public class Model extends Observable {
 	//CSV FILE METHOD
 	
 	protected void init_Clean_CSV() throws IOException {
-		this.getByCSVFile(CLEAN_FILE_NAME);
+		this.getByCSVFile1(CLEAN_FILE_NAME);
 	}
 	
 	/**
@@ -173,7 +173,7 @@ public class Model extends Observable {
 		 * Chargement de la base d'apprentissage
 		 * Ajout des tweets de la base dans chaque ensemble (Positif, Négatif, Indéterminé)
 		 */
-		this.getByCSVFile(BASE_APPRENTISSAGE);
+		this.getByCSVFile1(BASE_APPRENTISSAGE);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class Model extends Observable {
 	 * @param path Le chemin vers le fichier CSV
 	 * @exception IOException Exception levée si l'écriture des octets dans le fichier demandé n'est pas possible
 	 */
-	public void getByCSVFile(String path) throws IOException {
+	public void getByCSVFile1(String path) throws IOException {
 		File csvFile = new File(path);
 		if (!csvFile.exists())
 			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas...");

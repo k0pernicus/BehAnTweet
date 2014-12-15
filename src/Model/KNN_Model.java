@@ -26,7 +26,7 @@ public class KNN_Model extends Dict_Model {
 		/*
 		 * Initialisation du fichier contenant les tweets nettoyés
 		 */
-		init_Clean_CSV();
+		//init_Clean_CSV();
 	}
 	
 	/**
@@ -167,9 +167,13 @@ public class KNN_Model extends Dict_Model {
 			}
 		}
 		
+		System.out.println("Positif : "+evaluation_positif+"; Négatif : "+evaluation_negatif+ "; Indéterminé : "+evaluation_indetermine);
+		
 		/*
 		 * On prendra l'évaluation la plus grande
 		 */
+		if (evaluation_positif == evaluation_negatif)
+			return 0;
 		if (evaluation_positif > evaluation_negatif) {
 			if (evaluation_positif > evaluation_indetermine) {
 				return -1;
