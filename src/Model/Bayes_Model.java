@@ -11,7 +11,15 @@ import java.util.regex.Pattern;
  * @author verkyndt
  */
 public class Bayes_Model extends KNN_Model {
+	
+	
+/************************************************************************************************************************************************************************************************************/
 
+	/* Attributs*/
+	
+	
+	
+	
 	/**
 	 * Chemin vers la base d'apprentissage
 	 */
@@ -61,24 +69,35 @@ public class Bayes_Model extends KNN_Model {
 	/**
 	 * Nombre d'occurence total 
 	 */
-	private int nombre_occurence_total;
+	protected int nombre_occurence_total;
 
 	/**
 	 * Booléen permettant de sauver si nous avons une requête sur plus de 3 mots
 	 */
-	private boolean isPLUSTroisLettres; 
+	protected boolean isPLUSTroisLettres; 
 
 	/**
 	 * Booléen permettant de savoir si la requête se fait sur des bigrammes
 	 */
-	private boolean isBigramme;
+	protected boolean isBigramme;
 
 	/**
 	 * Booléen permettant de savoir si la requête se fait sur des unigrammes
 	 */
-	private boolean isUnigramme;
+	protected boolean isUnigramme;
+
+	protected boolean isPresence;
 
 
+	
+	
+/************************************************************************************************************************************************************************************************************/
+	
+	
+	
+
+	/* CONSTRUCTEUR*/
+	
 	/**
 	 * Constructeur du modèle Bayes
 	 * @constructor
@@ -90,6 +109,15 @@ public class Bayes_Model extends KNN_Model {
 		 */
 		init_Bayes();
 	}
+	
+	
+	
+/************************************************************************************************************************************************************************************************************/	
+	
+	/* Methodes d'Initialisations*/
+	
+	
+	
 
 	/**
 	 * Méthode permettant d'initialiser le modèle Bayes
@@ -114,6 +142,7 @@ public class Bayes_Model extends KNN_Model {
 		this.isPLUSTroisLettres = false;
 		this.isBigramme = false;
 		this.isUnigramme = false;
+		this.isPresence = false;
 		/*
 		 * Initialisation du nombre de tweets
 		 */
@@ -205,153 +234,15 @@ public class Bayes_Model extends KNN_Model {
 		nombre_de_mot_TOTAL = setNombreMotsTotal();
 	}
 
-	/**
-	 * Méthode permettant de résoudre la probabilité d'occurence du mot m dans un tweet de la classe c, à l'aide de l'ensemble d'apprentissage
-	 * @param m Le mot à rechercher dans un tweet de la classe c
-	 * @param c Classe_e de tweet
-	 * @param isPresence Présence où non dans la classe de tweet
-	 * @return La probabilité d'occurence (Float)
-	 */
-	//P(m|C) -> probabilité d'occurence du mot m dans un tweet de la classe c à l'aide de l'ensemble d'apprentissage
-	// retourner n(m,c) / n(c)
-	// /!\ voir n(m,c)
-	// solution : utiliser un estimateur de Laplace
-	//retourner (n(m,c)+1) / (n(c) + nombre total des mot de l'ensemble) 
-	//ne retournera jamais zero
-	protected float probOccurenceAdvanced(String m, Classe_e c, boolean isPresence){
-		float result, pOBP, nBM;
-		pOBP = (isPresence)?
-				probOccurenceBasiquePresence(m, c) : //isPresence
-					probOccurenceBasiqueFrequence(m, c); //!isPresence
-		if(pOBP == 0)
-			return 0;
-		nBM = getNombreMots(c);
-		result = (pOBP +1) / ( nBM+ nombre_de_mot_TOTAL );
-		/*
-		 * Affichage
-		 */
-		System.out.println("probOccurenceBasique : " + pOBP);
-		System.out.println("Nb mots              : " + nBM);
-		System.out.println("result               : " + result);
-		/*
-		 * On retourne le résultat
-		 */
-		return result;
-	}
-
-	/**
-	 * Méthode permettant de calculer et sauver le nombre de mots au total
-	 * @return Un entier contenant le nombre de mots au total
-	 */
-	protected int setNombreMotsTotal(){
-		int result = 0;
-		for(Classe_e c : Classe_e.values()){
-			result += getNombreMots(c);
-		}
-		return result;
-	}
-
-	/**
-	 * Méthode permettant de résoudre la probabilité d'occurence du mot m, dans un tweet de la classe c
-	 * @param m Le mot à rechercher dans un tweet de la classe c
-	 * @param c Classe_e de tweet
-	 * @return Un flottant correspondant à la probabilité d'occurence du mot m, dans un tweet de la classe c
-	 */
-	//n(m,c) -> probabilité d'occurence du mot m dans un tweet de la classe c
-	// /!\ n(m,c) peut être nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
-	protected float probOccurenceBasiquePresence(String m, Classe_e c){
-		ArrayList<String> list = getClasse(c);
-		int nb_tweets = getNombreTweets(c);//MODIF
-		int nb_occur = 0;
-		for(String str : list){
-			if(str.contains(m))
-				nb_occur++;
-		}
-		System.out.println("OCCURS : " + nb_occur);
-		return (float)nb_occur/(float)nb_tweets;
-	}
-
-	/**
-	 * Méthode permettant de résoudre la probabilité de fréquence du mot m, dans un tweet de la classe c
-	 * @param m Le mot à rechercher dans un tweet de la classe c
-	 * @param c Classe_e de tweet
-	 * @return Un flottant contenant la probabilité d'occurence du mot m, dans un tweet de la classe c
-	 */
-	//n(m,c) -> probabilité d'occurence du mot m dans un tweet de la classe c
-	// /!\ n(m,c) peut être nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
-	protected float probOccurenceBasiqueFrequence(String m, Classe_e c){
-		ArrayList<String> list = getClasse(c);
-		int nb_tweets = getNombreTweets(c);
-		int nb_occur = 0;
-		int tmp = 0;
-		nombre_occurence_total = 0;
-		for(String str : list){
-			tmp = stringOccur(str,m);
-			if(tmp != 0){
-				nombre_occurence_total += tmp;
-				nb_occur += 1;
-			}
-		}
-		return (float)nb_occur/(float)nb_tweets;
-	}
-
-	/**
-	 * Méthode permettant de retourner la liste des tweets d'une catégorie - définie en fonction de la classe de tweet c
-	 * @param c La classe de tweets : Positif, Négatif, Indéterminé
-	 * @return La liste des tweets de la catégorie correspondant à la classe c
-	 */
-	protected ArrayList<String> getClasse(Classe_e c){
-		switch(c){
-		case POSITIVE : 
-			return tableau_Positif;
-		case NEGATIVE :
-			return tableau_Negatif;
-		case INDETERMINE :
-			return tableau_Indetermine;
-		default :
-			return null;
-		}
-	}
 	
-	/**
-	 * Méthode permettant de retourner le nombre de mots contenus dans la classe c
-	 * @param c La classe de tweet
-	 * @return Un entier contenant le nombre de mots contenus dans la classe c
-	 */
-	//n(c) -> nombre de mot de la classe c 
-	//utiliser les attributs "nombre total de mot de la classe c
-	protected int getNombreMots(Classe_e c){
-		switch(c){
-		case POSITIVE : 
-			return nombre_mots_POSITIF;
-		case NEGATIVE :
-			return nombre_mots_NEGATIF;
-		case INDETERMINE :
-			return nombre_mots_INDETERMINE;
-		default :
-			return 0;
-		}
+	
+	
 
-	}
-
-	/**
-	 * Méthode permettant de retourner le nombre de tweets de la catégorie associée à la classe donnée en paramètre
-	 * @param c La classe de tweets
-	 * @return Un entier contenant le nombre de tweets de la catégorie associée au paramètre c
-	 */
-	protected int getNombreTweets(Classe_e c){
-		switch(c){
-		case POSITIVE : 
-			return nombre_tweets_POSITIF;
-		case NEGATIVE :
-			return nombre_tweets_NEGATIF;
-		case INDETERMINE :
-			return nombre_tweets_INDETERMINE;
-		default :
-			return 0;
-		}
-
-	}
+/************************************************************************************************************************************************************************************************************/
+	
+	/* Methodes Principales*/
+	
+	
 
 	/**
 	 * Méthode représentant l'algorithme d'évaluation des tweets
@@ -363,7 +254,7 @@ public class Bayes_Model extends KNN_Model {
 	//P(negatif|t) = (P(m1|negatif) * P(m2|negatif) * ... ) * P(negatif)
 	//P(indetermine|t) = (P(m1|indetermine) * P(m2|indetermine) * ... ) * P(indetermine)
 	//la valeur la plus eleve l'emporte
-	protected Classe_e algoEvalTweetBayes(String tweet_clean, boolean isPresence){
+	protected Classe_e algoEvalTweetBayes(String tweet_clean){
 
 		/*
 		 * Ligne stockée dans le fichier CSV
@@ -391,12 +282,12 @@ public class Bayes_Model extends KNN_Model {
 		 * Vérification du gramme, et utilisation de la bonne méthode en fonction de celui-ci
 		 */
 		if(gramme.equals("Unigramme"))
-			return AlgoUnigramme(tab_text, isPresence);
+			return AlgoUnigramme(tab_text);
 		else if(gramme.equals("Bigramme")){
-			return AlgoBigramme(tab_text, isPresence);
+			return AlgoBigramme(tab_text);
 		}
 		else {
-			return Algo_Uni_Bigramme(tab_text, isPresence);
+			return Algo_Uni_Bigramme(tab_text);
 		}
 	}
 	
@@ -406,7 +297,7 @@ public class Bayes_Model extends KNN_Model {
 	 * @param isPresence
 	 * @return
 	 */
-	Classe_e Algo_Uni_Bigramme(String[] tab, boolean isPresence){
+	protected Classe_e Algo_Uni_Bigramme(String[] tab){
 		
 		/* 
 		 * Unigramme
@@ -444,7 +335,7 @@ public class Bayes_Model extends KNN_Model {
 		float p_NEGATIVE_BI = 1;
 		float p_INDETERMINE_BI = 1;
 		
-		if(tab.length<2) return AlgoUnigramme(tab, isPresence);
+		if(tab.length<2) return AlgoUnigramme(tab);
 		
 		String[] tampon_BI = new String[2];
 		tampon_BI[0] = "";
@@ -490,7 +381,7 @@ public class Bayes_Model extends KNN_Model {
 		
 	}
 
-	Classe_e AlgoUnigramme(String[] tab, boolean isPresence){
+	protected Classe_e AlgoUnigramme(String[] tab){
 
 		float p_POSITIVE = 1;
 		float p_NEGATIVE = 1;
@@ -519,7 +410,7 @@ public class Bayes_Model extends KNN_Model {
 			return Classe_e.INDETERMINE;
 	}
 
-	Classe_e AlgoBigramme(String[] tab, boolean isPresence){
+	protected Classe_e AlgoBigramme(String[] tab){
 
 		float p_POSITIVE = 1;
 		float p_NEGATIVE = 1;
@@ -527,7 +418,7 @@ public class Bayes_Model extends KNN_Model {
 
 
 		
-		if(tab.length<2) return AlgoUnigramme(tab, isPresence);
+		if(tab.length<2) return AlgoUnigramme(tab);
 		
 		String[] tampon = new String[2];
 		tampon[0] = "";
@@ -567,26 +458,14 @@ public class Bayes_Model extends KNN_Model {
 	}
 
 	/**
-	 * Méthode permettant de retourner le nombre de tweets au total
-	 * @return Un entier correspondant au nombre de tweets recueillis
-	 */
-	protected int getNombreTweetsTotal(){
-		int result = 0;
-		for(Classe_e c : Classe_e.values()){
-			result += getNombreTweets(c);
-		}
-		return result;
-	}
-
-	/**
 	 * Méthode permettant, pour un tweet nettoyé, d'obtenir l'évaluation de celui-ci (par la méthode Bayes)
 	 * @param tweet_clean Le tweet nettoyé à classifer
 	 * @param isPresence Booléen de présence
 	 * @return La classification du tweet nettoyé
 	 */
-	public String getEvaluationTweetBayes(String tweet_clean, boolean isPresence){
+	public String getEvaluationTweetBayes(String tweet_clean){
 		Classe_e result;
-		result = algoEvalTweetBayes(tweet_clean, isPresence);
+		result = algoEvalTweetBayes(tweet_clean);
 		if (result == Classe_e.POSITIVE)
 			return "Positif";
 		if (result == Classe_e.NEGATIVE)
@@ -595,14 +474,107 @@ public class Bayes_Model extends KNN_Model {
 			return "Indetermine";
 	}
 
+
+
+
+	
+	
+/************************************************************************************************************************************************************************************************************/
+	
+	/*Methodes Secondaires*/
+	
+	
+
 	/**
-	 * Méthode permettant de modifier le booléen de présence d'un mot de plus de 3 lettres
-	 * @param b Le booléen associé à l'attribut isPLUSTroisLettres
+	 * Méthode permettant de résoudre la probabilité d'occurence du mot m dans un tweet de la classe c, à l'aide de l'ensemble d'apprentissage
+	 * @param m Le mot à rechercher dans un tweet de la classe c
+	 * @param c Classe_e de tweet
+	 * @param isPresence Présence où non dans la classe de tweet
+	 * @return La probabilité d'occurence (Float)
 	 */
-	public void setBooleanNbrLetters(boolean bool) {
-		this.isPLUSTroisLettres = bool;
+	//P(m|C) -> probabilité d'occurence du mot m dans un tweet de la classe c à l'aide de l'ensemble d'apprentissage
+	// retourner n(m,c) / n(c)
+	// /!\ voir n(m,c)
+	// solution : utiliser un estimateur de Laplace
+	//retourner (n(m,c)+1) / (n(c) + nombre total des mot de l'ensemble) 
+	//ne retournera jamais zero
+	private float probOccurenceAdvanced(String m, Classe_e c, boolean isPresence){
+		float result, pOBP, nBM;
+		pOBP = (isPresence)?
+				probOccurenceBasiquePresence(m, c) : //isPresence
+					probOccurenceBasiqueFrequence(m, c); //!isPresence
+		if(pOBP == 0)
+			return 0;
+		nBM = getNombreMots(c);
+		result = (pOBP +1) / ( nBM+ nombre_de_mot_TOTAL );
+		/*
+		 * Affichage
+		 */
+//		System.out.println("probOccurenceBasique : " + pOBP);
+//		System.out.println("Nb mots              : " + nBM);
+//		System.out.println("result               : " + result);
+		/*
+		 * On retourne le résultat
+		 */
+		return result;
 	}
 
+
+
+	/**
+	 * Méthode permettant de résoudre la probabilité d'occurence du mot m, dans un tweet de la classe c
+	 * @param m Le mot à rechercher dans un tweet de la classe c
+	 * @param c Classe_e de tweet
+	 * @return Un flottant correspondant à la probabilité d'occurence du mot m, dans un tweet de la classe c
+	 */
+	//n(m,c) -> probabilité d'occurence du mot m dans un tweet de la classe c
+	// /!\ n(m,c) peut être nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
+	private float probOccurenceBasiquePresence(String m, Classe_e c){
+		ArrayList<String> list = getClasse(c);
+		int nb_tweets = getNombreTweets(c);//MODIF
+		int nb_occur = 0;
+		for(String str : list){
+			if(str.contains(m))
+				nb_occur++;
+		}
+//		System.out.println("OCCURS : " + nb_occur);
+		return (float)nb_occur/(float)nb_tweets;
+	}
+
+	/**
+	 * Méthode permettant de résoudre la probabilité de fréquence du mot m, dans un tweet de la classe c
+	 * @param m Le mot à rechercher dans un tweet de la classe c
+	 * @param c Classe_e de tweet
+	 * @return Un flottant contenant la probabilité d'occurence du mot m, dans un tweet de la classe c
+	 */
+	//n(m,c) -> probabilité d'occurence du mot m dans un tweet de la classe c
+	// /!\ n(m,c) peut être nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
+	private float probOccurenceBasiqueFrequence(String m, Classe_e c){
+		ArrayList<String> list = getClasse(c);
+		int nb_tweets = getNombreTweets(c);
+		int nb_occur = 0;
+		int tmp = 0;
+		nombre_occurence_total = 0;
+		for(String str : list){
+			tmp = stringOccur(str,m);
+			if(tmp != 0){
+				nombre_occurence_total += tmp;
+				nb_occur += 1;
+			}
+		}
+		return (float)nb_occur/(float)nb_tweets;
+	}
+	
+	
+	
+	
+	
+/************************************************************************************************************************************************************************************************************/
+	
+	/* Methodes de travail sur les cha\EEnes de carracteres*/
+	
+	
+	
 	/**
 	 * Méthode permettant de renvoyer le nombre d'occurrences de la sous-chaine de caractères spécifiée dans la chaine de caractères spécifiée
 	 * @param text chaine de caractères initiale
@@ -612,7 +584,7 @@ public class Bayes_Model extends KNN_Model {
 	public final int stringOccur(String text, String string) {
 		return regexOccur(text, Pattern.quote(string));
 	}
-
+	
 	/**
 	 * Méthode permettant de renvoyer le nombre d'occurrences du pattern spécifié dans la chaine de caractères spécifiée
 	 * @param text chaine de caractères initiale
@@ -627,7 +599,7 @@ public class Bayes_Model extends KNN_Model {
 		}
 		return occur;
 	}
-
+	
 	/**
 	 * Méthode permettant de remplacer une chaîne de caractères, reconnue par le paramètre text
 	 * @param text Regex
@@ -643,7 +615,18 @@ public class Bayes_Model extends KNN_Model {
 		m.appendTail(sb);
 		return sb.toString();
 	}
-
+	
+	
+	
+	
+	
+/************************************************************************************************************************************************************************************************************/
+	
+	/* GETTERs/SETTEURs*/
+	
+	
+	
+	
 	/**
 	 * Méthode permettant de modifier le booléen associé à Bigramme
 	 * @param bool Le booléen de remplacement
@@ -651,7 +634,7 @@ public class Bayes_Model extends KNN_Model {
 	public void setBooleanBigramme(boolean bool) {
 		this.isBigramme = bool;
 	}
-
+	
 	/**
 	 * Méthode permettant de modifier le booléen associé à Bigramme
 	 * @param bool Le booléen de remplacement
@@ -659,6 +642,108 @@ public class Bayes_Model extends KNN_Model {
 	public void setBooleanUnigramme(boolean bool){
 		this.isUnigramme = bool;
 	}
+	
+	/**
+	 * Méthode permettant de modifier le booléen de présence d'un mot de plus de 3 lettres
+	 * @param b Le booléen associé à l'attribut isPLUSTroisLettres
+	 */
+	public void setBooleanNbrLetters(boolean bool) {
+		this.isPLUSTroisLettres = bool;
+	}
+	
+	/**
+	 * Méthode permettant de calculer et sauver le nombre de mots au total
+	 * @return Un entier contenant le nombre de mots au total
+	 */
+	public int setNombreMotsTotal(){
+		int result = 0;
+		for(Classe_e c : Classe_e.values()){
+			result += getNombreMots(c);
+		}
+		return result;
+	}
+	
+	public void setBooleanIsPresense(boolean bool){
+		this.isPresence = bool;
+	}
+	
+	
+	
+	/**
+	 * Méthode permettant de retourner le nombre de tweets au total
+	 * @return Un entier correspondant au nombre de tweets recueillis
+	 */
+	protected int getNombreTweetsTotal(){
+		int result = 0;
+		for(Classe_e c : Classe_e.values()){
+			result += getNombreTweets(c);
+		}
+		return result;
+	}
+	
+	/**
+	 * Méthode permettant de retourner le nombre de mots contenus dans la classe c
+	 * @param c La classe de tweet
+	 * @return Un entier contenant le nombre de mots contenus dans la classe c
+	 */
+	//n(c) -> nombre de mot de la classe c 
+	//utiliser les attributs "nombre total de mot de la classe c
+	protected int getNombreMots(Classe_e c){
+		switch(c){
+		case POSITIVE : 
+			return nombre_mots_POSITIF;
+		case NEGATIVE :
+			return nombre_mots_NEGATIF;
+		case INDETERMINE :
+			return nombre_mots_INDETERMINE;
+		default :
+			return 0;
+		}
 
+	}
 
+	/**
+	 * Méthode permettant de retourner le nombre de tweets de la catégorie associée à la classe donnée en paramètre
+	 * @param c La classe de tweets
+	 * @return Un entier contenant le nombre de tweets de la catégorie associée au paramètre c
+	 */
+	protected int getNombreTweets(Classe_e c){
+		switch(c){
+		case POSITIVE : 
+			return nombre_tweets_POSITIF;
+		case NEGATIVE :
+			return nombre_tweets_NEGATIF;
+		case INDETERMINE :
+			return nombre_tweets_INDETERMINE;
+		default :
+			return 0;
+		}
+
+	}
+	
+	/**
+	 * Méthode permettant de retourner la liste des tweets d'une catégorie - définie en fonction de la classe de tweet c
+	 * @param c La classe de tweets : Positif, Négatif, Indéterminé
+	 * @return La liste des tweets de la catégorie correspondant à la classe c
+	 */
+	protected ArrayList<String> getClasse(Classe_e c){
+		switch(c){
+		case POSITIVE : 
+			return tableau_Positif;
+		case NEGATIVE :
+			return tableau_Negatif;
+		case INDETERMINE :
+			return tableau_Indetermine;
+		default :
+			return null;
+		}
+	}
+	
+	
+	
+	/***********************************************************************************************************************************************************************************************************/
+	
+	
+	/* FIN*/
+	
 }

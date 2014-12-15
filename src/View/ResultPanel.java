@@ -22,6 +22,8 @@ public class ResultPanel extends JPanel implements Observer {
 	 */
 	protected TweetsPanel tweets_panel;
 	
+	protected StatsPanel stats_panel;
+	
 	/**
 	 * Modèle du projet
 	 */
@@ -45,6 +47,9 @@ public class ResultPanel extends JPanel implements Observer {
 		 */
 		this.tweets_panel = new TweetsPanel(model);
 		add(this.tweets_panel, BorderLayout.CENTER);
+		
+		this.stats_panel = new StatsPanel(model);
+		add(this.stats_panel, BorderLayout.EAST);
 	}
 	
 	/**

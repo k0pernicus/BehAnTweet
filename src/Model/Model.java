@@ -1,12 +1,14 @@
 package Model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -19,7 +21,6 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import Controler.Dictionnaire;
 
 /**
  * Classe Model
@@ -365,5 +366,18 @@ public class Model extends Observable {
 	 */
 	public ArrayList<String> getTableauTweet() {
 		return this.tableau_tweets;
+	}
+	
+	public void cleanFile() throws IOException {
+		PrintWriter pw = new PrintWriter(new BufferedWriter
+				(new FileWriter("src/resources/tweets_clean.csv", false))); // >>>> on ajoutera apres suppression de ce qui existait eventuellement
+				pw.print("");// ajout de la ligne vierge si print sans ln bien entendu
+				pw.close();
+	}
+	
+	protected void clearTableau(){
+		tableau_Indetermine.clear();
+		tableau_Negatif.clear();
+		tableau_Indetermine.clear();
 	}
 }
