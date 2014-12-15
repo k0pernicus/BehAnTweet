@@ -62,7 +62,8 @@ public class KNN_Model extends Dict_Model {
 			/*
 			 * On récupère l'évaluation
 			 */
-			evaluation_groups[i] = this.getEvaluationByResult(res / nbr);
+			if (nbr != 0)
+				evaluation_groups[i] = this.getEvaluationByResult(res / nbr);
 		}
 		/*
 		 * On retourne le tableau d'évaluation
