@@ -22,8 +22,6 @@ public class Validation_Model extends Bayes_Model {
 
 	/* Attributs*/
 
-
-
 	/*Taux d'erreur*/
 	private float taux_ensemble_1;
 	private float taux_ensemble_2;
@@ -127,11 +125,7 @@ public class Validation_Model extends Bayes_Model {
 			else if(i<((nb_tweets_indetermines/3)*2)) ensemble_2.add(ensemble_Indetermine.get(i));
 			else                                      ensemble_3.add(ensemble_Indetermine.get(i));
 		}
-
-
-
 	}
-
 
 	public void init_Validation(){
 		
@@ -158,15 +152,12 @@ public class Validation_Model extends Bayes_Model {
 		calcul_Erreur(3);
 		
 		//clearTableau();
-		System.out.println("--------------------------------------------------------------------");
-		this.printInfoBaye();
+		//System.out.println("--------------------------------------------------------------------");
+		//this.printInfoBaye();
 
 		setChanged();
 		updateObservers();
 	}
-
-
-
 
 	/**
 	 * Méthode permettant d'initialiser le modèle Bayes en fonction de l'ensemble que l'on veut tester
@@ -184,7 +175,6 @@ public class Validation_Model extends Bayes_Model {
 		 * Initialisation du nombre de mots total
 		 */
 		init_Nb_Mots_Tous();			
-
 	}
 
 	/**
@@ -267,15 +257,8 @@ public class Validation_Model extends Bayes_Model {
 
 	/* Methodes principales*/
 
-
-
 	private void calcul_Erreur(int i) {
-		System.out.println("AVANT");
-		System.out.println("i : " + i + "\n");
-		System.out.println("taux_ensemble_1 : " + taux_ensemble_1);
-		System.out.println("taux_ensemble_2 : " + taux_ensemble_2);
-		System.out.println("taux_ensemble_3 : " + taux_ensemble_3);
-		this.printInfoBaye();
+		
 		Iterator<String> it = null;
 		
 		if (i==1)
@@ -323,13 +306,6 @@ public class Validation_Model extends Bayes_Model {
 		default:
 			break;
 		}
-		System.out.println("APRES");
-		System.out.println("i : " + i + "\n");
-		System.out.println("taux_ensemble_1 : " + taux_ensemble_1);
-		System.out.println("taux_ensemble_2 : " + taux_ensemble_2);
-		System.out.println("taux_ensemble_3 : " + taux_ensemble_3);
-		this.printInfoBaye();
-		
 	}
 
 
@@ -387,7 +363,6 @@ public class Validation_Model extends Bayes_Model {
 
 	}
 
-
 /************************************************************************************************************************************************************************************************************/
 
 	/* Getters/Setters*/
@@ -410,8 +385,6 @@ public class Validation_Model extends Bayes_Model {
 	
 	
 /************************************************************************************************************************************************************************************************************/
-	
-	
 	
 	/*FIN*/
 	
