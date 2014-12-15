@@ -120,8 +120,8 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			System.out.println("DICT");
 			System.out.println("========================");
 			for (Status status : model.getResult().getTweets()) {
-				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
-				contentClean = this.model.cleanTweet(content);
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ').replace(';', ',')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
 					String eval = ((Dict_Model) this.model).getResultEvaluationDictTweet(contentClean);
@@ -151,12 +151,13 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			System.out.println("========================");
 			System.out.println("BAYES PRESENCE");
 			System.out.println("========================");
+			((Bayes_Model)this.model).setBooleanIsPresense(true);
 			for (Status status : model.getResult().getTweets()) {
-				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ').replace(';', ',')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
-					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean,true);
+					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean);
 					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Presence", nbrLettres ,gramme));
 				}
 			}
@@ -165,12 +166,13 @@ public class TweetsPanel extends JPanel implements Observer, Scrollable{
 			System.out.println("========================");
 			System.out.println("BAYES FREQUENCE");
 			System.out.println("========================");
+			((Bayes_Model)this.model).setBooleanIsPresense(false);
 			for (Status status : model.getResult().getTweets()) {
-				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
+				content = status.getId() + ";" + status.getUser().getScreenName() + ";\"" + status.getText().replace('\"', '\'').replace('\n', ' ').replace(';', ',')+" \";" + status.getCreatedAt() + ";" + model.getResult().getQuery();
 				contentClean = model.cleanTweet(content);
 				contentText = status.getText().replace('\n', ' ');
 				if(!contentClean.equals("RT")) {
-					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean, false);
+					String eval = ((Bayes_Model)model).getEvaluationTweetBayes(contentClean);
 					tweetsList.add(new Tweet(content, contentClean, contentText, eval, "Bayes_Frequence", nbrLettres ,gramme));
 				}
 			}

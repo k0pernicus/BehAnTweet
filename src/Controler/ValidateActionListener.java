@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 
 import Model.Model;
+import Model.Validation_Model;
 import View.ButtonPanel;
 import View.MainPanel;
 
@@ -74,6 +75,8 @@ public class ValidateActionListener implements ActionListener {
 		/*
 		 * On autorise de nouveau à effectuer une recherche, via la réactivation du bouton 'Search' de la GUI
 		 */
+		((Validation_Model) model).init_Validation();
+		System.out.println("Taux d'erreur : " + ((Validation_Model)model).getTauxErreur());
 		sBParent.setSearchButton(true);
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Controler.CleanActionListener;
 import Controler.SearchActionListener;
 import Controler.ValidateActionListener;
 import Model.Model;
@@ -25,6 +26,13 @@ public class ButtonPanel extends JPanel {
 	 * Attribut instanciant un bouton 'Validate'
 	 */
 	private JButton btnValidate;
+	
+	/**
+	 * Attribut instanciant un bouton 'Clean'
+	 */
+	private JButton btnClean;
+	
+	
 	/**
 	 * Attribut contenant le modèle du projet
 	 */
@@ -51,7 +59,7 @@ public class ButtonPanel extends JPanel {
 		btnSearch = new JButton("Search");
 		btnSearch.setName("SearchButton");
 		btnSearch.addActionListener(new SearchActionListener(this.model));
-		add(btnSearch, BorderLayout.CENTER);
+		add(btnSearch, BorderLayout.WEST);
 		
 		/*
 		 * ValidateButton - placé sous le bouton 'Search'
@@ -61,7 +69,13 @@ public class ButtonPanel extends JPanel {
 		btnValidate.setName("ValidateButton");
 		btnValidate.addActionListener(new ValidateActionListener(this.model));
 		btnValidate.setEnabled(false);
-		add(btnValidate, BorderLayout.PAGE_END);
+		add(btnValidate, BorderLayout.SOUTH);
+		
+		btnClean = new JButton("Clean");
+		btnClean.setName("CleanButton");
+		btnClean.addActionListener(new CleanActionListener(this.model));
+		btnClean.setEnabled(true);
+		add(btnClean, BorderLayout.EAST);
 	}
 
 	/**

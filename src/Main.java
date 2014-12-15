@@ -3,6 +3,7 @@ import java.io.IOException;
 import Model.Bayes_Model;
 import Model.Dict_Model;
 import Model.Model;
+import Model.Validation_Model;
 import View.MainFrame;
 
 /**
@@ -21,7 +22,7 @@ public class Main {
 		/*
 		 * Le modèle par defaut sera Bayes_Model
 		 */
-		Model model = new Bayes_Model();
+		Model model = new Validation_Model();
 		try{
 			/*
 			 * Génération du fichier CSV
