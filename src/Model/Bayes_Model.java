@@ -106,6 +106,9 @@ public class Bayes_Model extends KNN_Model {
 		init_Bayes();
 	}
 	
+	/**
+	 * Méthode permettant d'imprimer les statistiques sur la sortie standard
+	 */
 	public void printInfoBaye(){
 		System.out.println("nombre_mots_POSITIF " + nombre_mots_POSITIF);
 		System.out.println("nombre_mots_NEGATIF " + nombre_mots_NEGATIF);
@@ -116,16 +119,12 @@ public class Bayes_Model extends KNN_Model {
 		System.out.println("nombre_mots_INDETERMINE " + nombre_mots_INDETERMINE);
 		
 		System.out.println("nombre_de_mot_TOTAL " + nombre_de_mot_TOTAL);
-
 	}
 	
 /************************************************************************************************************************************************************************************************************/	
 	
 	/* Methodes d'Initialisations*/
 	
-	
-	
-
 	/**
 	 * Méthode permettant d'initialiser le modèle Bayes
 	 */
@@ -158,15 +157,13 @@ public class Bayes_Model extends KNN_Model {
 		 * Initialisation du nombre de mots total
 		 */
 		init_Nb_Mots_Tous();			
-
 	}
 
 	/**
 	 * Méthode permettant de charger la base d'apprentissage
 	 * @throws IOException Exception levée si le chemin de la base d'apprentissage est incorrect
 	 */
-	protected void init_Array() throws IOException{
-		
+	protected void init_Array() throws IOException{	
 		/*
 		 * Chargement de la base d'apprentissage
 		 * Ajout des tweets de la base dans chaque ensemble (Positif, Négatif, Indéterminé)
@@ -531,9 +528,9 @@ public class Bayes_Model extends KNN_Model {
 		/*
 		 * Affichage
 		 */
-		System.out.println("probOccurenceBasique : " + pOBP);
+		/*System.out.println("probOccurenceBasique : " + pOBP);
 		System.out.println("Nb mots              : " + nBM);
-		System.out.println("result               : " + result);
+		System.out.println("result               : " + result);*/
 		/*
 		 * On retourne le résultat
 		 */
@@ -558,7 +555,6 @@ public class Bayes_Model extends KNN_Model {
 			if(str.contains(m))
 				nb_occur++;
 		}
-//		System.out.println("OCCURS : " + nb_occur);
 		return (double)nb_occur/(double)nb_tweets;
 	}
 
@@ -779,10 +775,7 @@ public class Bayes_Model extends KNN_Model {
 		}
 	}
 	
-	
-	
 	/***********************************************************************************************************************************************************************************************************/
-	
 	
 	/* FIN*/
 	
