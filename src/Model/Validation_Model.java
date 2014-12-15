@@ -82,7 +82,7 @@ public class Validation_Model extends Bayes_Model {
 	/************************************************************************************************************************************************************************************************************/
 
 	/*Methodes d'initialisation*/
-	/*Adaptation des methodes d'initialisation de la classe Bayes afin de pouvoir ensuite réutiliser directement les méthodes principales*/
+	/*Adaptation des methodes d'initialisation de la classe Bayes afin de pouvoir ensuite rï¿½utiliser directement les mï¿½thodes principales*/
 
 
 	public void Echantillonnage() {
@@ -391,81 +391,4 @@ public class Validation_Model extends Bayes_Model {
 	
 	/*FIN*/
 	
-	
-	
-	
-//	protected void init_Array(int numEnsemble) {
-//		int size_ensemble_positif = ensemble_Positif.size();
-//		int size_ensemble_positif_sur_trois = size_ensemble_positif/3;
-//		int size_ensemble_positif_deux_sur_trois = size_ensemble_positif *2/3;
-//
-//		/* Pour la base d'apprentissage positive*/
-//		for (int i = 0; i < size_ensemble_positif; i++) {
-//			switch (numEnsemble) {
-//			case 1: /* on stocke 2 et 3*/
-//				if(i< size_ensemble_positif_sur_trois) {   tableau_Positif.add(ensemble_2.get(i));   tableau_Positif.add(ensemble_3.get(i));  }
-//				break;
-//			case 2: /* on stocke 1 et 3*/
-//				if(i>= size_ensemble_positif_sur_trois && i< size_ensemble_positif_deux_sur_trois) {   tableau_Positif.add(ensemble_1.get(i));   tableau_Positif.add(ensemble_3.get(i));  }
-//				break;
-//			case 3: /* on stocke 1 et 2*/
-//				if(i>= size_ensemble_positif_deux_sur_trois) {   tableau_Positif.add(ensemble_1.get(i));   tableau_Positif.add(ensemble_2.get(i));  }
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//
-//		int size_ensemble_negatif = ensemble_Negatif.size();
-//		int size_ensemble_negatif_sur_trois = size_ensemble_negatif/3;
-//		int size_ensemble_negatif_deux_sur_trois = size_ensemble_negatif *2/3;
-//
-//		//int limite_boucle_negative = size_ensemble_negatif + size_ensemble_positif_sur_trois;
-//
-//		/* Pour la base d'apprentissage negative*/
-//		for (int i = 0; i < ensemble_Negatif.size(); i++) {
-//			switch (numEnsemble) {
-//			case 1: /* on stocke 2 et 3*/
-//				/*on recupere dans la base negatif les tweet provenant des ensemble 2 et 3 si ces tweet se trouve dans le premier tier de l'ensemble negatif*/
-//				if(i< size_ensemble_negatif_sur_trois) {   tableau_Negatif.add(ensemble_2.get(i));   tableau_Negatif.add(ensemble_3.get(i));  }
-//				break;
-//			case 2: /* on stocke 1 et 3*/
-//				if(i>= size_ensemble_negatif_sur_trois && i< size_ensemble_negatif_deux_sur_trois) {   tableau_Negatif.add(ensemble_1.get(i));   tableau_Negatif.add(ensemble_3.get(i));  }
-//				break;
-//			case 3: /* on stocke 1 et 2*/
-//				if(i>= size_ensemble_negatif_deux_sur_trois) {   tableau_Negatif.add(ensemble_1.get(i));   tableau_Negatif.add(ensemble_2.get(i));  }
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//
-//
-//
-//		int size_ensemble_indetermine = ensemble_Indetermine.size();
-//		int size_ensemble_indetermine_sur_trois = size_ensemble_indetermine/3;
-//		int size_ensemble_indetermine_deux_sur_trois = size_ensemble_indetermine *2/3;
-//
-//		//int limite_boucle_negative = size_ensemble_negatif + size_ensemble_positif_sur_trois;
-//
-//		/* Pour la base d'apprentissage negative*/
-//		for (int i = 0; i < size_ensemble_indetermine; i++) {
-//			switch (numEnsemble) {
-//			case 1: /* on stocke 2 et 3*/
-//				/*on recupere dans la base negatif les tweet provenant des ensemble 2 et 3 si c'est tweet se trouve dans le premier tier de l'ensemble negatif*/
-//				if(i< size_ensemble_indetermine_sur_trois) {   tableau_Indetermine.add(ensemble_2.get(i));   tableau_Indetermine.add(ensemble_3.get(i));  }
-//				break;
-//			case 2: /* on stocke 1 et 3*/
-//				if(i>= size_ensemble_indetermine_sur_trois && i< size_ensemble_negatif_deux_sur_trois) {   tableau_Indetermine.add(ensemble_1.get(i));   tableau_Indetermine.add(ensemble_3.get(i));  }
-//				break;
-//			case 3: /* on stocke 1 et 2*/
-//				if(i>= size_ensemble_indetermine_deux_sur_trois) {   tableau_Indetermine.add(ensemble_1.get(i));   tableau_Indetermine.add(ensemble_2.get(i));  }
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//
-//
-//	}
 }
