@@ -32,6 +32,10 @@ import twitter4j.TwitterFactory;
 public class Model extends Observable {
 
 	/**
+	 * Chemin vers la base d'apprentissage
+	 */
+	protected final String BASE_APPRENTISSAGE = "src/resources/base_apprentissage.csv";
+	/**
 	 * Attribut contenant la chaîne de caractères contenant le chemin relatif du fichier CSV de tweets non-nettoyés
 	 */
 	protected final String FILE_NAME = "src/resources/tweets.csv";
@@ -81,6 +85,7 @@ public class Model extends Observable {
 	 */
 	protected String nbrLettres;
 
+	protected boolean isValidate;
 	/**
 	 * Constructeur de l'objet Model
 	 * @constructor
@@ -104,6 +109,8 @@ public class Model extends Observable {
 			System.out.println("Fichier non trouvé");
 			e.printStackTrace();
 		}
+		
+		isValidate = false;
 	}
 
 	/**
@@ -190,6 +197,8 @@ public class Model extends Observable {
 	 * @exception IOException Exception levée si l'écriture des octets dans le fichier demandé n'est pas possible
 	 */
 	public void getByCSVFile(String path) throws IOException {
+		clearTableau();
+		
 		File csvFile = new File(path);
 		if (!csvFile.exists())
 			throw new FileNotFoundException("Le fichier "+csvFile.getAbsolutePath()+" n'existe pas...");
@@ -375,9 +384,17 @@ public class Model extends Observable {
 				pw.close();
 	}
 	
-	protected void clearTableau(){
-		tableau_Indetermine.clear();
+	public void clearTableau(){
+		tableau_Positif.clear();
 		tableau_Negatif.clear();
 		tableau_Indetermine.clear();
+	}
+
+	public boolean getIsValidate() {
+		return isValidate;
+	}
+
+	public void setIsValidate(boolean isValidate) {
+		this.isValidate = isValidate;
 	}
 }
