@@ -140,6 +140,17 @@ Elle détient plusieurs tâches à effectuer:
 \end{itemize}
 Toutes ces tâches, une fois finalisées, seront renvoyées au Contrôleur de l'application afin de pouvoir être traitées par le modèle.
 
+\subsubsection{resources}
+
+Le répertoire resources/ contient tous les fichiers ressources nécessaires à l'application tels que:
+\begin{itemize}
+\item{positive.txt : le dictionnaire de mots-clefs positifs,}
+\item{negative.txt : le dictionnaire de mots-clefs négatifs,}
+\item{tweets.csv : le fichier contenant tous les tweets non-nettoyés, issus d'une recherche,}
+\item{tweets\_clean.csv : le fichier contenant tous les tweets nettoyés des identifiants, date, \textit{hashtags} et \textit{retweets},}
+\item{base\_apprentissage.cv : le fichier CSV constituant notre base d'apprentissage.}
+\end{itemize}
+
 \section{Interface graphique}
 
 Nous avons pensé avant tout à une utilisation simple du logiciel, reposant sur une seule fenêtre. Cette fenêtre contiendra tous les paramètres pouvant être manipulés par l'utilisateur (le nombre de tweets à recueillir, l'algorithme utilisé et ses spécifications), une barre de recherche concernant un sujet donné, et enfin un grand espace dédié à la liste des tweets recueillis et de leur classification par l'algorithme choisi.
@@ -239,35 +250,48 @@ Pour chaque tweet, on aura un tableau de \textit{k} objets, contenant un couple 
 \\
 Une fois cette étape faite, il nous restera à définir le comportement du tweet à classifier - pour cela, on comptera combien il y a de tweets positifs issus de la base d'apprentissage, de même pour les tweets négatifs et indéterminés. Le score le plus élevé parmi les 3 sera l'avis décisif pour le tweet à classifier.
 
-\section{Bayes}
+\section{Bayés}
 
-La \textbf{classification Bayésienne} est, quant à elle, basée sur les probabilités conditionnelle et la règle de Bayes. Aussi, on se servira d'une base d'apprentissage, car nous avons besoin de connaissances afin de pouvoir classifier les tweets recueillis.\\
-Pour la méthode Bayès, nous utiliserons deux sous-méthodes de classification: \textit{Présence} et \textit{Fréquence}. Pour la classification par Fréquence, on estimera la probabilité d'occurence d'un événement, ce qui n'est pas pris en compte pour la classification par Présence.
+La classification Bayésienne s'appuie, quant à elle, sur une base d'apprentissage pré-établie sur un sujet donné.\\\\ Basée sur les probabilités conditionnelles et la règle de Bayés, elle calculera les probabilités pour un tweet d'appartenir à la classe des tweets positifs, négatifs ou encore indéterminés. Ainsi, la probabilité la plus forte décidera de la classe a laquelle sera attribué le tweet.\\
+Pour cette classification, nous pourront distinguer deux sous-méthodes de classification: \textit{Classification par Présence} et \textit{Classification par Fréquence}.
 
-\subsection{Présence}
+\subsection{Classification par Présence}
 
-On devra déterminer la classe la plus probable pour un tweet. Pour cela, on utilisera la règle de Bayes : P(\textit{c} | \textit{t}) = P(\textit{t} | \textit{c}) . P(\textit{c}) / P(\textit{t}), où \textit{c} est la classe d'un tweet (Positif, Négatif ou Indétermine), et \textit{t} le tweet à classifier.
+Afin de déterminer les probabilités d'un tweet donné au sein d'une des trois classes possibles, la classification par présence applique la règle de Bayes : $ P(\textit{c} | \textit{t}) = P(\textit{t} | \textit{c}) . P(\textit{c}) / P(\textit{t})$, où \textit{c} est la classe d'un tweet (Positif, Négatif ou Indétermine), et \textit{t} le tweet à classifier.
 \\
-Dans cette sous-méthode, on ne se préoccupe pas du nombre d'occurrences des mots.
+Dans cette sous-méthode de la classification Bayésienne, la probabilité se détermine par la présence ou non de chacun des mots du tweet testé au sein des tweets conservés dans la base d'apprentissage.
 
-\subsection{Fréquence}
+\subsection{Classification par Fréquence}
 
-Dans cette sous-méthode, on prendra en compte le nombre d'occurrences d'un mot du tweet à classifié.
+La classification par fréquence conserve la même approche que celle par présence cependant elle prend en compte un autre facteur qui est le nombre d'occurence d'un mot du tweet à classifié dans ceux contenus dans la base d'apprentissage.
+
+\subsection{\textit{N}-Gramme}
+
+En plus des deux sous méthodes citées plus haut, on peut apporter une option de calcul permettant de considérer non pas les mots un par un, mais également les combinaisons de mots.
+
+\subsubsection{Uni-gramme}
+Les uni-grammes consistent à la version par défaut de la classification. C'est à dire, ne considérer qu'un mot à la fois.\\
+Par exemple la phrase : \textit{L'oiseau rejoint son nid} , contient 4 uni-grammes : \textit{L'oiseau, rejoint, son, nid}.
+
+Cette solution permet facilement d'obtenir des résultats, mais ne reflète peas le contexte dans lequel sont employés chacun des mots.
+
+\subsubsection{Bi-gramme}
 \\
-On pourra considérer ici plusieurs combinaisons de mots:
-\begin{itemize}
-\item{uni-gramme,}
-\item{bi-gramme.}
-\end{itemize}
-Par exemple, considérer "chef d'oeuvre" comme uni-gramme serai considérer le mot "chef" et le mot "oeuvre", indépendamment l'un de l'autre. À contrario, considérer ce même mot comme bi-gramme serai bien le considérer comme un seul mot.
+Les bi-grammes permettent de considérer des expressions ou autres associations de mots dans une phrase.
 \\
-Aussi, on pourra considérer de calculer cette fréquence sur tous les mots du tweet, ou alors sur seulement des mots ayant un certain nombre de lettres pour ne pas être considérés comme des mots inutiles (comme "le", "la", "les", "de", "du", ...).
+Par exemple la phrase : \textit{Cette poésie est un chef d'oeuvre}, contient 5 bi-grammes : \textit{(Cette, poésie), (poésie, est), (est, un), (un, chef), (chef, d'oeuvre)}.
+
+Cette solution fournit des résultats se rapprochant plus du contexte dans lequel ils sont employés.
+
+\subsubsection{Uni-bi-Gramme}
 \\
-Tout ceci pourra réduire les calculs (sans affecter le modèle de classifier), et marquer l'importance de certains mots ou certains groupes de mots. 
+Le compromis entre les deux solutions est d'encore les employer ensemble afin d'obtenir des résultats plus probants.
+\\
+Par exemple la phrase : \textit{Cette poésie rejoint son nid}, contient 5 uni-grammes : \textit{Cette, poésie, rejoint, son, nid}\\ et 4 Bi-grammes : \textit{(Cette, poésie), (poésie, rejoint), (rejoint, son), (son,nid)}.
 
 \chapter{Résultats de la classification}
 
-Nous travaillerons sur un ensemble d'apprentissage basé sur le mot-clef "\textbf{Terminator}".
+Nous travaillerons sur un ensemble d'apprentissage basé sur le mot-clef "\textbf{Terminator}", en prenant compte seulement des mots de plus de 3 lettres.
 \\
 La base d'apprentissage, elle, contient 173 tweets classifiés.
 
@@ -309,7 +333,7 @@ En résultat de l'exploitation des résultats, nous pouvons observer que nous ob
 \\
 Nous pouvons observer que cet algorithme KNN a travaillé pour classifier les tweets recueillis, et ne les a pas classer en majorité en indéterminé.
 
-\section{Bayes}
+\section{Bayés}
 
 Voici un tableau permettant de visualiser le taux d'erreur d'algorithmes de classification bayésienne, à savoir \textbf{Présence uni-gramme}, \textbf{bi-gramme} et \textbf{uni+bi-gramme}, mais aussi \textbf{Fréquence uni-gramme}, \textbf{bi-gramme} et \textbf{uni+bi-gramme}.
 \\
