@@ -31,7 +31,6 @@ public class NbrTweetsActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox rstComboBox = (JComboBox) e.getSource();
-		//this.model.setNbrTweets(Integer.parseInt((String) rstComboBox.getSelectedItem()));
 	}
 
 }
