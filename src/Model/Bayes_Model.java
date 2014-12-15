@@ -17,9 +17,6 @@ public class Bayes_Model extends KNN_Model {
 
 	/* Attributs*/
 	
-	
-	
-	
 	/**
 	 * Enumération interne
 	 * Ces énumérations contiennent les comportements principaux du programme : Positif, Négatif et Indéterminé
@@ -109,7 +106,18 @@ public class Bayes_Model extends KNN_Model {
 		init_Bayes();
 	}
 	
-	
+	public void printInfoBaye(){
+		System.out.println("nombre_mots_POSITIF " + nombre_mots_POSITIF);
+		System.out.println("nombre_mots_NEGATIF " + nombre_mots_NEGATIF);
+		System.out.println("nombre_mots_INDETERMINE " + nombre_mots_INDETERMINE);
+
+		System.out.println("nombre_tweets_POSITIF " + nombre_tweets_POSITIF);
+		System.out.println("nombre_tweets_NEGATIF " + nombre_tweets_NEGATIF);
+		System.out.println("nombre_mots_INDETERMINE " + nombre_mots_INDETERMINE);
+		
+		System.out.println("nombre_de_mot_TOTAL " + nombre_de_mot_TOTAL);
+
+	}
 	
 /************************************************************************************************************************************************************************************************************/	
 	
@@ -152,11 +160,27 @@ public class Bayes_Model extends KNN_Model {
 		init_Nb_Mots_Tous();			
 
 	}
+
+	/**
+	 * Méthode permettant de charger la base d'apprentissage
+	 * @throws IOException Exception levée si le chemin de la base d'apprentissage est incorrect
+	 */
+	protected void init_Array() throws IOException{
+		
+		/*
+		 * Chargement de la base d'apprentissage
+		 * Ajout des tweets de la base dans chaque ensemble (Positif, Négatif, Indéterminé)
+		 */
+		super.getByCSVFile1(BASE_APPRENTISSAGE);
+	}
 	
 	/**
 	 * Méthode permettant d'initialiser le nombre de tweets de chaque catégorie
 	 */
 	protected void init_Nb_Tweets(){
+		nombre_mots_POSITIF = 0;
+		nombre_mots_NEGATIF = 0;
+		nombre_mots_INDETERMINE = 0;
 		/*
 		 * Initialisation du nombre de tweets positifs dans la base d'apprentissage
 		 */
@@ -175,6 +199,10 @@ public class Bayes_Model extends KNN_Model {
 	 * Méthode permettant d'initialiser le nombre de mots pour chaque ensemble, ainsi que pour l'ensemble Positif + Négatif + Indéterminé
 	 */
 	protected void init_Nb_Mots_Tous(){
+		nombre_mots_POSITIF = 0;
+		nombre_mots_NEGATIF = 0;
+		nombre_mots_INDETERMINE = 0;
+		nombre_de_mot_TOTAL = 0;
 		/*
 		 * Pour chaque mot dans l'ensemble Positif, on incrémente la valeur du nombre de mots de l'ensemble Positif
 		 */
@@ -200,6 +228,11 @@ public class Bayes_Model extends KNN_Model {
 	 * Méthode permettant d'initialiser l'entier contenant le nombre de mots de plus de trois lettres d'un ensemble
 	 */
 	protected void init_Nb_Mots_PLUS_Trois_Lettres(){
+		nombre_mots_POSITIF = 0;
+		nombre_mots_NEGATIF = 0;
+		nombre_mots_INDETERMINE = 0;
+		nombre_de_mot_TOTAL = 0;
+		
 		/*
 		 * Pour chaque mot, et dans chaque ensemble, on regarde si sa longueur est > à 3 - si oui, on incrémente la valeur de la variable
 		 */
@@ -294,15 +327,15 @@ public class Bayes_Model extends KNN_Model {
 		/*
 		 * Initialisation de valeurs
 		 */
-		float p_POSITIVE = 1;
-		float p_NEGATIVE = 1;
-		float p_INDETERMINE = 1;
+		double p_POSITIVE = 1;
+		double p_NEGATIVE = 1;
+		double p_INDETERMINE = 1;
 
 		/*
 		 * Pour chaque 
 		 */
 		for(String str : tab) {
-			float tmp = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
+			double tmp = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
 			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
 			tmp = probOccurenceAdvanced(str, Classe_e.NEGATIVE, isPresence);
 			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
@@ -311,17 +344,17 @@ public class Bayes_Model extends KNN_Model {
 			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
 		}
 
-		p_POSITIVE    *= ((float)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
-		p_NEGATIVE    *= ((float)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
-		p_INDETERMINE *= ((float)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
+		p_POSITIVE    *= ((double)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE    *= ((double)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE *= ((double)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
 		
 		/*
 		 * Bigramme
 		 */
 		
-		float p_POSITIVE_BI = 1;
-		float p_NEGATIVE_BI = 1;
-		float p_INDETERMINE_BI = 1;
+		double p_POSITIVE_BI = 1;
+		double p_NEGATIVE_BI = 1;
+		double p_INDETERMINE_BI = 1;
 		
 		if(tab.length<2) return AlgoUnigramme(tab);
 		
@@ -341,7 +374,7 @@ public class Bayes_Model extends KNN_Model {
 			ready_a_deux = 0;
 			String str = tampon_BI[0].concat(" " + tampon_BI[1]);
 			
-			float tmp_BI = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
+			double tmp_BI = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
 			p_POSITIVE_BI    *= (tmp_BI == 0)? 1 : tmp_BI ;
 			tmp_BI = probOccurenceAdvanced(str, Classe_e.NEGATIVE, isPresence);
 			p_NEGATIVE_BI    *= (tmp_BI == 0)? 1 : tmp_BI ;
@@ -349,15 +382,15 @@ public class Bayes_Model extends KNN_Model {
 			p_INDETERMINE_BI *= (tmp_BI == 0)? 1 : tmp_BI ;
 		}
 
-		p_POSITIVE_BI    *= ((float)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
-		p_NEGATIVE_BI    *= ((float)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
-		p_INDETERMINE_BI *= ((float)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
+		p_POSITIVE_BI    *= ((double)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE_BI    *= ((double)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE_BI *= ((double)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
 				
 		/*Uni-Bigramme*/
 		
-		float p_POSITIVE_UNI_BI = p_POSITIVE * p_POSITIVE_BI;
-		float p_NEGATIVE_UNI_BI = p_NEGATIVE * p_NEGATIVE_BI;
-		float p_INDETERMINE_UNI_BI = p_INDETERMINE * p_INDETERMINE_BI;
+		double p_POSITIVE_UNI_BI = p_POSITIVE * p_POSITIVE_BI;
+		double p_NEGATIVE_UNI_BI = p_NEGATIVE * p_NEGATIVE_BI;
+		double p_INDETERMINE_UNI_BI = p_INDETERMINE * p_INDETERMINE_BI;
 		
 
 		if (p_NEGATIVE_UNI_BI > p_POSITIVE_UNI_BI && p_NEGATIVE_UNI_BI > p_INDETERMINE_UNI_BI)
@@ -371,24 +404,23 @@ public class Bayes_Model extends KNN_Model {
 
 	protected Classe_e AlgoUnigramme(String[] tab){
 
-		float p_POSITIVE = 1;
-		float p_NEGATIVE = 1;
-		float p_INDETERMINE = 1;
-
+		double p_POSITIVE = 1;
+		double p_NEGATIVE = 1;
+		double p_INDETERMINE = 1;
 
 		for(String str : tab) {
-			float tmp = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
+			double tmp = probOccurenceAdvanced(str, Classe_e.POSITIVE, this.isPresence);
 			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
-			tmp = probOccurenceAdvanced(str, Classe_e.NEGATIVE, isPresence);
+			tmp = probOccurenceAdvanced(str, Classe_e.NEGATIVE, this.isPresence);
 			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
 
-			tmp = probOccurenceAdvanced(str, Classe_e.INDETERMINE, isPresence);
+			tmp = probOccurenceAdvanced(str, Classe_e.INDETERMINE, this.isPresence);
 			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
 		}
 
-		p_POSITIVE    *= ((float)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
-		p_NEGATIVE    *= ((float)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
-		p_INDETERMINE *= ((float)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
+		p_POSITIVE    *= ((double)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE    *= ((double)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE *= ((double)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
 
 		if (p_NEGATIVE > p_POSITIVE && p_NEGATIVE > p_INDETERMINE)
 			return Classe_e.NEGATIVE;
@@ -400,9 +432,9 @@ public class Bayes_Model extends KNN_Model {
 
 	protected Classe_e AlgoBigramme(String[] tab){
 
-		float p_POSITIVE = 1;
-		float p_NEGATIVE = 1;
-		float p_INDETERMINE = 1;
+		double p_POSITIVE = 1;
+		double p_NEGATIVE = 1;
+		double p_INDETERMINE = 1;
 
 
 		
@@ -425,7 +457,7 @@ public class Bayes_Model extends KNN_Model {
 			ready_a_deux = 0;
 			String str = tampon[0].concat(" " + tampon[1]);
 			
-			float tmp = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
+			double tmp = probOccurenceAdvanced(str, Classe_e.POSITIVE, isPresence);
 			p_POSITIVE    *= (tmp == 0)? 1 : tmp ;
 			tmp = probOccurenceAdvanced(str, Classe_e.NEGATIVE, isPresence);
 			p_NEGATIVE    *= (tmp == 0)? 1 : tmp ;
@@ -433,9 +465,9 @@ public class Bayes_Model extends KNN_Model {
 			p_INDETERMINE *= (tmp == 0)? 1 : tmp ;
 		}
 
-		p_POSITIVE    *= ((float)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
-		p_NEGATIVE    *= ((float)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
-		p_INDETERMINE *= ((float)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
+		p_POSITIVE    *= ((double)getNombreTweets(Classe_e.POSITIVE)    / getNombreTweetsTotal());
+		p_NEGATIVE    *= ((double)getNombreTweets(Classe_e.NEGATIVE)    / getNombreTweetsTotal());
+		p_INDETERMINE *= ((double)getNombreTweets(Classe_e.INDETERMINE) / getNombreTweetsTotal());
 
 		if (p_NEGATIVE > p_POSITIVE && p_NEGATIVE > p_INDETERMINE)
 			return Classe_e.NEGATIVE;
@@ -478,7 +510,7 @@ public class Bayes_Model extends KNN_Model {
 	 * @param m Le mot à rechercher dans un tweet de la classe c
 	 * @param c Classe_e de tweet
 	 * @param isPresence Présence où non dans la classe de tweet
-	 * @return La probabilité d'occurence (Float)
+	 * @return La probabilité d'occurence (double)
 	 */
 	//P(m|C) -> probabilité d'occurence du mot m dans un tweet de la classe c à l'aide de l'ensemble d'apprentissage
 	// retourner n(m,c) / n(c)
@@ -486,8 +518,9 @@ public class Bayes_Model extends KNN_Model {
 	// solution : utiliser un estimateur de Laplace
 	//retourner (n(m,c)+1) / (n(c) + nombre total des mot de l'ensemble) 
 	//ne retournera jamais zero
-	private float probOccurenceAdvanced(String m, Classe_e c, boolean isPresence){
-		float result, pOBP, nBM;
+	private double probOccurenceAdvanced(String m, Classe_e c, boolean isPresence){
+		double result, pOBP, nBM;
+
 		pOBP = (isPresence)?
 				probOccurenceBasiquePresence(m, c) : //isPresence
 					probOccurenceBasiqueFrequence(m, c); //!isPresence
@@ -498,9 +531,9 @@ public class Bayes_Model extends KNN_Model {
 		/*
 		 * Affichage
 		 */
-//		System.out.println("probOccurenceBasique : " + pOBP);
-//		System.out.println("Nb mots              : " + nBM);
-//		System.out.println("result               : " + result);
+		System.out.println("probOccurenceBasique : " + pOBP);
+		System.out.println("Nb mots              : " + nBM);
+		System.out.println("result               : " + result);
 		/*
 		 * On retourne le résultat
 		 */
@@ -517,7 +550,7 @@ public class Bayes_Model extends KNN_Model {
 	 */
 	//n(m,c) -> probabilité d'occurence du mot m dans un tweet de la classe c
 	// /!\ n(m,c) peut être nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
-	private float probOccurenceBasiquePresence(String m, Classe_e c){
+	private double probOccurenceBasiquePresence(String m, Classe_e c){
 		ArrayList<String> list = getClasse(c);
 		int nb_tweets = getNombreTweets(c);//MODIF
 		int nb_occur = 0;
@@ -526,7 +559,7 @@ public class Bayes_Model extends KNN_Model {
 				nb_occur++;
 		}
 //		System.out.println("OCCURS : " + nb_occur);
-		return (float)nb_occur/(float)nb_tweets;
+		return (double)nb_occur/(double)nb_tweets;
 	}
 
 	/**
@@ -537,7 +570,7 @@ public class Bayes_Model extends KNN_Model {
 	 */
 	//n(m,c) -> probabilité d'occurence du mot m dans un tweet de la classe c
 	// /!\ n(m,c) peut être nulle car : si le mot n'apparait jamais on ne va faire que des divisions $0/nombre de mot du tweet$ * $0/nombre de mot du tweet$ * ... 
-	private float probOccurenceBasiqueFrequence(String m, Classe_e c){
+	private double probOccurenceBasiqueFrequence(String m, Classe_e c){
 		ArrayList<String> list = getClasse(c);
 		int nb_tweets = getNombreTweets(c);
 		int nb_occur = 0;
@@ -550,7 +583,8 @@ public class Bayes_Model extends KNN_Model {
 				nb_occur += 1;
 			}
 		}
-		return (float)nb_occur/(float)nb_tweets;
+		return (double) Math.pow((double)nb_occur/(double)nb_tweets, (double)nombre_occurence_total/(double)nb_tweets);
+		//return (double)nb_occur/(double)nb_tweets;
 	}
 	
 	
@@ -598,6 +632,20 @@ public class Bayes_Model extends KNN_Model {
 		Pattern p = Pattern.compile("\\s\\S\\S\\S\\s");
 		Matcher m = p.matcher(tampon);
 		StringBuffer sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, " ");
+		m.appendTail(sb);
+		tampon = sb.toString();
+		p = Pattern.compile("\\s\\S\\S\\s");
+		m = p.matcher(tampon);
+		sb = new StringBuffer();
+		while(m.find())
+			m.appendReplacement(sb, " ");
+		m.appendTail(sb);
+		tampon = sb.toString();
+		p = Pattern.compile("\\s\\S\\s");
+		m = p.matcher(tampon);
+		sb = new StringBuffer();
 		while(m.find())
 			m.appendReplacement(sb, " ");
 		m.appendTail(sb);
@@ -688,6 +736,10 @@ public class Bayes_Model extends KNN_Model {
 			return 0;
 		}
 
+	}
+	
+	public boolean getIsPresence(){
+		return this.isPresence;
 	}
 
 	/**

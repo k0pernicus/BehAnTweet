@@ -69,6 +69,11 @@ public class StatsPanel extends JPanel implements Observer{
 		this.add(label_taux_erreur);
 		this.add(new JLabel("    "));
 		this.add(new JLabel("    "));
+		
+		this.add(new JLabel("Positifs"));
+		this.add(new JLabel("Negatifs"));
+		this.add(new JLabel("Neutres "));
+		
 		this.add(pie);
 	}
 	

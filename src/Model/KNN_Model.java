@@ -63,7 +63,6 @@ public class KNN_Model extends Dict_Model {
 		
 		nb_words_tweet_clean = tweet_clean_words.length;
 		nb_words_tweet = tweet_words.length;
-		
 		/*
 		 * Transformation en liste afin de mieux pouvoir travailler sur les mots d'une chaîne de caractères
 		 */
