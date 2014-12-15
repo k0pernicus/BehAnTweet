@@ -1,52 +1,88 @@
 package View;
 
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+/**
+ * Classe PieChart
+ * Classe permettant d'implémenter un PieChart - encore appelé camembert - pour la visualisation des statistiques
+ * @author verkyndt
+ */
 public class PieChart extends JPanel {
 
+	/**
+	 * Énumération des types de PieChart
+	 */
 	enum Type {
 		STANDARD, SIMPLE_INDICATOR, GRADED_INDICATOR
 	}
 
-	private Type type = null; //the type of pie chart
+	/**
+	 * Le type de PieChart
+	 */
+	private Type type = null;
 
-        private ArrayList<Double> values;
-        private ArrayList<Color> colors;
- 
-        private ArrayList<Double> gradingValues;
-        private ArrayList<Color> gradingColors;
+	/**
+	 * Valeurs des parties du PieChart
+	 */
+    private ArrayList<Double> values;
+    /**
+     * Couleurs des parties du PieChart
+     */
+    private ArrayList<Color> colors;
+    /**
+     * Valeurs de notation du PieChart
+     */
+    private ArrayList<Double> gradingValues;
+    /**
+     * Couleurs de notation du PieChart
+     */
+    private ArrayList<Color> gradingColors;
 
-	double percent = 0; //percent is used for simple indicator and graded indicator
+    /**
+     * Attribué utilisé pour le SIMPLE_INDICATOR et le GRADED_INDICATOR
+     */
+	double percent = 0;
 
+	/**
+	 * Constructeur PieChart
+	 * @param percent Pourcentage utilisé pour le SIMPLE_INDICATOR
+	 */
 	public PieChart(int percent) {
 
 		type = Type.SIMPLE_INDICATOR;
 		this.percent = percent;
 	}
 
-	public PieChart(ArrayList values, ArrayList colors) {
+	/**
+	 * Constructeur PieChart
+	 * @param values Valeurs utilisées pour le PieChart
+	 * @param colors Couleurs utilisées pour le PieChart
+	 */
+	public PieChart(ArrayList<Double> values, ArrayList<Color> colors) {
 		
 		type = Type.STANDARD;
 
 		this.values = values;
 		this.colors = colors;
 		
-		 setSize( 600, 400 );
-	     setLocation( 70, 70 ) ;
+		setSize( 600, 400 );
+	    setLocation( 70, 70 ) ;
 	     
 	}
 
-	public PieChart(int percent, ArrayList gradingValues, ArrayList gradingColors) {
+	/**
+	 * Constructeur PieChart
+	 * @param percent Pourcentage utilisé pour le GRADED_INDICATOR
+	 * @param gradingValues Valeurs de notation
+	 * @param gradingColors Couleurs de notation
+	 */
+	public PieChart(int percent, ArrayList<Double> gradingValues, ArrayList<Color> gradingColors) {
 		type = Type.GRADED_INDICATOR;
 
 		this.gradingValues = gradingValues;
@@ -66,7 +102,7 @@ public class PieChart extends JPanel {
 
 		if (type == Type.SIMPLE_INDICATOR) {
 
-			//colours used for simple indicator
+			//Couleur utilisées pour le SIMPLE_INDICATOR
 			Color backgroundColor = Color.WHITE;
 			Color mainColor = Color.BLUE;
 
@@ -107,10 +143,9 @@ public class PieChart extends JPanel {
 				    if (gradingAccum > percent) {
 
 
-					//get the previous accumulated segments. Segments minus last one
+					//Obtention des segments précédemment accumulés
 					double gradingAccumMinusOneSegment = gradingAccum - val;
 
-					//make an adjusted calculation of the last wedge
 					angle = ((percent - gradingAccumMinusOneSegment) / 100) * 360;
 
 					g2d.fillArc(0, 0, width, width, lastPoint, -angle.intValue());
