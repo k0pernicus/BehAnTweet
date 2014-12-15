@@ -40,7 +40,11 @@ public class Validation_Model extends Bayes_Model {
 	private ArrayList<String> ensemble_Positif;
 	private ArrayList<String> ensemble_Negatif;
 	private ArrayList<String> ensemble_Indetermine;
-
+	
+	/*Nombre tweet par type*/
+	public int nbrTweetPositifs;
+	public int nbrTweetNegatifs;
+	public int nbrTweetIndetermines;
 
 
 
@@ -86,14 +90,14 @@ public class Validation_Model extends Bayes_Model {
 
 
 	public void Echantillonnage() {
-
+		
 		/*Pour repartition dans les ensembles de facon equitable*/
 
 		/*on recupere le nombre d'occurence*/
 		int nb_tweets_positifs = ensemble_Positif.size(),  nb_tweets_negatifs = ensemble_Negatif.size(),    nb_tweets_indetermines = ensemble_Indetermine.size();
 
 		/*on melange les listes*/
-		Collections.shuffle(ensemble_Positif);    Collections.shuffle(ensemble_Negatif);   Collections.shuffle(ensemble_Indetermine);
+		//Collections.shuffle(ensemble_Positif);    Collections.shuffle(ensemble_Negatif);   Collections.shuffle(ensemble_Indetermine);
 
 		/*on verifie que chaque sous ensemble est un multiple de trois, sinon on fait en sorte que*/
 		if(nb_tweets_positifs%3 == 1) ensemble_Positif.remove(--nb_tweets_positifs);
@@ -112,6 +116,7 @@ public class Validation_Model extends Bayes_Model {
 			else if(i<((nb_tweets_positifs/3)*2)) ensemble_2.add(ensemble_Positif.get(i));
 			else                                  ensemble_3.add(ensemble_Positif.get(i));
 		}
+
 		/*on repartie les tweets negatifs dans les 3 sous-ensembles*/
 		for (int i = 0; i < nb_tweets_negatifs; i++) {
 			if           (i<nb_tweets_negatifs/3) ensemble_1.add(ensemble_Negatif.get(i));
@@ -131,7 +136,8 @@ public class Validation_Model extends Bayes_Model {
 
 
 	public void init_Validation(){
-
+		
+		isValidate = true;
 
 		try {
 			this.getByCSVFile(CLEAN_FILE_NAME);
@@ -153,6 +159,10 @@ public class Validation_Model extends Bayes_Model {
 		init_Bayes(3);
 		calcul_Erreur(3);
 		
+		//clearTableau();
+		System.out.println("--------------------------------------------------------------------");
+		this.printInfoBaye();
+
 		setChanged();
 		updateObservers();
 	}
@@ -168,13 +178,6 @@ public class Validation_Model extends Bayes_Model {
 
 		init_Array(numEnsemble);
 
-
-		/*
-		 * Initialisation des booléens
-		 */
-		this.isPLUSTroisLettres = false;
-		this.isBigramme = false;
-		this.isUnigramme = false;
 		/*
 		 * Initialisation du nombre de tweets
 		 */
@@ -193,7 +196,6 @@ public class Validation_Model extends Bayes_Model {
 	protected void init_Array(int numEnsemble) {
 		int size_ensemble_positif = ensemble_Positif.size();
 		int size_ensemble_positif_sur_trois = size_ensemble_positif/3;
-		int size_ensemble_positif_deux_sur_trois = size_ensemble_positif *2/3;
 
 		/* Pour la base d'apprentissage positive*/
 		for (int i = 0; i < size_ensemble_positif_sur_trois; i++) {
@@ -214,7 +216,6 @@ public class Validation_Model extends Bayes_Model {
 
 		int size_ensemble_negatif = ensemble_Negatif.size();
 		int size_ensemble_negatif_sur_trois = size_ensemble_negatif/3;
-		int size_ensemble_negatif_deux_sur_trois = size_ensemble_negatif *2/3;
 
 		//int limite_boucle_negative = size_ensemble_negatif + size_ensemble_positif_sur_trois;
 
@@ -229,7 +230,7 @@ public class Validation_Model extends Bayes_Model {
 				tableau_Negatif.add(ensemble_1.get(i + size_ensemble_positif_sur_trois));   tableau_Negatif.add(ensemble_3.get(i + size_ensemble_positif_sur_trois));
 				break;
 			case 3: /* on stocke 1 et 2*/
-				tableau_Negatif.add(ensemble_1.get(i));   tableau_Negatif.add(ensemble_2.get(i + size_ensemble_positif_sur_trois));
+				tableau_Negatif.add(ensemble_1.get(i + size_ensemble_positif_sur_trois));   tableau_Negatif.add(ensemble_2.get(i + size_ensemble_positif_sur_trois));
 				break;
 			default:
 				break;
@@ -240,7 +241,6 @@ public class Validation_Model extends Bayes_Model {
 
 		int size_ensemble_indetermine = ensemble_Indetermine.size();
 		int size_ensemble_indetermine_sur_trois = size_ensemble_indetermine/3;
-		int size_ensemble_indetermine_deux_sur_trois = size_ensemble_indetermine *2/3;
 
 		//int limite_boucle_negative = size_ensemble_negatif + size_ensemble_positif_sur_trois;
 
@@ -249,13 +249,13 @@ public class Validation_Model extends Bayes_Model {
 			switch (numEnsemble) {
 			case 1: /* on stocke 2 et 3*/
 				/*on recupere dans la base negatif les tweet provenant des ensemble 2 et 3 si c'est tweet se trouve dans le premier tier de l'ensemble negatif*/
-				tableau_Indetermine.add(ensemble_2.get(i));   tableau_Indetermine.add(ensemble_3.get(i + size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));
+				tableau_Indetermine.add(ensemble_2.get(i+ size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));   tableau_Indetermine.add(ensemble_3.get(i + size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));
 				break;
 			case 2: /* on stocke 1 et 3*/
-				tableau_Indetermine.add(ensemble_1.get(i));   tableau_Indetermine.add(ensemble_3.get(i + size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));
+				tableau_Indetermine.add(ensemble_1.get(i+ size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));   tableau_Indetermine.add(ensemble_3.get(i + size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));
 				break;
 			case 3: /* on stocke 1 et 2*/
-				tableau_Indetermine.add(ensemble_1.get(i));   tableau_Indetermine.add(ensemble_2.get(i + size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));
+				tableau_Indetermine.add(ensemble_1.get(i+ size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));   tableau_Indetermine.add(ensemble_2.get(i + size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois));
 				break;
 			default:
 				break;
@@ -272,8 +272,23 @@ public class Validation_Model extends Bayes_Model {
 
 
 	private void calcul_Erreur(int i) {
-		Iterator<String> it = ((i == 1)?ensemble_1:(i==2)?ensemble_2:ensemble_3).iterator();
-
+		System.out.println("AVANT");
+		System.out.println("i : " + i + "\n");
+		System.out.println("taux_ensemble_1 : " + taux_ensemble_1);
+		System.out.println("taux_ensemble_2 : " + taux_ensemble_2);
+		System.out.println("taux_ensemble_3 : " + taux_ensemble_3);
+		this.printInfoBaye();
+		Iterator<String> it = null;
+		
+		if (i==1)
+			it = ensemble_1.iterator();
+		else {
+			if (i==2)
+				it = ensemble_2.iterator();
+			else
+				it = ensemble_3.iterator();
+		}
+		
 		int size_ensemble_positif_sur_trois = ensemble_Positif.size()/3;
 		int size_ensemble_negatif_sur_trois = ensemble_Negatif.size()/3;
 		int somme_des_deux = size_ensemble_negatif_sur_trois + size_ensemble_positif_sur_trois;
@@ -283,16 +298,18 @@ public class Validation_Model extends Bayes_Model {
 		int nbErreur = 0;/*ICI*/
 		for(int j = 0; it.hasNext(); j++){
 			result = getEvaluationTweetBayes(it.next());
-			if (result.equals("Positif"))
+			if (result.equals("Positif")) {
 				if(j >= size_ensemble_positif_sur_trois)
 					nbErreur++;
-			if (result.equals("Negatif"))
+			}
+			else if (result.equals("Negatif")) {
 				if(j<size_ensemble_positif_sur_trois || j>= somme_des_deux)
 					nbErreur++;
-				else
-					if(j<somme_des_deux)
-						nbErreur++;
-
+			}
+			else {
+				if(j<somme_des_deux)
+					nbErreur++;
+			}
 		}
 		
 		switch (i) {
@@ -303,12 +320,18 @@ public class Validation_Model extends Bayes_Model {
 			taux_ensemble_2 = (float) (nbErreur*100.0/ (float)ensemble_2.size()); 
 			break;
 		case 3:
-			taux_ensemble_3 = (float) (nbErreur*100.0/ (float)ensemble_3.size()); 
+			taux_ensemble_3 = (float) (nbErreur*100.0/ (float)ensemble_3.size());
 			break;
 		default:
 			break;
 		}
-
+		System.out.println("APRES");
+		System.out.println("i : " + i + "\n");
+		System.out.println("taux_ensemble_1 : " + taux_ensemble_1);
+		System.out.println("taux_ensemble_2 : " + taux_ensemble_2);
+		System.out.println("taux_ensemble_3 : " + taux_ensemble_3);
+		this.printInfoBaye();
+		
 	}
 
 
@@ -322,7 +345,7 @@ public class Validation_Model extends Bayes_Model {
 
 	public void getByCSVFile(String path) throws IOException {
 		cleanArray();
-
+		clearTableau();
 
 		File csvFile = new File(path);
 		if (!csvFile.exists())
@@ -345,7 +368,6 @@ public class Validation_Model extends Bayes_Model {
 					ensemble_Negatif.add(line);
 					break;
 				default :
-					ensemble_Indetermine.add(tweet);
 				}
 			}
 			buffer.close();
@@ -361,6 +383,10 @@ public class Validation_Model extends Bayes_Model {
 		this.ensemble_Indetermine.clear();
 		this.ensemble_Negatif.clear();
 		this.ensemble_Positif.clear();
+		this.taux_ensemble_1 = 0;
+		this.taux_ensemble_2 = 0;
+		this.taux_ensemble_3 = 0;
+
 	}
 
 
