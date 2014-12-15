@@ -32,7 +32,6 @@ public class StatsPanel extends JPanel implements Observer{
 	private String text_label_indetermine;
 	private String text_label_taux_erreur;
 	
-	private JLabel taux_erreur;
 	
 	public StatsPanel(Model model){
 		this.model = model;
@@ -45,12 +44,10 @@ public class StatsPanel extends JPanel implements Observer{
 		colors.add(Color.GRAY);
 		
 		pourcentage = new ArrayList<Double>();
-		pourcentage.add(33.0);
-		pourcentage.add(33.0);
-		pourcentage.add(34.0);
-		pie = new PieChart(pourcentage,colors);
 		
-		pie.setEnabled(false);
+		maj_Pie();
+		
+		
 	
 		
 		
@@ -70,8 +67,17 @@ public class StatsPanel extends JPanel implements Observer{
 		this.add(new JLabel("    "));
 		this.add(new JLabel("    "));
 		this.add(label_taux_erreur);
+		
+		this.add(pie);
 	}
-
+	
+	private void maj_Pie(){
+		pourcentage.clear();
+		pourcentage.add((double)((Validation_Model)model).getNbrTweets("positifs")*100/ ((Validation_Model)model).getNbrTweets("au total"));
+		pourcentage.add((double)((Validation_Model)model).getNbrTweets("negatifs")*100/ ((Validation_Model)model).getNbrTweets("au total"));
+		pourcentage.add((double)((Validation_Model)model).getNbrTweets("indetermines")*100/ ((Validation_Model)model).getNbrTweets("au total"));
+		pie = new PieChart(pourcentage,colors);
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -80,7 +86,8 @@ public class StatsPanel extends JPanel implements Observer{
 		label_negatif.setText(text_label_negatif + ((Validation_Model)model).getNbrTweets("negatifs")*100/ nbrTweetTotal + "%");
 		label_indetermine.setText(text_label_indetermine + ((Validation_Model)model).getNbrTweets("indetermines")*100/ nbrTweetTotal + "%");
 		
-		label_taux_erreur.setText(text_label_taux_erreur +  ((Validation_Model)model).getTauxErreur() + "%"); 
+		label_taux_erreur.setText(text_label_taux_erreur +  ((Validation_Model)model).getTauxErreur() + "%");
+		maj_Pie();
 		repaint();
 		revalidate();
 		

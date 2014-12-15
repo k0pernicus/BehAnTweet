@@ -42,6 +42,7 @@ public class ResultPanel extends JPanel implements Observer {
 		this.model = model;
 		this.model.addObserver((Observer) this);
 		
+		this.setLayout(new BorderLayout(10,10));
 		/*
 		 * Affichage au centre de l'application
 		 */
