@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -58,6 +59,10 @@ public class MainFrame extends JFrame implements Observer{
 		 * On ajoute contentPanel comme composant de la fenêtre
 		 */
 		setContentPane(contentPanel);
+		/*
+		 * On définit la taille minimum que pourra prendre la fenêtre
+		 */
+		setMinimumSize(new Dimension(getPreferredSize()));
 	}
 	
 	@Override
